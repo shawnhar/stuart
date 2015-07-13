@@ -1,4 +1,3 @@
-Create project
 Load temporary test image
 Display the image
 Pan/zoom

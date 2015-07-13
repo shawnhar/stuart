@@ -101,7 +101,9 @@
     <AppxManifest Include="Stuart.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <None Include="LICENSE" />
     <None Include="packages.config" />
+    <None Include="README.md" />
     <None Include="Stuart.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -111,6 +113,7 @@
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\StoreLogo.scale-100.png" />
     <Content Include="Assets\WideLogo.scale-100.png" />
+    <None Include="TODO.txt" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
