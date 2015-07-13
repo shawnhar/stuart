@@ -8,9 +8,14 @@
     xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <canvas:CanvasControl x:Name="canvas"
-                              CreateResources="canvas_CreateResources"
-                              Draw="canvas_Draw"/>
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" 
+                      HorizontalScrollBarVisibility="Auto" 
+                      ZoomMode="Enabled">
+            
+            <canvas:CanvasControl x:Name="canvas"
+                                  CreateResources="canvas_CreateResources"
+                                  Draw="canvas_Draw"/>
+        </ScrollViewer>
     </Grid>
 </Page>

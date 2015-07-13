@@ -1,18 +1,20 @@
-Display the image
 Pan/zoom
+Handle high DPI
 List of edit ops
-Disable/enable edit ops
 Apply image effects
 Edit effect properties
+Disable/enable edit ops
+Load/save arbitrary images
 Select edit regions
 Add/remove to selection
 Magic wand selection
 Feather selection
 Undo selection edits
 Crop
-Load/save arbitrary images
+Click + drag to pan
+Mouse wheel zoom without requiring ctrl
 App icons
-Properly handle high DPI
 Support arbitrarily large images (WARP?)
 Support app suspend/resume
+Handle lost devices
 Test on Phone

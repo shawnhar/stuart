@@ -28,6 +28,10 @@ namespace Stuart
         async Task CreateResourcesAsync(CanvasControl sender)
         {
             await photo.Load("bran.jpg");
+
+            // Size the CanvasControl to exactly fit the image.
+            sender.Width = photo.Size.Width;
+            sender.Height = photo.Size.Height;
         }
 
 
