@@ -25,12 +25,6 @@
                             <local:PhotoEditControl/>
                         </DataTemplate>
                     </ListView.ItemTemplate>
-
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="Padding" Value="4"/>
-                        </Style>
-                    </ListView.ItemContainerStyle>
                 </ListView>
 
                 <Button Content="+" Click="NewEdit_Click"/>
