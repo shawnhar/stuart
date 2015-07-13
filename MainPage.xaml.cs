@@ -1,8 +1,10 @@
 ﻿using Microsoft.Graphics.Canvas.UI;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using System;
+using System.ComponentModel;
 using System.Numerics;
 using System.Threading.Tasks;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -11,6 +13,10 @@ namespace Stuart
     public sealed partial class MainPage : Page
     {
         Photo photo;
+
+#if DEBUG
+        int drawCount;
+#endif
 
 
         public MainPage()
@@ -22,6 +28,8 @@ namespace Stuart
         void canvas_CreateResources(CanvasControl sender, CanvasCreateResourcesEventArgs args)
         {
             photo = new Photo(sender.Device);
+
+            photo.PropertyChanged += Photo_PropertyChanged;
 
             editList.ItemsSource = photo.Edits;
 
@@ -55,6 +63,16 @@ namespace Stuart
         void canvas_Draw(CanvasControl sender, CanvasDrawEventArgs args)
         {
             photo.Draw(args.DrawingSession);
+
+#if DEBUG
+            args.DrawingSession.DrawText((++drawCount).ToString(), 0, 0, Colors.Cyan);
+#endif
+        }
+
+
+        void Photo_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            canvas.Invalidate();
         }
 
 
