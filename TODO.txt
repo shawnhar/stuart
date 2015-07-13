@@ -11,7 +11,9 @@ Undo selection edits
 Crop
 Click + drag to pan
 Mouse wheel zoom without requiring ctrl
-App icons
+Better icons for the UI
+App icons / splashscreen
+Error handling around file I/O
 Support arbitrarily large images (WARP?)
 Support app suspend/resume
 Handle lost devices

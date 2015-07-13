@@ -3,6 +3,7 @@ using Microsoft.Graphics.Canvas.UI.Xaml;
 using System;
 using System.Numerics;
 using System.Threading.Tasks;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Stuart
@@ -21,6 +22,8 @@ namespace Stuart
         void canvas_CreateResources(CanvasControl sender, CanvasCreateResourcesEventArgs args)
         {
             photo = new Photo(sender.Device);
+
+            editList.ItemsSource = photo.Edits;
 
             args.TrackAsyncAction(CreateResourcesAsync(sender).AsAsyncAction());
         }
@@ -52,6 +55,12 @@ namespace Stuart
         void canvas_Draw(CanvasControl sender, CanvasDrawEventArgs args)
         {
             photo.Draw(args.DrawingSession);
+        }
+
+
+        void NewEdit_Click(object sender, RoutedEventArgs e)
+        {
+            photo.Edits.Add("yo");
         }
     }
 }

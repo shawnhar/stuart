@@ -9,7 +9,21 @@
     mc:Ignorable="d">
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <ScrollViewer Grid.Column="0"
+                      VerticalScrollBarVisibility="auto">
+            <StackPanel>
+                <ListBox x:Name="editList"/>
+                <Button Content="+" Click="NewEdit_Click"/>
+            </StackPanel>
+        </ScrollViewer>
+
         <ScrollViewer x:Name="scrollView"
+                      Grid.Column="1"
                       VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Auto"
                       ZoomMode="Enabled">

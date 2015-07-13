@@ -2,6 +2,7 @@
 using Microsoft.Graphics.Canvas;
 using System.Threading.Tasks;
 using System.Numerics;
+using System.Collections.ObjectModel;
 
 namespace Stuart
 {
@@ -10,11 +11,9 @@ namespace Stuart
         CanvasDevice device;
         CanvasBitmap sourceBitmap;
 
+        public ObservableCollection<string> Edits { get; } = new ObservableCollection<string>();
 
-        public Vector2 Size
-        {
-            get { return sourceBitmap.Size.ToVector2(); }
-        }
+        public Vector2 Size => sourceBitmap.Size.ToVector2();
 
 
         public Photo(CanvasDevice device)
