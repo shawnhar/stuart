@@ -31,6 +31,8 @@ namespace Stuart
 
         public void Draw(CanvasDrawingSession ds)
         {
+            ds.Units = CanvasUnits.Pixels;
+
             ds.DrawImage(sourceBitmap);
         }
     }

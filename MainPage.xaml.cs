@@ -30,18 +30,22 @@ namespace Stuart
         {
             await photo.Load("bran.jpg");
 
+            // Convert the photo size from pixels to dips.
             var photoSize = photo.Size;
 
-            // Zoom so the whole image is visible.
-            var sizeRatio = new Vector2((float)scrollView.ActualWidth, (float)scrollView.ActualHeight) / photoSize;
-
-            var zoom = Math.Min(sizeRatio.X, sizeRatio.Y) * 0.95f;
-
-            scrollView.ZoomToFactor(zoom);
+            photoSize.X = sender.ConvertPixelsToDips((int)photoSize.X);
+            photoSize.Y = sender.ConvertPixelsToDips((int)photoSize.Y);
 
             // Size the CanvasControl to exactly fit the image.
             sender.Width = photoSize.X;
             sender.Height = photoSize.Y;
+
+            // Zoom so the whole image is visible.
+            var viewSize = new Vector2((float)scrollView.ActualWidth, (float)scrollView.ActualHeight);
+            var sizeRatio =  viewSize / photoSize;
+            var zoomFactor = Math.Min(sizeRatio.X, sizeRatio.Y) * 0.95f;
+
+            scrollView.ChangeView(null, null, zoomFactor, disableAnimation: true);
         }
 
 

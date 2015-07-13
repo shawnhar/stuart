@@ -1,4 +1,3 @@
-Handle high DPI
 List of edit ops
 Apply image effects
 Edit effect properties
@@ -16,4 +15,5 @@ App icons
 Support arbitrarily large images (WARP?)
 Support app suspend/resume
 Handle lost devices
+Handle DPI change
 Test on Phone
