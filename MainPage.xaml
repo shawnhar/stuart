@@ -18,8 +18,13 @@
         <ScrollViewer Grid.Column="0"
                       VerticalScrollBarVisibility="auto">
 
-            <StackPanel>
-                <ListView x:Name="editList" CanDragItems="true" AllowDrop="true" CanReorderItems="true">
+            <StackPanel Orientation="Vertical">
+                <ListView x:Name="editList"
+                          CanDragItems="true"
+                          AllowDrop="true"
+                          CanReorderItems="true"
+                          DragItemsStarting="editList_DragItemsStarting">
+                    
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <local:PhotoEditControl/>
@@ -27,7 +32,15 @@
                     </ListView.ItemTemplate>
                 </ListView>
 
-                <Button Content="+" Click="NewEdit_Click"/>
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Trash"
+                            AllowDrop="True"
+                            DragEnter="TrashCan_DragEnter"
+                            Drop="TrashCan_Drop"/>
+
+                    <Button Content="+"
+                            Click="NewEdit_Click"/>
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
 

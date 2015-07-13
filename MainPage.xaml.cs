@@ -2,8 +2,10 @@
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -76,9 +78,32 @@ namespace Stuart
         }
 
 
+        void editList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
+        {
+            e.Data.Properties.Add("DragItems", e.Items.ToArray());
+        }
+
+
         void NewEdit_Click(object sender, RoutedEventArgs e)
         {
-            photo.Edits.Add(new PhotoEdit());
+            photo.Edits.Add(new PhotoEdit(photo));
+        }
+
+
+        void TrashCan_DragEnter(object sender, DragEventArgs e)
+        {
+            e.AcceptedOperation = DataPackageOperation.Move;
+        }
+
+
+        void TrashCan_Drop(object sender, DragEventArgs e)
+        {
+            var items = (object[])e.Data.GetView().Properties["DragItems"];
+
+            foreach (PhotoEdit item in items)
+            {
+                item.Remove();
+            }
         }
     }
 }

@@ -12,7 +12,6 @@
     <StackPanel Orientation="Vertical">
         <StackPanel Orientation="Horizontal">
             <ToggleButton Content="on" IsChecked="{Binding IsEnabled, Mode=TwoWay}"/>
-            <Button Content="x"/>
         </StackPanel>
     </StackPanel>
 </UserControl>

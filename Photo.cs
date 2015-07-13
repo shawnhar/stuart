@@ -22,7 +22,7 @@ namespace Stuart
 
             Edits.CollectionChanged += (sender, e) => NotifyCollectionChanged(sender, e, "Edits");
 
-            Edits.Add(new PhotoEdit());
+            Edits.Add(new PhotoEdit(this));
         }
 
 

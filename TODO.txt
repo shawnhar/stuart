@@ -1,4 +1,3 @@
-List of edit ops
 Apply image effects
 Edit effect properties
 Disable/enable edit ops
