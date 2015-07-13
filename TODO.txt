@@ -1,4 +1,3 @@
-Load temporary test image
 Display the image
 Pan/zoom
 List of edit ops
@@ -13,6 +12,7 @@ Undo selection edits
 Crop
 Load/save arbitrary images
 App icons
+Properly handle high DPI
 Support arbitrarily large images (WARP?)
 Support app suspend/resume
 Test on Phone
