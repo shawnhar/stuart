@@ -9,8 +9,9 @@
     mc:Ignorable="d">
 
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto" 
-                      HorizontalScrollBarVisibility="Auto" 
+        <ScrollViewer x:Name="scrollView"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Auto"
                       ZoomMode="Enabled">
             
             <canvas:CanvasControl x:Name="canvas"

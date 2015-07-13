@@ -1,6 +1,7 @@
 ﻿using Microsoft.Graphics.Canvas.UI;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using System;
+using System.Numerics;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 
@@ -29,9 +30,18 @@ namespace Stuart
         {
             await photo.Load("bran.jpg");
 
+            var photoSize = photo.Size;
+
+            // Zoom so the whole image is visible.
+            var sizeRatio = new Vector2((float)scrollView.ActualWidth, (float)scrollView.ActualHeight) / photoSize;
+
+            var zoom = Math.Min(sizeRatio.X, sizeRatio.Y) * 0.95f;
+
+            scrollView.ZoomToFactor(zoom);
+
             // Size the CanvasControl to exactly fit the image.
-            sender.Width = photo.Size.Width;
-            sender.Height = photo.Size.Height;
+            sender.Width = photoSize.X;
+            sender.Height = photoSize.Y;
         }
 
 

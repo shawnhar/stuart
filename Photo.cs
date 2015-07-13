@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Graphics.Canvas;
 using System.Threading.Tasks;
-using Windows.Foundation;
+using System.Numerics;
 
 namespace Stuart
 {
@@ -11,7 +11,10 @@ namespace Stuart
         CanvasBitmap sourceBitmap;
 
 
-        public Size Size { get { return sourceBitmap.Size; } }
+        public Vector2 Size
+        {
+            get { return sourceBitmap.Size.ToVector2(); }
+        }
 
 
         public Photo(CanvasDevice device)

@@ -1,4 +1,3 @@
-Pan/zoom
 Handle high DPI
 List of edit ops
 Apply image effects
