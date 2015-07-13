@@ -11,7 +11,7 @@ namespace Stuart
         CanvasDevice device;
         CanvasBitmap sourceBitmap;
 
-        public ObservableCollection<string> Edits { get; } = new ObservableCollection<string>();
+        public ObservableCollection<PhotoEdit> Edits { get; } = new ObservableCollection<PhotoEdit> { new PhotoEdit() };
 
         public Vector2 Size => sourceBitmap.Size.ToVector2();
 

@@ -1,6 +1,6 @@
 ﻿namespace Stuart
 {
-    class Edit
+    class PhotoEdit
     {
         public bool Enabled { get; set; }
     }

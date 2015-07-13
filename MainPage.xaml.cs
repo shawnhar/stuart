@@ -60,7 +60,7 @@ namespace Stuart
 
         void NewEdit_Click(object sender, RoutedEventArgs e)
         {
-            photo.Edits.Add("yo");
+            photo.Edits.Add(new PhotoEdit());
         }
     }
 }
