@@ -1,35 +1,13 @@
-﻿using System.ComponentModel;
-
-namespace Stuart
+﻿namespace Stuart
 {
-    class PhotoEdit : INotifyPropertyChanged
+    class PhotoEdit : Observable
     {
         bool isEnabled = true;
 
         public bool IsEnabled
         {
             get { return isEnabled; }
-
-            set
-            {
-                if (value != isEnabled)
-                {
-                    isEnabled = value;
-                    NotifyPropertyChanged("IsEnabled");
-                }
-            }
-        }
-
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-
-        void NotifyPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            set { SetField(ref isEnabled, value); }
         }
     }
 }
