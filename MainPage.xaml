@@ -32,8 +32,8 @@
                 </ListView>
 
                 <StackPanel Orientation="Horizontal">
-                    <Button Content="Trash" AllowDrop="True" DragEnter="TrashCan_DragEnter" Drop="TrashCan_Drop"/>
                     <Button Content="+" Click="NewEdit_Click"/>
+                    <Button Content="Trash" AllowDrop="True" DragEnter="TrashCan_DragEnter" Drop="TrashCan_Drop"/>
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>

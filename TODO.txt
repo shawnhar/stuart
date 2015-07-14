@@ -1,4 +1,5 @@
-Apply image effects
+Change image effect
+Apply image effects to rendering
 Edit effect properties
 Disable/enable edit ops
 Load/save arbitrary images
@@ -8,11 +9,13 @@ Magic wand selection
 Feather selection
 Undo selection edits
 Crop
+Good default UI initial values
+Better icons / UI layout
+App icons / splashscreen
 Click + drag to pan
 Mouse wheel zoom without requiring ctrl
-Better icons for the UI
-App icons / splashscreen
 Error handling around file I/O
+Optimize (cache effect graphs?)
 Support arbitrarily large images (WARP?)
 Support app suspend/resume
 Handle lost devices
