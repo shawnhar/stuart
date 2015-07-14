@@ -2,7 +2,7 @@
 
 namespace Stuart
 {
-    enum EffectType
+    public enum EffectType
     {
         Blur,
         Grayscale,

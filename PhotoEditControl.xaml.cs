@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -6,6 +7,12 @@ namespace Stuart
 {
     public sealed partial class PhotoEditControl : UserControl
     {
+        public static EffectType[] EffectTypes
+        {
+            get { return Enum.GetValues(typeof(EffectType)).Cast<EffectType>().ToArray(); }
+        }
+
+
         public PhotoEditControl()
         {
             this.InitializeComponent();
