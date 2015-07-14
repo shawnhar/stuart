@@ -27,7 +27,7 @@ namespace Stuart
         }
 
 
-        void canvas_CreateResources(CanvasControl sender, CanvasCreateResourcesEventArgs args)
+        void Canvas_CreateResources(CanvasControl sender, CanvasCreateResourcesEventArgs args)
         {
             photo = new Photo(sender.Device);
 
@@ -62,7 +62,7 @@ namespace Stuart
         }
 
 
-        void canvas_Draw(CanvasControl sender, CanvasDrawEventArgs args)
+        void Canvas_Draw(CanvasControl sender, CanvasDrawEventArgs args)
         {
             photo.Draw(args.DrawingSession);
 
@@ -78,15 +78,15 @@ namespace Stuart
         }
 
 
-        void editList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
-        {
-            e.Data.Properties.Add("DragItems", e.Items.ToArray());
-        }
-
-
         void NewEdit_Click(object sender, RoutedEventArgs e)
         {
             photo.Edits.Add(new PhotoEdit(photo));
+        }
+
+
+        void EditList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
+        {
+            e.Data.Properties.Add("DragItems", e.Items.ToArray());
         }
 
 
@@ -100,9 +100,9 @@ namespace Stuart
         {
             var items = (object[])e.Data.GetView().Properties["DragItems"];
 
-            foreach (PhotoEdit item in items)
+            foreach (IDisposable item in items)
             {
-                item.Remove();
+                item.Dispose();
             }
         }
     }

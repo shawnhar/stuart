@@ -15,15 +15,14 @@
         </Grid.ColumnDefinitions>
 
         <!--The editing UI-->
-        <ScrollViewer Grid.Column="0"
-                      VerticalScrollBarVisibility="auto">
+        <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="auto">
 
             <StackPanel Orientation="Vertical">
                 <ListView x:Name="editList"
                           CanDragItems="true"
                           AllowDrop="true"
                           CanReorderItems="true"
-                          DragItemsStarting="editList_DragItemsStarting">
+                          DragItemsStarting="EditList_DragItemsStarting">
                     
                     <ListView.ItemTemplate>
                         <DataTemplate>
@@ -33,13 +32,8 @@
                 </ListView>
 
                 <StackPanel Orientation="Horizontal">
-                    <Button Content="Trash"
-                            AllowDrop="True"
-                            DragEnter="TrashCan_DragEnter"
-                            Drop="TrashCan_Drop"/>
-
-                    <Button Content="+"
-                            Click="NewEdit_Click"/>
+                    <Button Content="Trash" AllowDrop="True" DragEnter="TrashCan_DragEnter" Drop="TrashCan_Drop"/>
+                    <Button Content="+" Click="NewEdit_Click"/>
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>
@@ -52,8 +46,8 @@
                       ZoomMode="Enabled">
             
             <canvas:CanvasControl x:Name="canvas"
-                                  CreateResources="canvas_CreateResources"
-                                  Draw="canvas_Draw"/>
+                                  CreateResources="Canvas_CreateResources"
+                                  Draw="Canvas_Draw"/>
         </ScrollViewer>
     </Grid>
 </Page>

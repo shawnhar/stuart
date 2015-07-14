@@ -104,6 +104,7 @@
     <Compile Include="PhotoEditControl.xaml.cs">
       <DependentUpon>PhotoEditControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PhotoEffect.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

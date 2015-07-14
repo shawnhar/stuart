@@ -1,8 +1,16 @@
-﻿namespace Stuart
+﻿using System;
+using System.Collections.ObjectModel;
+
+namespace Stuart
 {
-    class PhotoEdit : Observable
+    class PhotoEdit : Observable, IDisposable
     {
+        // Fields.
         Photo parent;
+
+
+        // Properties.
+        public ObservableCollection<PhotoEffect> Effects { get; } = new ObservableCollection<PhotoEffect>();
 
 
         bool isEnabled = true;
@@ -14,13 +22,16 @@
         }
 
 
+        // Methods.
         public PhotoEdit(Photo parent)
         {
             this.parent = parent;
+
+            Effects.CollectionChanged += (sender, e) => NotifyCollectionChanged(sender, e, "Effects");
         }
 
 
-        public void Remove()
+        public void Dispose()
         {
             parent.Edits.Remove(this);
         }

@@ -8,14 +8,18 @@ namespace Stuart
 {
     class Photo : Observable
     {
+        // Fields.
         CanvasDevice device;
         CanvasBitmap sourceBitmap;
 
+
+        // Properties.
         public ObservableCollection<PhotoEdit> Edits { get; } = new ObservableCollection<PhotoEdit>();
 
         public Vector2 Size => sourceBitmap.Size.ToVector2();
 
 
+        // Methods.
         public Photo(CanvasDevice device)
         {
             this.device = device;

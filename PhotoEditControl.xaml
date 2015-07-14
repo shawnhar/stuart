@@ -13,5 +13,15 @@
         <StackPanel Orientation="Horizontal">
             <ToggleButton Content="on" IsChecked="{Binding IsEnabled, Mode=TwoWay}"/>
         </StackPanel>
+
+        <ListView x:Name="effectList"
+                  CanDragItems="true"
+                  AllowDrop="true"
+                  CanReorderItems="true"
+                  DragItemsStarting="EffectList_DragItemsStarting"
+                  ItemsSource="{Binding Effects}">
+        </ListView>
+
+        <Button Content="+" Click="NewEffect_Click"/>
     </StackPanel>
 </UserControl>
