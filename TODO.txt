@@ -1,6 +1,5 @@
 Features
     Edit vignette color
-    Edit posterize properties
     Overlay text
     Drop shadow
     Glow

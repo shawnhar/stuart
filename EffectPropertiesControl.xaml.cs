@@ -84,6 +84,9 @@ namespace Stuart
             if (parameter.Default is float)
                 return CreateFloatWidget(effect, parameter);
 
+            if (parameter.Default is int)
+                return CreateIntWidget(effect, parameter);
+
             if (parameter.Default is bool)
                 return CreateBoolWidget(effect, parameter);
 
@@ -103,6 +106,25 @@ namespace Stuart
             slider.ValueChanged += (sender, e) =>
             {
                 effect.SetParameter(parameter, parameter.Min + (float)e.NewValue * valueScale);
+            };
+
+            return slider;
+        }
+
+
+        static UIElement CreateIntWidget(Effect effect, EffectParameter parameter)
+        {
+            var slider = new Slider()
+            {
+                Minimum = parameter.Min,
+                Maximum = parameter.Max,
+
+                Value = (int)effect.GetParameter(parameter)
+            };
+
+            slider.ValueChanged += (sender, e) =>
+            {
+                effect.SetParameter(parameter, (int)e.NewValue);
             };
 
             return slider;

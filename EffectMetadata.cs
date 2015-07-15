@@ -248,7 +248,14 @@ namespace Stuart
             {
                 EffectType.Posterize, new EffectMetadata
                 {
-                    ImplementationType = typeof(PosterizeEffect)
+                    ImplementationType = typeof(PosterizeEffect),
+
+                    Parameters =
+                    {
+                        new EffectParameter { Name = "RedValueCount",   Default = 4, Min = 2, Max = 16 },
+                        new EffectParameter { Name = "GreenValueCount", Default = 4, Min = 2, Max = 16 },
+                        new EffectParameter { Name = "BlueValueCount",  Default = 4, Min = 2, Max = 16 },
+                    }
                 }
             },
 
