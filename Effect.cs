@@ -1,19 +1,9 @@
-﻿using System;
-using Microsoft.Graphics.Canvas;
+﻿using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
+using System;
 
 namespace Stuart
 {
-    public enum EffectType
-    {
-        Blur,
-        Gray,
-        Invert,
-        Sepia,
-        Vignette,
-    }
-
-
     // DOM type representing a single image processing effect.
     public class Effect : Observable, IDisposable
     {

@@ -27,6 +27,22 @@ namespace Stuart
 
         static void CurrentEffectChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            var self = (EffectPropertiesControl)d;
+
+            self.CurrentEffectChanged();
+        }
+
+
+        void CurrentEffectChanged()
+        {
+            grid.Children.Clear();
+
+            var effect = CurrentEffect;
+
+            if (effect != null)
+            {
+
+            }
         }
     }
 }

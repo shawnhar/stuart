@@ -13,6 +13,7 @@ Support app suspend/resume
 Handle lost devices
 Handle DPI change
 Test on Phone
+Edit vignette color
 Overlay text
 Drop shadow
 Glow

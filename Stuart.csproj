@@ -95,6 +95,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EffectMetadata.cs" />
     <Compile Include="EffectPropertiesControl.xaml.cs">
       <DependentUpon>EffectPropertiesControl.xaml</DependentUpon>
     </Compile>
