@@ -111,6 +111,7 @@ namespace Stuart
 
         void Background_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
+            photo.SelectedEffect = null;
         }
     }
 }
