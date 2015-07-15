@@ -15,11 +15,12 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!--The editing UI-->
+        <!-- The editing UI -->
         <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="auto">
 
             <StackPanel Orientation="Vertical">
                 <ListView x:Name="editList"
+                          ItemsSource="{Binding Edits}"
                           SelectionMode="None"
                           CanDragItems="true"
                           AllowDrop="true"
@@ -40,7 +41,7 @@
             </StackPanel>
         </ScrollViewer>
 
-        <!--The photo itself -->
+        <!-- The photo itself -->
         <ScrollViewer x:Name="scrollView"
                       Grid.Column="1"
                       VerticalScrollBarVisibility="Auto"
@@ -51,5 +52,10 @@
                                   CreateResources="Canvas_CreateResources"
                                   Draw="Canvas_Draw"/>
         </ScrollViewer>
+        
+        <!-- Overlay properties of the currently selected effect -->
+        <Canvas Grid.Column="1">
+            <local:EffectPropertiesControl CurrentEffect="{Binding SelectedEffect, Mode=OneWay}"/>
+        </Canvas>
     </Grid>
 </Page>

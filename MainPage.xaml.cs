@@ -16,7 +16,7 @@ namespace Stuart
     // UI codebehind for the main application page.
     public sealed partial class MainPage : Page
     {
-        Photo photo;
+        Photo photo = new Photo();
 
 #if DEBUG
         int drawCount;
@@ -26,17 +26,15 @@ namespace Stuart
         public MainPage()
         {
             this.InitializeComponent();
+
+            DataContext = photo;
+
+            photo.PropertyChanged += Photo_PropertyChanged;
         }
 
 
         void Canvas_CreateResources(CanvasControl sender, CanvasCreateResourcesEventArgs args)
         {
-            photo = new Photo();
-
-            photo.PropertyChanged += Photo_PropertyChanged;
-
-            editList.ItemsSource = photo.Edits;
-
             args.TrackAsyncAction(CreateResourcesAsync(sender).AsAsyncAction());
         }
 

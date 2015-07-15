@@ -17,7 +17,7 @@
 
         <ListView x:Name="effectList"
                   ItemsSource="{Binding Effects}"
-                  SelectedValue="{Binding Path=Parent.SelectedEffect, Mode=TwoWay}"
+                  SelectedValue="{Binding Parent.SelectedEffect, Mode=TwoWay}"
                   CanDragItems="true"
                   AllowDrop="true"
                   CanReorderItems="true"
