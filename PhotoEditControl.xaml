@@ -24,7 +24,8 @@
 
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <ComboBox ItemsSource="{Binding ElementName=control, Path=EffectTypes}"/>
+                    <ComboBox ItemsSource="{Binding ElementName=control, Path=EffectTypes}"
+                              SelectedItem="{Binding Type, Mode=TwoWay}"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

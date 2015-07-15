@@ -5,7 +5,7 @@ namespace Stuart
     public enum EffectType
     {
         Blur,
-        Grayscale,
+        Gray,
         Invert,
         Sepia,
         Vignette,
@@ -38,12 +38,6 @@ namespace Stuart
         public void Dispose()
         {
             parent.Effects.Remove(this);
-        }
-
-
-        public override string ToString()
-        {
-            return type.ToString();
         }
     }
 }

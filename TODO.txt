@@ -1,23 +1,23 @@
 Change image effect
 Apply image effects to rendering
 Edit effect properties
-Disable/enable edit ops
 Load/save arbitrary images
 Select edit regions
 Add/remove to selection
 Magic wand selection
 Feather selection
 Undo selection edits
-Crop
-Good default UI initial values
-Better icons / UI layout
-App icons / splashscreen
-Click + drag to pan
-Mouse wheel zoom without requiring ctrl
+Crop the photo
+Better icons / splashscreen / UI layout
 Error handling around file I/O
-Optimize (cache effect graphs?)
-Support arbitrarily large images (WARP?)
 Support app suspend/resume
 Handle lost devices
 Handle DPI change
 Test on Phone
+Overlay text
+Drop shadow
+Glow
+Click + drag to pan on non-touch devices
+Mouse wheel zoom without requiring ctrl
+Optimize (cache effect graphs?)
+Support arbitrarily large images (WARP?)
