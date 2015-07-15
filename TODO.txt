@@ -1,5 +1,6 @@
-Edit effect properties
+Refactor effect property string name formatting
 Refactor CurrentEffectChanged
+Adding an effect should select it
 Don't include labels when only one property?
 Update UI on effect type changes
 Load/save arbitrary images

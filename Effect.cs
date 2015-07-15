@@ -58,6 +58,11 @@ namespace Stuart
 
             SetProperty(effect, "Source", image);
 
+            foreach (var parameter in metadata)
+            {
+                SetProperty(effect, parameter.Name, this[Type.ToString() + '.' + parameter.Name] ?? parameter.Default);
+            }
+
             return effect;
         }
 
