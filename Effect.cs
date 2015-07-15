@@ -17,7 +17,7 @@ namespace Stuart
     // DOM type representing a single image processing effect.
     public class Effect : Observable, IDisposable
     {
-        EditGroup parent;
+        public EditGroup Parent { get; private set; }
 
 
         public EffectType Type
@@ -31,13 +31,13 @@ namespace Stuart
 
         public Effect(EditGroup parent)
         {
-            this.parent = parent;
+            Parent = parent;
         }
 
 
         public void Dispose()
         {
-            parent.Effects.Remove(this);
+            Parent.Effects.Remove(this);
         }
 
 

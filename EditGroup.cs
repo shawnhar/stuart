@@ -7,7 +7,7 @@ namespace Stuart
     // DOM type representing a group of effects that are applied to a region of the photo.
     public class EditGroup : Observable, IDisposable
     {
-        Photo parent;
+        public Photo Parent { get; private set; }
 
         public ObservableCollection<Effect> Effects { get; } = new ObservableCollection<Effect>();
 
@@ -23,7 +23,7 @@ namespace Stuart
 
         public EditGroup(Photo parent)
         {
-            this.parent = parent;
+            Parent = parent;
 
             Effects.CollectionChanged += (sender, e) => NotifyCollectionChanged(sender, e, "Effects");
         }
@@ -31,7 +31,7 @@ namespace Stuart
 
         public void Dispose()
         {
-            parent.Edits.Remove(this);
+            Parent.Edits.Remove(this);
         }
 
 

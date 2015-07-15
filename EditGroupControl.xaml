@@ -16,12 +16,12 @@
         </StackPanel>
 
         <ListView x:Name="effectList"
+                  ItemsSource="{Binding Effects}"
+                  SelectedValue="{Binding Path=Parent.SelectedEffect, Mode=TwoWay}"
                   CanDragItems="true"
                   AllowDrop="true"
                   CanReorderItems="true"
-                  DragItemsStarting="EffectList_DragItemsStarting"
-                  SelectionChanged="EffectList_SelectionChanged"
-                  ItemsSource="{Binding Effects}">
+                  DragItemsStarting="EffectList_DragItemsStarting">
 
             <ListView.ItemTemplate>
                 <DataTemplate>

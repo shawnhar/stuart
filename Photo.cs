@@ -16,6 +16,15 @@ namespace Stuart
         public Vector2 Size => sourceBitmap.Size.ToVector2();
 
 
+        public Effect SelectedEffect
+        {
+            get { return selectedEffect; }
+            set { SetField(ref selectedEffect, value); }
+        }
+
+        Effect selectedEffect;
+
+
         public Photo()
         {
             Edits.CollectionChanged += (sender, e) => NotifyCollectionChanged(sender, e, "Edits");
