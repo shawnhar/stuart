@@ -54,11 +54,11 @@ namespace Stuart
 
                     var slider = new Slider();
 
-                    slider.Value = ((float)(effect[parameterName] ?? parameter.Default) - parameter.Min) / (parameter.Max - parameter.Min) * 100;
+                    slider.Value = ((float)(effect.GetParameter(parameterName) ?? parameter.Default) - parameter.Min) / (parameter.Max - parameter.Min) * 100;
 
                     slider.ValueChanged += (sender, e) =>
                     {
-                        effect[parameterName] = parameter.Min + (float)e.NewValue / 100 * (parameter.Max - parameter.Min);
+                        effect.SetParameter(parameterName, parameter.Min + (float)e.NewValue / 100 * (parameter.Max - parameter.Min));
                     };
 
                     AddToGrid(slider, i, 2);

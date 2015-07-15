@@ -10,6 +10,8 @@ namespace Stuart
     {
         public EditGroup Parent { get; private set; }
 
+        readonly Dictionary<string, object> parameters = new Dictionary<string, object>();
+
 
         public EffectType Type
         {
@@ -18,24 +20,6 @@ namespace Stuart
         }
 
         EffectType type;
-
-
-        public object this[string parameterName]
-        {
-            get
-            {
-                object result;
-                return parameters.TryGetValue(parameterName, out result) ? result : null;
-            }
-
-            set
-            {
-                parameters[parameterName] = value;
-                NotifyPropertyChanged(parameterName);
-            }
-        }
-
-        readonly Dictionary<string, object> parameters = new Dictionary<string, object>();
 
 
         public Effect(EditGroup parent)
@@ -50,6 +34,22 @@ namespace Stuart
         }
 
 
+        public object GetParameter(string parameterName)
+        {
+            object result;
+
+            return parameters.TryGetValue(parameterName, out result) ? result : null;
+        }
+
+
+        public void SetParameter(string parameterName, object value)
+        {
+            parameters[parameterName] = value;
+
+            NotifyPropertyChanged(parameterName);
+        }
+
+
         public ICanvasImage Apply(ICanvasImage image)
         {
             var metadata = EffectMetadata.Get(type);
@@ -60,7 +60,7 @@ namespace Stuart
 
             foreach (var parameter in metadata.Parameters)
             {
-                SetProperty(effect, parameter.Name, this[Type.ToString() + '.' + parameter.Name] ?? parameter.Default);
+                SetProperty(effect, parameter.Name, GetParameter(Type.ToString() + '.' + parameter.Name) ?? parameter.Default);
             }
 
             return effect;
