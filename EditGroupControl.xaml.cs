@@ -24,7 +24,10 @@ namespace Stuart
         {
             var edit = (EditGroup)DataContext;
 
-            edit.Effects.Add(new Effect(edit));
+            var newEffect = new Effect(edit);
+
+            edit.Effects.Add(newEffect);
+            edit.Parent.SelectedEffect = newEffect;
         }
 
 

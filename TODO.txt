@@ -1,4 +1,3 @@
-Adding an effect should select it
 Update UI on effect type changes
 Load/save arbitrary images
 Select edit regions
