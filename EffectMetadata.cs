@@ -56,7 +56,7 @@ namespace Stuart
                 }
             },
 
-            // Gray metadata.
+            // Grayscale metadata.
             {
                 EffectType.Gray, new EffectMetadata(typeof(GrayscaleEffect))
             },

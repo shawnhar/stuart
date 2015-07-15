@@ -1,6 +1,6 @@
 ﻿using Microsoft.Graphics.Canvas;
-using Microsoft.Graphics.Canvas.Effects;
 using System;
+using System.Reflection;
 
 namespace Stuart
 {
@@ -33,41 +33,19 @@ namespace Stuart
 
         public ICanvasImage Apply(ICanvasImage image)
         {
-            switch (Type)
-            {
-                case EffectType.Blur:
-                    return new GaussianBlurEffect
-                    {
-                        Source = image
-                    };
+            var metadata = EffectMetadata.Get(type);
 
-                case EffectType.Gray:
-                    return new GrayscaleEffect
-                    {
-                        Source = image
-                    };
+            var effect = (ICanvasImage)Activator.CreateInstance(metadata.ImplementationType);
 
-                case EffectType.Invert:
-                    return new InvertEffect
-                    {
-                        Source = image
-                    };
+            SetProperty(effect, "Source", image);
 
-                case EffectType.Sepia:
-                    return new SepiaEffect
-                    {
-                        Source = image
-                    };
+            return effect;
+        }
 
-                case EffectType.Vignette:
-                    return new VignetteEffect
-                    {
-                        Source = image
-                    };
 
-                default:
-                    throw new NotImplementedException();
-            }
+        static void SetProperty(object instance, string propertyName, object value)
+        {
+            instance.GetType().GetRuntimeProperty(propertyName).SetValue(instance, value);
         }
     }
 }
