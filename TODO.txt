@@ -1,7 +1,9 @@
+Straighten effect preserve size prop
+Blur border mode
 Refactor effect property string name formatting
 Refactor CurrentEffectChanged
-Adding an effect should select it
 Don't include labels when only one property?
+Adding an effect should select it
 Update UI on effect type changes
 Load/save arbitrary images
 Select edit regions
@@ -18,6 +20,8 @@ Handle lost devices
 Handle DPI change
 Test on Phone
 Edit vignette color
+Edit edge detection overlay property
+Edit posterize properties
 Overlay text
 Drop shadow
 Glow
