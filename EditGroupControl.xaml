@@ -20,6 +20,7 @@
                   AllowDrop="true"
                   CanReorderItems="true"
                   DragItemsStarting="EffectList_DragItemsStarting"
+                  SelectionChanged="EffectList_SelectionChanged"
                   ItemsSource="{Binding Effects}">
 
             <ListView.ItemTemplate>

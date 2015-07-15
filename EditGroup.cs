@@ -4,17 +4,13 @@ using Microsoft.Graphics.Canvas;
 
 namespace Stuart
 {
-    class EditGroup : Observable, IDisposable
+    // DOM type representing a group of effects that are applied to a region of the photo.
+    public class EditGroup : Observable, IDisposable
     {
-        // Fields.
         Photo parent;
 
-
-        // Properties.
         public ObservableCollection<Effect> Effects { get; } = new ObservableCollection<Effect>();
 
-
-        bool isEnabled = true;
 
         public bool IsEnabled
         {
@@ -22,8 +18,9 @@ namespace Stuart
             set { SetField(ref isEnabled, value); }
         }
 
+        bool isEnabled = true;
 
-        // Methods.
+
         public EditGroup(Photo parent)
         {
             this.parent = parent;

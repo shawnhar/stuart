@@ -6,6 +6,7 @@ Magic wand selection
 Feather selection
 Undo selection edits
 Crop the photo
+Use RightTapped rather than drag/drop to delete items
 Better icons / splashscreen / UI layout
 Error handling around file I/O
 Support app suspend/resume

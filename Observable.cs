@@ -5,7 +5,8 @@ using System.Runtime.CompilerServices;
 
 namespace Stuart
 {
-    abstract class Observable : INotifyPropertyChanged
+    // Helper for implementing INotifyPropertyChanged.
+    public abstract class Observable : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

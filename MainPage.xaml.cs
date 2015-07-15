@@ -9,9 +9,11 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 
 namespace Stuart
 {
+    // UI codebehind for the main application page.
     public sealed partial class MainPage : Page
     {
         Photo photo;
@@ -29,7 +31,7 @@ namespace Stuart
 
         void Canvas_CreateResources(CanvasControl sender, CanvasCreateResourcesEventArgs args)
         {
-            photo = new Photo(sender.Device);
+            photo = new Photo();
 
             photo.PropertyChanged += Photo_PropertyChanged;
 
@@ -41,7 +43,7 @@ namespace Stuart
 
         async Task CreateResourcesAsync(CanvasControl sender)
         {
-            await photo.Load("bran.jpg");
+            await photo.Load(sender.Device, "bran.jpg");
 
             // Convert the photo size from pixels to dips.
             var photoSize = photo.Size;
@@ -104,6 +106,11 @@ namespace Stuart
             {
                 item.Dispose();
             }
+        }
+
+
+        void Background_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
         }
     }
 }

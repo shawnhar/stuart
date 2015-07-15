@@ -14,14 +14,11 @@ namespace Stuart
     }
 
 
-    class Effect : Observable, IDisposable
+    // DOM type representing a single image processing effect.
+    public class Effect : Observable, IDisposable
     {
-        // Fields.
         EditGroup parent;
 
-
-        // Properties.
-        EffectType type;
 
         public EffectType Type
         {
@@ -29,8 +26,9 @@ namespace Stuart
             set { SetField(ref type, value); }
         }
 
+        EffectType type;
 
-        // Methods.
+
         public Effect(EditGroup parent)
         {
             this.parent = parent;

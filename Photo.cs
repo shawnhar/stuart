@@ -6,31 +6,25 @@ using System.Threading.Tasks;
 
 namespace Stuart
 {
-    class Photo : Observable
+    // Top level DOM type stores the photo plus a list of edits.
+    public class Photo : Observable
     {
-        // Fields.
-        CanvasDevice device;
         CanvasBitmap sourceBitmap;
 
-
-        // Properties.
         public ObservableCollection<EditGroup> Edits { get; } = new ObservableCollection<EditGroup>();
 
         public Vector2 Size => sourceBitmap.Size.ToVector2();
 
 
-        // Methods.
-        public Photo(CanvasDevice device)
+        public Photo()
         {
-            this.device = device;
-
             Edits.CollectionChanged += (sender, e) => NotifyCollectionChanged(sender, e, "Edits");
 
             Edits.Add(new EditGroup(this));
         }
 
 
-        public async Task Load(string filename)
+        public async Task Load(CanvasDevice device, string filename)
         {
             sourceBitmap = await CanvasBitmap.LoadAsync(device, filename);
         }
