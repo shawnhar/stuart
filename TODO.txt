@@ -1,24 +1,30 @@
-Select edit regions
-Add/remove to selection
-Magic wand selection
-Feather selection
-Undo selection edits
-Crop the photo
-Edit vignette color
-Edit edge detection overlay property
-Edit posterize properties
-Enable/disable individual effects
-Better delete UI
-Better icons / splashscreen / UI layout
-Support app suspend/resume
-Handle lost devices
-Handle DPI change
-Test on Phone
-Overlay text
-Drop shadow
-Glow
-Click + drag to pan on non-touch devices
-Zoom without touch or mouse wheel
-Mouse wheel zoom without requiring ctrl
-Optimize (cache effect graphs?)
-Support arbitrarily large images (WARP?)
+Features
+    Edit vignette color
+    Edit edge detection overlay property
+    Edit posterize properties
+    Overlay text
+    Drop shadow
+    Glow
+
+Regions
+    Select edit regions
+    Add/remove to selection
+    Magic wand selection
+    Feather selection
+    Undo selection edits
+    Crop the photo
+
+UI
+    Better delete UI
+    Better icons / splashscreen / UI layout
+    Click + drag to pan on non-touch devices
+    Zoom without touch or mouse wheel
+    Mouse wheel zoom without requiring ctrl
+
+Quality
+    Support app suspend/resume
+    Handle lost devices
+    Handle DPI change
+    Test on Phone
+    Optimize (cache effect graphs?)
+    Support arbitrarily large images (WARP?)
