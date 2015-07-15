@@ -41,6 +41,7 @@ namespace Stuart
         public Type ImplementationType;
 
         public readonly List<EffectParameter> Parameters = new List<EffectParameter>();
+        public readonly Dictionary<string, object> Constants = new Dictionary<string, object>();
 
 
         public static EffectMetadata Get(EffectType effectType)
@@ -249,6 +250,11 @@ namespace Stuart
                     Parameters =
                     {
                         new EffectParameter { Name = "Angle", Min = -(float)Math.PI / 16, Max = (float)Math.PI / 16, Default = 0 }
+                    },
+
+                    Constants =
+                    {
+                        { "MaintainSize", true }
                     }
                 }
             },

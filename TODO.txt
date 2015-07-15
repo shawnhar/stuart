@@ -1,4 +1,3 @@
-Straighten effect preserve size prop
 Blur border mode
 Refactor CurrentEffectChanged
 Don't include labels when only one property?

@@ -73,6 +73,11 @@ namespace Stuart
                 SetProperty(effect, parameter.Name, GetParameter(parameter));
             }
 
+            foreach (var constant in metadata.Constants)
+            {
+                SetProperty(effect, constant.Key, constant.Value);
+            }
+
             return effect;
         }
 
