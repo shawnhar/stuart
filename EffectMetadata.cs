@@ -215,6 +215,11 @@ namespace Stuart
                     Parameters =
                     {
                         new EffectParameter { Name = "BlurAmount", Min = 0, Max = 100, Default = 8 }
+                    },
+
+                    Constants =
+                    {
+                        { "BorderMode", EffectBorderMode.Hard }
                     }
                 }
             },
@@ -229,6 +234,11 @@ namespace Stuart
                     {
                         new EffectParameter { Name = "BlurAmount", Min = 0, Max = 100,            Default = 8 },
                         new EffectParameter { Name = "Angle",      Min = 0, Max = (float)Math.PI, Default = 0 },
+                    },
+
+                    Constants =
+                    {
+                        { "BorderMode", EffectBorderMode.Hard }
                     }
                 }
             },
