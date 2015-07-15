@@ -31,11 +31,5 @@
                 <Setter Property="VerticalAlignment" Value="Center"/>
             </Style>
         </Grid.Resources>
-        
-        <TextBlock Grid.Row="0" Grid.Column="0" Text="Amount"/>
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="Intensity"/>
-
-        <Slider Grid.Row="0" Grid.Column="2"/>
-        <Slider Grid.Row="1" Grid.Column="2"/>
     </Grid>
 </UserControl>
