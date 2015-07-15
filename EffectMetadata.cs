@@ -33,24 +33,14 @@ namespace Stuart
         public float Max;
 
         public float Default;
-
-
-        public EffectParameter(string name)
-        {
-            Name = name;
-        }
     }
 
 
-    public class EffectMetadata : List<EffectParameter>
+    public class EffectMetadata
     {
         public Type ImplementationType;
 
-
-        EffectMetadata(Type implementationType)
-        {
-            ImplementationType = implementationType;
-        }
+        public readonly List<EffectParameter> Parameters = new List<EffectParameter>();
 
 
         public static EffectMetadata Get(EffectType effectType)
@@ -63,129 +53,203 @@ namespace Stuart
         {
             // Vignette metadata.
             {
-                EffectType.Vignette, new EffectMetadata(typeof(VignetteEffect))
+                EffectType.Vignette, new EffectMetadata
                 {
-                    new EffectParameter("Amount") { Min = 0, Max = 1, Default = 0.1f },
-                    new EffectParameter("Curve")  { Min = 0, Max = 1, Default = 0.5f },
+                    ImplementationType = typeof(VignetteEffect),
+
+                    Parameters =
+                    {
+                        new EffectParameter { Name = "Amount", Min = 0, Max = 1, Default = 0.1f },
+                        new EffectParameter { Name = "Curve",  Min = 0, Max = 1, Default = 0.5f },
+                    }
                 }
             },
 
             // Sepia metadata.
             {
-                EffectType.Sepia, new EffectMetadata(typeof(SepiaEffect))
+                EffectType.Sepia, new EffectMetadata
                 {
-                    new EffectParameter("Intensity") { Min = 0, Max = 1, Default = 0.5f }
+                    ImplementationType = typeof(SepiaEffect),
+
+                    Parameters =
+                    {
+                       new EffectParameter { Name = "Intensity", Min = 0, Max = 1, Default = 0.5f }
+                    }
                 }
             },
 
             // Grayscale metadata.
             {
-                EffectType.Gray, new EffectMetadata(typeof(GrayscaleEffect))
+                EffectType.Gray, new EffectMetadata
+                {
+                    ImplementationType = typeof(GrayscaleEffect)
+                }
             },
 
             // Saturation metadata.
             {
-                EffectType.Saturation, new EffectMetadata(typeof(SaturationEffect))
+                EffectType.Saturation, new EffectMetadata
                 {
-                    new EffectParameter("Saturation") { Min = 0, Max = 2, Default = 0.5f }
+                    ImplementationType = typeof(SaturationEffect),
+
+                    Parameters =
+                    {
+                        new EffectParameter { Name = "Saturation", Min = 0, Max = 2, Default = 0.5f }
+                    }
                 }
             },
 
             // Exposure metadata.
             {
-                EffectType.Exposure, new EffectMetadata(typeof(ExposureEffect))
+                EffectType.Exposure, new EffectMetadata
                 {
-                    new EffectParameter("Exposure") { Min = -2, Max = 2, Default = 0 }
+                    ImplementationType = typeof(ExposureEffect),
+
+                    Parameters =
+                    {
+                        new EffectParameter { Name = "Exposure", Min = -2, Max = 2, Default = 0 }
+                    }
                 }
             },
 
             // Highlights metadata.
             {
-                EffectType.Highlights, new EffectMetadata(typeof(HighlightsAndShadowsEffect))
+                EffectType.Highlights, new EffectMetadata
                 {
-                    new EffectParameter("Highlights")     { Min = -1, Max = 1,  Default = 0     },
-                    new EffectParameter("Shadows")        { Min = -1, Max = 1,  Default = 0     },
-                    new EffectParameter("Clarity")        { Min = -1, Max = 1,  Default = 0     },
-                    new EffectParameter("MaskBlurAmount") { Min =  0, Max = 10, Default = 0.25f },
+                    ImplementationType = typeof(HighlightsAndShadowsEffect),
+
+                    Parameters =
+                    {
+                        new EffectParameter { Name = "Highlights",     Min = -1, Max = 1,  Default = 0     },
+                        new EffectParameter { Name = "Shadows",        Min = -1, Max = 1,  Default = 0     },
+                        new EffectParameter { Name = "Clarity",        Min = -1, Max = 1,  Default = 0     },
+                        new EffectParameter { Name = "MaskBlurAmount", Min =  0, Max = 10, Default = 0.25f },
+                    }
                 }
             },
 
             // Temperature metadata.
             {
-                EffectType.Temperature, new EffectMetadata(typeof(TemperatureAndTintEffect))
+                EffectType.Temperature, new EffectMetadata
                 {
-                    new EffectParameter("Temperature") { Min = -1, Max = 1, Default = 0 },
-                    new EffectParameter("Tint")        { Min = -1, Max = 1, Default = 0 },
+                    ImplementationType = typeof(TemperatureAndTintEffect),
+
+                    Parameters =
+                    {
+                        new EffectParameter { Name = "Temperature", Min = -1, Max = 1, Default = 0 },
+                        new EffectParameter { Name = "Tint",        Min = -1, Max = 1, Default = 0 },
+                    }
                 }
             },
 
             // Contrast metadata.
             {
-                EffectType.Contrast, new EffectMetadata(typeof(ContrastEffect))
+                EffectType.Contrast, new EffectMetadata
                 {
-                    new EffectParameter("Contrast") { Min = -1, Max = 1, Default = 0 }
+                    ImplementationType = typeof(ContrastEffect),
+
+                    Parameters =
+                    {
+                        new EffectParameter { Name = "Contrast", Min = -1, Max = 1, Default = 0 }
+                    }
                 }
             },
 
             // Sharpen metadata.
             {
-                EffectType.Sharpen, new EffectMetadata(typeof(SharpenEffect))
+                EffectType.Sharpen, new EffectMetadata
                 {
-                    new EffectParameter("Amount")    { Min = 0, Max = 10, Default = 0 },
-                    new EffectParameter("Threshold") { Min = 0, Max = 2,  Default = 0 },
+                    ImplementationType = typeof(SharpenEffect),
+
+                    Parameters =
+                    {
+                        new EffectParameter { Name = "Amount",    Min = 0, Max = 10, Default = 0 },
+                        new EffectParameter { Name = "Threshold", Min = 0, Max = 1,  Default = 0 },
+                    }
                 }
             },
 
             // Edges metadata.
             {
-                EffectType.Edges, new EffectMetadata(typeof(EdgeDetectionEffect))
+                EffectType.Edges, new EffectMetadata
                 {
-                    new EffectParameter("Amount")     { Min = 0, Max = 1, Default = 0.5f },
-                    new EffectParameter("BlurAmount") { Min = 0, Max = 2, Default = 0    },
+                    ImplementationType = typeof(EdgeDetectionEffect),
+
+                    Parameters =
+                    {
+                        new EffectParameter { Name = "Amount",     Min = 0, Max = 1, Default = 0.5f },
+                        new EffectParameter { Name = "BlurAmount", Min = 0, Max = 2, Default = 0    },
+                    }
                 }
             },
 
             // Emboss metadata.
             {
-                EffectType.Emboss, new EffectMetadata(typeof(EmbossEffect))
+                EffectType.Emboss, new EffectMetadata
                 {
-                    new EffectParameter("Amount") { Min = 0, Max = 10,                 Default = 1 },
-                    new EffectParameter("Angle")  { Min = 0, Max = (float)Math.PI * 2, Default = 0 },
+                    ImplementationType = typeof(EmbossEffect),
+
+                    Parameters =
+                    {
+                        new EffectParameter { Name = "Amount", Min = 0, Max = 10,                 Default = 1 },
+                        new EffectParameter { Name = "Angle",  Min = 0, Max = (float)Math.PI * 2, Default = 0 },
+                    }
                 }
             },
 
             // Invert metadata.
             {
-                EffectType.Invert, new EffectMetadata(typeof(InvertEffect))
+                EffectType.Invert, new EffectMetadata
+                {
+                    ImplementationType = typeof(InvertEffect)
+                }
             },
 
             // Blur metadata.
             {
-                EffectType.Blur, new EffectMetadata(typeof(GaussianBlurEffect))
+                EffectType.Blur, new EffectMetadata
                 {
-                    new EffectParameter("BlurAmount") { Min = 0, Max = 100, Default = 8 }
+                    ImplementationType = typeof(GaussianBlurEffect),
+
+                    Parameters =
+                    {
+                        new EffectParameter { Name = "BlurAmount", Min = 0, Max = 100, Default = 8 }
+                    }
                 }
             },
 
             // Motion metadata.
             {
-                EffectType.Motion, new EffectMetadata(typeof(DirectionalBlurEffect))
+                EffectType.Motion, new EffectMetadata
                 {
-                    new EffectParameter("BlurAmount") { Min = 0, Max = 100,            Default = 8 },
-                    new EffectParameter("Angle")      { Min = 0, Max = (float)Math.PI, Default = 0 },
+                    ImplementationType = typeof(DirectionalBlurEffect),
+                    
+                    Parameters =
+                    {
+                        new EffectParameter { Name = "BlurAmount", Min = 0, Max = 100,            Default = 8 },
+                        new EffectParameter { Name = "Angle",      Min = 0, Max = (float)Math.PI, Default = 0 },
+                    }
                 }
             },
 
             // Posterize metadata.
             {
-                EffectType.Posterize, new EffectMetadata(typeof(PosterizeEffect))
+                EffectType.Posterize, new EffectMetadata
+                {
+                    ImplementationType = typeof(PosterizeEffect)
+                }
             },
 
             // Straighten metadata.
             {
-                EffectType.Straighten, new EffectMetadata(typeof(StraightenEffect))
+                EffectType.Straighten, new EffectMetadata
                 {
-                    new EffectParameter("Angle") { Min = -(float)Math.PI / 16, Max = (float)Math.PI / 16, Default = 0 }
+                    ImplementationType = typeof(StraightenEffect),
+
+                    Parameters =
+                    {
+                        new EffectParameter { Name = "Angle", Min = -(float)Math.PI / 16, Max = (float)Math.PI / 16, Default = 0 }
+                    }
                 }
             },
         };

@@ -12,6 +12,9 @@ Magic wand selection
 Feather selection
 Undo selection edits
 Crop the photo
+Edit vignette color
+Edit edge detection overlay property
+Edit posterize properties
 Use RightTapped rather than drag/drop to delete items
 Better icons / splashscreen / UI layout
 Error handling around file I/O
@@ -19,9 +22,6 @@ Support app suspend/resume
 Handle lost devices
 Handle DPI change
 Test on Phone
-Edit vignette color
-Edit edge detection overlay property
-Edit posterize properties
 Overlay text
 Drop shadow
 Glow

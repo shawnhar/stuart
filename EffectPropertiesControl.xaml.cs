@@ -43,9 +43,9 @@ namespace Stuart
             {
                 var metadata = EffectMetadata.Get(effect.Type);
 
-                for (int i = 0; i < metadata.Count; i++)
+                for (int i = 0; i < metadata.Parameters.Count; i++)
                 {
-                    var parameter = metadata[i];
+                    var parameter = metadata.Parameters[i];
 
                     string parameterName = effect.Type.ToString() + '.' + parameter.Name;
 
