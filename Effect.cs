@@ -34,19 +34,29 @@ namespace Stuart
         }
 
 
-        public object GetParameter(string parameterName)
+        public object GetParameter(EffectParameter parameter)
         {
+            var parameterName = ParameterName(parameter);
+
             object result;
 
-            return parameters.TryGetValue(parameterName, out result) ? result : null;
+            return parameters.TryGetValue(parameterName, out result) ? result : parameter.Default;
         }
 
 
-        public void SetParameter(string parameterName, object value)
+        public void SetParameter(EffectParameter parameter, object value)
         {
+            var parameterName = ParameterName(parameter);
+
             parameters[parameterName] = value;
 
             NotifyPropertyChanged(parameterName);
+        }
+
+
+        string ParameterName(EffectParameter parameter)
+        {
+            return Type.ToString() + '.' + parameter.Name;
         }
 
 
@@ -60,7 +70,7 @@ namespace Stuart
 
             foreach (var parameter in metadata.Parameters)
             {
-                SetProperty(effect, parameter.Name, GetParameter(Type.ToString() + '.' + parameter.Name) ?? parameter.Default);
+                SetProperty(effect, parameter.Name, GetParameter(parameter));
             }
 
             return effect;
@@ -69,7 +79,9 @@ namespace Stuart
 
         static void SetProperty(object instance, string propertyName, object value)
         {
-            instance.GetType().GetRuntimeProperty(propertyName).SetValue(instance, value);
+            instance.GetType()
+                    .GetRuntimeProperty(propertyName)
+                    .SetValue(instance, value);
         }
     }
 }

@@ -47,18 +47,16 @@ namespace Stuart
                 {
                     var parameter = metadata.Parameters[i];
 
-                    string parameterName = effect.Type.ToString() + '.' + parameter.Name;
-
                     var text = new TextBlock { Text = parameter.Name };
                     AddToGrid(text, i, 0);
 
                     var slider = new Slider();
 
-                    slider.Value = ((float)(effect.GetParameter(parameterName) ?? parameter.Default) - parameter.Min) / (parameter.Max - parameter.Min) * 100;
+                    slider.Value = ((float)effect.GetParameter(parameter) - parameter.Min) / (parameter.Max - parameter.Min) * 100;
 
                     slider.ValueChanged += (sender, e) =>
                     {
-                        effect.SetParameter(parameterName, parameter.Min + (float)e.NewValue / 100 * (parameter.Max - parameter.Min));
+                        effect.SetParameter(parameter, parameter.Min + (float)e.NewValue / 100 * (parameter.Max - parameter.Min));
                     };
 
                     AddToGrid(slider, i, 2);

@@ -1,6 +1,5 @@
 Straighten effect preserve size prop
 Blur border mode
-Refactor effect property string name formatting
 Refactor CurrentEffectChanged
 Don't include labels when only one property?
 Adding an effect should select it
