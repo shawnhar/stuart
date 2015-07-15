@@ -1,5 +1,6 @@
 ﻿using Microsoft.Graphics.Canvas;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace Stuart
@@ -17,6 +18,20 @@ namespace Stuart
         }
 
         EffectType type;
+
+
+        public object this[string parameterName]
+        {
+            get
+            {
+                object result;
+                return parameters.TryGetValue(parameterName, out result) ? result : null;
+            }
+
+            set { parameters[parameterName] = value; }
+        }
+
+        readonly Dictionary<string, object> parameters = new Dictionary<string, object>();
 
 
         public Effect(EditGroup parent)

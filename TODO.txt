@@ -1,4 +1,5 @@
 Edit effect properties
+Refactor CurrentEffectChanged
 Don't include labels when only one property?
 Update UI on effect type changes
 Load/save arbitrary images

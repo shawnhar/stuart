@@ -21,6 +21,8 @@ namespace Stuart
         public float Min;
         public float Max;
 
+        public float Default;
+
 
         public EffectParameter(string name)
         {
@@ -52,7 +54,7 @@ namespace Stuart
             {
                 EffectType.Sepia, new EffectMetadata(typeof(SepiaEffect))
                 {
-                    new EffectParameter("Intensity") { Min = 0, Max = 1 }
+                    new EffectParameter("Intensity") { Min = 0, Max = 1, Default = 0.5f }
                 }
             },
 
@@ -70,8 +72,8 @@ namespace Stuart
             {
                 EffectType.Vignette, new EffectMetadata(typeof(VignetteEffect))
                 {
-                    new EffectParameter("Amount") { Min = 0, Max = 1 },
-                    new EffectParameter("Curve")  { Min = 0, Max = 1 }
+                    new EffectParameter("Amount") { Min = 0, Max = 1, Default = 0.1f },
+                    new EffectParameter("Curve")  { Min = 0, Max = 1, Default = 0.5f }
                 }
             },
 
@@ -79,7 +81,7 @@ namespace Stuart
             {
                 EffectType.Blur, new EffectMetadata(typeof(GaussianBlurEffect))
                 {
-                    new EffectParameter("BlurAmount") { Min = 0, Max = 250 }
+                    new EffectParameter("BlurAmount") { Min = 0, Max = 250, Default = 3 }
                 }
             },
         };
