@@ -3,6 +3,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Numerics;
 using System.Threading.Tasks;
+using Windows.Storage.Streams;
 
 namespace Stuart
 {
@@ -28,19 +29,39 @@ namespace Stuart
         public Photo()
         {
             Edits.CollectionChanged += (sender, e) => NotifyCollectionChanged(sender, e, "Edits");
+        }
 
+
+        public async Task Load(CanvasDevice device, IRandomAccessStream stream)
+        {
+            sourceBitmap = await CanvasBitmap.LoadAsync(device, stream);
+
+            Edits.Clear();
             Edits.Add(new EditGroup(this));
+
+            SelectedEffect = null;
         }
 
 
-        public async Task Load(CanvasDevice device, string filename)
+        public async Task Save(IRandomAccessStream stream, CanvasBitmapFileFormat format)
         {
-            sourceBitmap = await CanvasBitmap.LoadAsync(device, filename);
+            using (var renderTarget = new CanvasRenderTarget(sourceBitmap.Device, Size.X, Size.Y, 96))
+            {
+                using (var drawingSession = renderTarget.CreateDrawingSession())
+                {
+                    Draw(drawingSession);
+                }
+
+                await renderTarget.SaveAsync(stream, format);
+            }
         }
 
 
-        public void Draw(CanvasDrawingSession ds)
+        public void Draw(CanvasDrawingSession drawingSession)
         {
+            if (sourceBitmap == null)
+                return;
+
             ICanvasImage image = sourceBitmap;
 
             foreach (var edit in Edits)
@@ -48,9 +69,10 @@ namespace Stuart
                 image = edit.Apply(image);
             }
 
-            ds.Units = CanvasUnits.Pixels;
+            drawingSession.Units = CanvasUnits.Pixels;
+            drawingSession.Blend = CanvasBlend.Copy;
 
-            ds.DrawImage(image);
+            drawingSession.DrawImage(image);
         }
     }
 }

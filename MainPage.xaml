@@ -19,6 +19,11 @@
         <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="auto">
 
             <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Load" Click="LoadButton_Click"/>
+                    <Button Content="Save" Click="SaveButton_Click"/>
+                </StackPanel>
+                
                 <ListView x:Name="editList"
                           ItemsSource="{Binding Edits}"
                           SelectionMode="None"
@@ -49,7 +54,6 @@
                       ZoomMode="Enabled">
             
             <canvas:CanvasControl x:Name="canvas"
-                                  CreateResources="Canvas_CreateResources"
                                   Draw="Canvas_Draw"/>
         </ScrollViewer>
         

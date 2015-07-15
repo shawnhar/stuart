@@ -1,12 +1,15 @@
-﻿using Microsoft.Graphics.Canvas.UI;
+﻿using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Numerics;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage;
+using Windows.Storage.Pickers;
 using Windows.UI;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -17,6 +20,8 @@ namespace Stuart
     public sealed partial class MainPage : Page
     {
         Photo photo = new Photo();
+
+        StorageFile currentFile;
 
 #if DEBUG
         int drawCount;
@@ -33,25 +38,85 @@ namespace Stuart
         }
 
 
-        void Canvas_CreateResources(CanvasControl sender, CanvasCreateResourcesEventArgs args)
+        async void LoadButton_Click(object sender, RoutedEventArgs e)
         {
-            args.TrackAsyncAction(CreateResourcesAsync(sender).AsAsyncAction());
+            var picker = new FileOpenPicker
+            {
+                ViewMode = PickerViewMode.Thumbnail,
+                SuggestedStartLocation = PickerLocationId.PicturesLibrary,
+                FileTypeFilter = { ".jpg", ".jpeg", ".png" }
+            };
+
+            var file = await picker.PickSingleFileAsync();
+
+            if (file == null)
+                return;
+
+            try
+            {
+                using (var stream = await file.OpenReadAsync())
+                {
+                    await photo.Load(canvas.Device, stream);
+                }
+
+                currentFile = file;
+
+                ZoomToFitPhoto();
+            }
+            catch
+            {
+                await new MessageDialog("Error loading photo").ShowAsync();
+            }
         }
 
 
-        async Task CreateResourcesAsync(CanvasControl sender)
+        async void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            await photo.Load(sender.Device, "bran.jpg");
+            if (currentFile == null)
+                return;
 
+            var picker = new FileSavePicker
+            {
+                SuggestedSaveFile = currentFile,
+                SuggestedStartLocation = PickerLocationId.PicturesLibrary,
+                DefaultFileExtension = ".jpg",
+                FileTypeChoices = { { "Image files", new List<string> { ".jpg", ".jpeg", ".png" } } }
+            };
+
+            var file = await picker.PickSaveFileAsync();
+
+            if (file == null)
+                return;
+
+            try
+            {
+                var format = file.FileType.Equals(".png", StringComparison.OrdinalIgnoreCase) ? CanvasBitmapFileFormat.Png : CanvasBitmapFileFormat.Jpeg;
+
+                using (var stream = await file.OpenAsync(FileAccessMode.ReadWrite))
+                {
+                    await photo.Save(stream, format);
+                }
+
+                currentFile = file;
+            }
+            catch
+            {
+                await new MessageDialog("Error saving photo").ShowAsync();
+            }
+        }
+
+
+        void ZoomToFitPhoto()
+        {
             // Convert the photo size from pixels to dips.
             var photoSize = photo.Size;
 
-            photoSize.X = sender.ConvertPixelsToDips((int)photoSize.X);
-            photoSize.Y = sender.ConvertPixelsToDips((int)photoSize.Y);
+            photoSize.X = canvas.ConvertPixelsToDips((int)photoSize.X);
+            photoSize.Y = canvas.ConvertPixelsToDips((int)photoSize.Y);
 
             // Size the CanvasControl to exactly fit the image.
-            sender.Width = photoSize.X;
-            sender.Height = photoSize.Y;
+            canvas.Width = photoSize.X;
+            canvas.Height = photoSize.Y;
 
             // Zoom so the whole image is visible.
             var viewSize = new Vector2((float)scrollView.ActualWidth, (float)scrollView.ActualHeight);
