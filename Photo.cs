@@ -38,9 +38,16 @@ namespace Stuart
 
         public void Draw(CanvasDrawingSession ds)
         {
+            ICanvasImage image = sourceBitmap;
+
+            foreach (var edit in Edits)
+            {
+                image = edit.Apply(image);
+            }
+
             ds.Units = CanvasUnits.Pixels;
 
-            ds.DrawImage(sourceBitmap);
+            ds.DrawImage(image);
         }
     }
 }

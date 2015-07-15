@@ -104,7 +104,7 @@
     <Compile Include="EditGroupControl.xaml.cs">
       <DependentUpon>EditGroupControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PhotoEffect.cs" />
+    <Compile Include="Effect.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

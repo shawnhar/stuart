@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using Microsoft.Graphics.Canvas;
 
 namespace Stuart
 {
@@ -34,6 +35,20 @@ namespace Stuart
         public void Dispose()
         {
             parent.Edits.Remove(this);
+        }
+
+
+        public ICanvasImage Apply(ICanvasImage image)
+        {
+            if (IsEnabled)
+            {
+                foreach (var effect in Effects)
+                {
+                    image = effect.Apply(image);
+                }
+            }
+
+            return image;
         }
     }
 }

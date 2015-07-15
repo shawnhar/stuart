@@ -1,5 +1,3 @@
-Change image effect
-Apply image effects to rendering
 Edit effect properties
 Load/save arbitrary images
 Select edit regions
@@ -18,6 +16,7 @@ Overlay text
 Drop shadow
 Glow
 Click + drag to pan on non-touch devices
+Zoom without touch or mouse wheel
 Mouse wheel zoom without requiring ctrl
 Optimize (cache effect graphs?)
 Support arbitrarily large images (WARP?)

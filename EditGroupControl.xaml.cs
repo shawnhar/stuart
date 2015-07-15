@@ -23,7 +23,7 @@ namespace Stuart
         {
             var edit = (EditGroup)DataContext;
 
-            edit.Effects.Add(new PhotoEffect(edit));
+            edit.Effects.Add(new Effect(edit));
         }
 
 

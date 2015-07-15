@@ -1,4 +1,6 @@
 ﻿using System;
+using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.Effects;
 
 namespace Stuart
 {
@@ -38,6 +40,46 @@ namespace Stuart
         public void Dispose()
         {
             parent.Effects.Remove(this);
+        }
+
+
+        public ICanvasImage Apply(ICanvasImage image)
+        {
+            switch (Type)
+            {
+                case EffectType.Blur:
+                    return new GaussianBlurEffect
+                    {
+                        Source = image
+                    };
+
+                case EffectType.Gray:
+                    return new GrayscaleEffect
+                    {
+                        Source = image
+                    };
+
+                case EffectType.Invert:
+                    return new InvertEffect
+                    {
+                        Source = image
+                    };
+
+                case EffectType.Sepia:
+                    return new SepiaEffect
+                    {
+                        Source = image
+                    };
+
+                case EffectType.Vignette:
+                    return new VignetteEffect
+                    {
+                        Source = image
+                    };
+
+                default:
+                    throw new NotImplementedException();
+            }
         }
     }
 }
