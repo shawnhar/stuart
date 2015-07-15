@@ -28,7 +28,11 @@ namespace Stuart
                 return parameters.TryGetValue(parameterName, out result) ? result : null;
             }
 
-            set { parameters[parameterName] = value; }
+            set
+            {
+                parameters[parameterName] = value;
+                NotifyPropertyChanged(parameterName);
+            }
         }
 
         readonly Dictionary<string, object> parameters = new Dictionary<string, object>();
