@@ -6,6 +6,7 @@ namespace Stuart
 {
     public enum EffectType
     {
+        Vignette,
         Sepia,
         Gray,
         Saturation,
@@ -17,7 +18,6 @@ namespace Stuart
         Edges,
         Emboss,
         Invert,
-        Vignette,
         Blur,
         Motion,
         Posterize,
@@ -61,6 +61,15 @@ namespace Stuart
 
         readonly static Dictionary<EffectType, EffectMetadata> metadata = new Dictionary<EffectType, EffectMetadata>
         {
+            // Vignette metadata.
+            {
+                EffectType.Vignette, new EffectMetadata(typeof(VignetteEffect))
+                {
+                    new EffectParameter("Amount") { Min = 0, Max = 1, Default = 0.1f },
+                    new EffectParameter("Curve")  { Min = 0, Max = 1, Default = 0.5f },
+                }
+            },
+
             // Sepia metadata.
             {
                 EffectType.Sepia, new EffectMetadata(typeof(SepiaEffect))
@@ -148,15 +157,6 @@ namespace Stuart
             // Invert metadata.
             {
                 EffectType.Invert, new EffectMetadata(typeof(InvertEffect))
-            },
-
-            // Vignette metadata.
-            {
-                EffectType.Vignette, new EffectMetadata(typeof(VignetteEffect))
-                {
-                    new EffectParameter("Amount") { Min = 0, Max = 1, Default = 0.1f },
-                    new EffectParameter("Curve")  { Min = 0, Max = 1, Default = 0.5f },
-                }
             },
 
             // Blur metadata.
