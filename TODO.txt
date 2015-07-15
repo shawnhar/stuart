@@ -1,4 +1,3 @@
-Update UI on effect type changes
 Load/save arbitrary images
 Select edit regions
 Add/remove to selection
@@ -9,6 +8,7 @@ Crop the photo
 Edit vignette color
 Edit edge detection overlay property
 Edit posterize properties
+Enable/disable individual effects
 Use RightTapped rather than drag/drop to delete items
 Better icons / splashscreen / UI layout
 Error handling around file I/O

@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml;
+﻿using System.ComponentModel;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Stuart
@@ -29,11 +30,30 @@ namespace Stuart
         {
             var self = (EffectPropertiesControl)d;
 
-            self.CurrentEffectChanged();
+            if (e.OldValue != null)
+            {
+                ((Effect)e.OldValue).PropertyChanged -= self.Effect_PropertyChanged;
+            }
+
+            if (e.NewValue != null)
+            {
+                ((Effect)e.NewValue).PropertyChanged += self.Effect_PropertyChanged;
+            }
+
+            self.RecreateWidgets();
         }
 
 
-        void CurrentEffectChanged()
+        void Effect_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Type")
+            {
+                RecreateWidgets();
+            }
+        }
+
+
+        void RecreateWidgets()
         {
             grid.Children.Clear();
 
@@ -49,16 +69,16 @@ namespace Stuart
 
                     var label = new TextBlock { Text = parameter.Name + ':' };
 
-                    var editor = CreateParameterEditor(effect, parameter);
+                    var widget = CreateParameterWidget(effect, parameter);
 
                     AddToGrid(label, row, 0);
-                    AddToGrid(editor, row, 2);
+                    AddToGrid(widget, row, 2);
                 }
             }
         }
 
 
-        static UIElement CreateParameterEditor(Effect effect, EffectParameter parameter)
+        static UIElement CreateParameterWidget(Effect effect, EffectParameter parameter)
         {
             float valueScale = (parameter.Max - parameter.Min) / 100;
 
