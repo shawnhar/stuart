@@ -1,6 +1,5 @@
 Features
     Edit vignette color
-    Edit edge detection overlay property
     Edit posterize properties
     Overlay text
     Drop shadow

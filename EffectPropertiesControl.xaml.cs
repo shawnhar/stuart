@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -80,6 +81,18 @@ namespace Stuart
 
         static UIElement CreateParameterWidget(Effect effect, EffectParameter parameter)
         {
+            if (parameter.Default is float)
+                return CreateFloatWidget(effect, parameter);
+
+            if (parameter.Default is bool)
+                return CreateBoolWidget(effect, parameter);
+
+            throw new NotImplementedException();
+        }
+
+
+        static UIElement CreateFloatWidget(Effect effect, EffectParameter parameter)
+        {
             float valueScale = (parameter.Max - parameter.Min) / 100;
 
             var slider = new Slider()
@@ -93,6 +106,20 @@ namespace Stuart
             };
 
             return slider;
+        }
+
+
+        static UIElement CreateBoolWidget(Effect effect, EffectParameter parameter)
+        {
+            var checkbox = new CheckBox()
+            {
+                IsChecked = (bool)effect.GetParameter(parameter)
+            };
+
+            checkbox.Checked   += (sender, e) => { effect.SetParameter(parameter, true);  };
+            checkbox.Unchecked += (sender, e) => { effect.SetParameter(parameter, false); };
+
+            return checkbox;
         }
 
 

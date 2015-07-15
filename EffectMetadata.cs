@@ -29,10 +29,10 @@ namespace Stuart
     {
         public string Name;
 
+        public object Default;
+
         public float Min;
         public float Max;
-
-        public float Default;
     }
 
 
@@ -60,7 +60,7 @@ namespace Stuart
 
                     Parameters =
                     {
-                        new EffectParameter { Name = "Exposure", Min = -2, Max = 2, Default = 0 }
+                        new EffectParameter { Name = "Exposure", Default = 0f, Min = -2, Max = 2 }
                     }
                 }
             },
@@ -73,10 +73,10 @@ namespace Stuart
 
                     Parameters =
                     {
-                        new EffectParameter { Name = "Highlights",     Min = -1, Max = 1,  Default = 0     },
-                        new EffectParameter { Name = "Shadows",        Min = -1, Max = 1,  Default = 0     },
-                        new EffectParameter { Name = "Clarity",        Min = -1, Max = 1,  Default = 0     },
-                        new EffectParameter { Name = "MaskBlurAmount", Min =  0, Max = 10, Default = 0.25f },
+                        new EffectParameter { Name = "Highlights",     Default = 0f,    Min = -1, Max = 1  },
+                        new EffectParameter { Name = "Shadows",        Default = 0f,    Min = -1, Max = 1  },
+                        new EffectParameter { Name = "Clarity",        Default = 0f,    Min = -1, Max = 1  },
+                        new EffectParameter { Name = "MaskBlurAmount", Default = 0.25f, Min =  0, Max = 10 },
                     }
                 }
             },
@@ -89,8 +89,8 @@ namespace Stuart
 
                     Parameters =
                     {
-                        new EffectParameter { Name = "Temperature", Min = -1, Max = 1, Default = 0 },
-                        new EffectParameter { Name = "Tint",        Min = -1, Max = 1, Default = 0 },
+                        new EffectParameter { Name = "Temperature", Default = 0f, Min = -1, Max = 1 },
+                        new EffectParameter { Name = "Tint",        Default = 0f, Min = -1, Max = 1 },
                     }
                 }
             },
@@ -103,7 +103,7 @@ namespace Stuart
 
                     Parameters =
                     {
-                        new EffectParameter { Name = "Contrast", Min = -1, Max = 1, Default = 0 }
+                        new EffectParameter { Name = "Contrast", Default = 0f, Min = -1, Max = 1 }
                     }
                 }
             },
@@ -116,7 +116,7 @@ namespace Stuart
 
                     Parameters =
                     {
-                        new EffectParameter { Name = "Saturation", Min = 0, Max = 2, Default = 0.5f }
+                        new EffectParameter { Name = "Saturation", Default = 0.5f, Min = 0, Max = 2 }
                     }
                 }
             },
@@ -137,7 +137,7 @@ namespace Stuart
 
                     Parameters =
                     {
-                       new EffectParameter { Name = "Intensity", Min = 0, Max = 1, Default = 0.5f }
+                       new EffectParameter { Name = "Intensity", Default = 0.5f, Min = 0, Max = 1 }
                     }
                 }
             },
@@ -150,8 +150,8 @@ namespace Stuart
 
                     Parameters =
                     {
-                        new EffectParameter { Name = "Amount", Min = 0, Max = 1, Default = 0.1f },
-                        new EffectParameter { Name = "Curve",  Min = 0, Max = 1, Default = 0.5f },
+                        new EffectParameter { Name = "Amount", Default = 0.1f, Min = 0, Max = 1 },
+                        new EffectParameter { Name = "Curve",  Default = 0.5f, Min = 0, Max = 1 },
                     }
                 }
             },
@@ -164,7 +164,7 @@ namespace Stuart
 
                     Parameters =
                     {
-                        new EffectParameter { Name = "BlurAmount", Min = 0, Max = 100, Default = 8 }
+                        new EffectParameter { Name = "BlurAmount", Default = 8f, Min = 0, Max = 100 }
                     },
 
                     Constants =
@@ -182,8 +182,8 @@ namespace Stuart
                     
                     Parameters =
                     {
-                        new EffectParameter { Name = "BlurAmount", Min = 0, Max = 100,            Default = 8 },
-                        new EffectParameter { Name = "Angle",      Min = 0, Max = (float)Math.PI, Default = 0 },
+                        new EffectParameter { Name = "BlurAmount", Default = 8f, Min = 0, Max = 100            },
+                        new EffectParameter { Name = "Angle",      Default = 0f, Min = 0, Max = (float)Math.PI },
                     },
 
                     Constants =
@@ -201,8 +201,8 @@ namespace Stuart
 
                     Parameters =
                     {
-                        new EffectParameter { Name = "Amount",    Min = 0, Max = 10, Default = 0 },
-                        new EffectParameter { Name = "Threshold", Min = 0, Max = 1,  Default = 0 },
+                        new EffectParameter { Name = "Amount",    Default = 0f, Min = 0, Max = 10 },
+                        new EffectParameter { Name = "Threshold", Default = 0f, Min = 0, Max = 1  },
                     }
                 }
             },
@@ -215,8 +215,9 @@ namespace Stuart
 
                     Parameters =
                     {
-                        new EffectParameter { Name = "Amount",     Min = 0, Max = 1, Default = 0.5f },
-                        new EffectParameter { Name = "BlurAmount", Min = 0, Max = 2, Default = 0    },
+                        new EffectParameter { Name = "Amount",       Default = 0.5f, Min = 0.01f, Max = 1 },
+                        new EffectParameter { Name = "BlurAmount",   Default = 0f,   Min = 0,     Max = 2 },
+                        new EffectParameter { Name = "OverlayEdges", Default = false                      },
                     }
                 }
             },
@@ -229,8 +230,8 @@ namespace Stuart
 
                     Parameters =
                     {
-                        new EffectParameter { Name = "Amount", Min = 0, Max = 10,                 Default = 1 },
-                        new EffectParameter { Name = "Angle",  Min = 0, Max = (float)Math.PI * 2, Default = 0 },
+                        new EffectParameter { Name = "Amount", Default = 1f, Min = 0, Max = 10                 },
+                        new EffectParameter { Name = "Angle",  Default = 0f, Min = 0, Max = (float)Math.PI * 2 },
                     }
                 }
             },
@@ -259,7 +260,7 @@ namespace Stuart
 
                     Parameters =
                     {
-                        new EffectParameter { Name = "Angle", Min = -(float)Math.PI / 16, Max = (float)Math.PI / 16, Default = 0 }
+                        new EffectParameter { Name = "Angle", Default = 0f, Min = -(float)Math.PI / 16, Max = (float)Math.PI / 16 }
                     },
 
                     Constants =
