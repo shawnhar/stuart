@@ -76,7 +76,15 @@ namespace Stuart
 
         void Photo_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            canvas.Invalidate();
+            switch (e.PropertyName)
+            {
+                case "SelectedEffect":
+                    break;
+
+                default:
+                    canvas.Invalidate();
+                    break;
+            }
         }
 
 
