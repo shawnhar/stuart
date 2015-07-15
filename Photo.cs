@@ -14,7 +14,7 @@ namespace Stuart
 
 
         // Properties.
-        public ObservableCollection<PhotoEdit> Edits { get; } = new ObservableCollection<PhotoEdit>();
+        public ObservableCollection<EditGroup> Edits { get; } = new ObservableCollection<EditGroup>();
 
         public Vector2 Size => sourceBitmap.Size.ToVector2();
 
@@ -26,7 +26,7 @@ namespace Stuart
 
             Edits.CollectionChanged += (sender, e) => NotifyCollectionChanged(sender, e, "Edits");
 
-            Edits.Add(new PhotoEdit(this));
+            Edits.Add(new EditGroup(this));
         }
 
 

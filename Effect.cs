@@ -12,10 +12,10 @@ namespace Stuart
     }
 
 
-    class PhotoEffect : Observable, IDisposable
+    class Effect : Observable, IDisposable
     {
         // Fields.
-        PhotoEdit parent;
+        EditGroup parent;
 
 
         // Properties.
@@ -29,7 +29,7 @@ namespace Stuart
 
 
         // Methods.
-        public PhotoEffect(PhotoEdit parent)
+        public Effect(EditGroup parent)
         {
             this.parent = parent;
         }

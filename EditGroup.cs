@@ -3,14 +3,14 @@ using System.Collections.ObjectModel;
 
 namespace Stuart
 {
-    class PhotoEdit : Observable, IDisposable
+    class EditGroup : Observable, IDisposable
     {
         // Fields.
         Photo parent;
 
 
         // Properties.
-        public ObservableCollection<PhotoEffect> Effects { get; } = new ObservableCollection<PhotoEffect>();
+        public ObservableCollection<Effect> Effects { get; } = new ObservableCollection<Effect>();
 
 
         bool isEnabled = true;
@@ -23,7 +23,7 @@ namespace Stuart
 
 
         // Methods.
-        public PhotoEdit(Photo parent)
+        public EditGroup(Photo parent)
         {
             this.parent = parent;
 

@@ -80,7 +80,7 @@ namespace Stuart
 
         void NewEdit_Click(object sender, RoutedEventArgs e)
         {
-            photo.Edits.Add(new PhotoEdit(photo));
+            photo.Edits.Add(new EditGroup(photo));
         }
 
 

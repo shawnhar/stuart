@@ -5,7 +5,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace Stuart
 {
-    public sealed partial class PhotoEditControl : UserControl
+    public sealed partial class EditGroupControl : UserControl
     {
         public static EffectType[] EffectTypes
         {
@@ -13,7 +13,7 @@ namespace Stuart
         }
 
 
-        public PhotoEditControl()
+        public EditGroupControl()
         {
             this.InitializeComponent();
         }
@@ -21,7 +21,7 @@ namespace Stuart
 
         void NewEffect_Click(object sender, RoutedEventArgs e)
         {
-            var edit = (PhotoEdit)DataContext;
+            var edit = (EditGroup)DataContext;
 
             edit.Effects.Add(new PhotoEffect(edit));
         }

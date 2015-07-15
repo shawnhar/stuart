@@ -96,13 +96,13 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Observable.cs" />
-    <Compile Include="PhotoEdit.cs" />
+    <Compile Include="EditGroup.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Photo.cs" />
-    <Compile Include="PhotoEditControl.xaml.cs">
-      <DependentUpon>PhotoEditControl.xaml</DependentUpon>
+    <Compile Include="EditGroupControl.xaml.cs">
+      <DependentUpon>EditGroupControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="PhotoEffect.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -135,7 +135,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="PhotoEditControl.xaml">
+    <Page Include="EditGroupControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
