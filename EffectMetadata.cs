@@ -8,7 +8,7 @@ namespace Stuart
     {
         Exposure,
         Highlights,
-        Temperature,
+        Temp,
         Contrast,
         Saturation,
         Gray,
@@ -83,7 +83,7 @@ namespace Stuart
 
             // Temperature metadata.
             {
-                EffectType.Temperature, new EffectMetadata
+                EffectType.Temp, new EffectMetadata
                 {
                     ImplementationType = typeof(TemperatureAndTintEffect),
 

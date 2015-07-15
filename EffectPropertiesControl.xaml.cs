@@ -67,7 +67,7 @@ namespace Stuart
                 {
                     var parameter = metadata.Parameters[row];
 
-                    var label = new TextBlock { Text = parameter.Name + ':' };
+                    var label = new TextBlock { Text = parameter.Name };
 
                     var widget = CreateParameterWidget(effect, parameter);
 
