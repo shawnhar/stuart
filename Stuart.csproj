@@ -121,7 +121,6 @@
     <None Include="Stuart.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bran.jpg" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\Logo.scale-100.png" />
     <Content Include="Assets\SmallLogo.scale-100.png" />
