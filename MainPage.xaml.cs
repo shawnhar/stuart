@@ -123,7 +123,7 @@ namespace Stuart
             var sizeRatio =  viewSize / photoSize;
             var zoomFactor = Math.Min(sizeRatio.X, sizeRatio.Y) * 0.95f;
 
-            scrollView.ChangeView(null, null, zoomFactor, disableAnimation: true);
+            scrollView.ChangeView(0, 0, zoomFactor);
         }
 
 
