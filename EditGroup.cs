@@ -26,6 +26,8 @@ namespace Stuart
             Parent = parent;
 
             Effects.CollectionChanged += (sender, e) => NotifyCollectionChanged(sender, e, "Effects");
+
+            Effects.Add(new Effect(this));
         }
 
 

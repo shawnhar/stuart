@@ -6,20 +6,20 @@ namespace Stuart
 {
     public enum EffectType
     {
-        Vignette,
-        Sepia,
-        Gray,
-        Saturation,
         Exposure,
         Highlights,
         Temperature,
         Contrast,
+        Saturation,
+        Gray,
+        Sepia,
+        Vignette,
+        Blur,
+        Motion,
         Sharpen,
         Edges,
         Emboss,
         Invert,
-        Blur,
-        Motion,
         Posterize,
         Straighten,
     }
@@ -52,54 +52,6 @@ namespace Stuart
 
         readonly static Dictionary<EffectType, EffectMetadata> metadata = new Dictionary<EffectType, EffectMetadata>
         {
-            // Vignette metadata.
-            {
-                EffectType.Vignette, new EffectMetadata
-                {
-                    ImplementationType = typeof(VignetteEffect),
-
-                    Parameters =
-                    {
-                        new EffectParameter { Name = "Amount", Min = 0, Max = 1, Default = 0.1f },
-                        new EffectParameter { Name = "Curve",  Min = 0, Max = 1, Default = 0.5f },
-                    }
-                }
-            },
-
-            // Sepia metadata.
-            {
-                EffectType.Sepia, new EffectMetadata
-                {
-                    ImplementationType = typeof(SepiaEffect),
-
-                    Parameters =
-                    {
-                       new EffectParameter { Name = "Intensity", Min = 0, Max = 1, Default = 0.5f }
-                    }
-                }
-            },
-
-            // Grayscale metadata.
-            {
-                EffectType.Gray, new EffectMetadata
-                {
-                    ImplementationType = typeof(GrayscaleEffect)
-                }
-            },
-
-            // Saturation metadata.
-            {
-                EffectType.Saturation, new EffectMetadata
-                {
-                    ImplementationType = typeof(SaturationEffect),
-
-                    Parameters =
-                    {
-                        new EffectParameter { Name = "Saturation", Min = 0, Max = 2, Default = 0.5f }
-                    }
-                }
-            },
-
             // Exposure metadata.
             {
                 EffectType.Exposure, new EffectMetadata
@@ -156,53 +108,51 @@ namespace Stuart
                 }
             },
 
-            // Sharpen metadata.
+            // Saturation metadata.
             {
-                EffectType.Sharpen, new EffectMetadata
+                EffectType.Saturation, new EffectMetadata
                 {
-                    ImplementationType = typeof(SharpenEffect),
+                    ImplementationType = typeof(SaturationEffect),
 
                     Parameters =
                     {
-                        new EffectParameter { Name = "Amount",    Min = 0, Max = 10, Default = 0 },
-                        new EffectParameter { Name = "Threshold", Min = 0, Max = 1,  Default = 0 },
+                        new EffectParameter { Name = "Saturation", Min = 0, Max = 2, Default = 0.5f }
                     }
                 }
             },
 
-            // Edges metadata.
+            // Grayscale metadata.
             {
-                EffectType.Edges, new EffectMetadata
+                EffectType.Gray, new EffectMetadata
                 {
-                    ImplementationType = typeof(EdgeDetectionEffect),
+                    ImplementationType = typeof(GrayscaleEffect)
+                }
+            },
+
+            // Sepia metadata.
+            {
+                EffectType.Sepia, new EffectMetadata
+                {
+                    ImplementationType = typeof(SepiaEffect),
 
                     Parameters =
                     {
-                        new EffectParameter { Name = "Amount",     Min = 0, Max = 1, Default = 0.5f },
-                        new EffectParameter { Name = "BlurAmount", Min = 0, Max = 2, Default = 0    },
+                       new EffectParameter { Name = "Intensity", Min = 0, Max = 1, Default = 0.5f }
                     }
                 }
             },
 
-            // Emboss metadata.
+            // Vignette metadata.
             {
-                EffectType.Emboss, new EffectMetadata
+                EffectType.Vignette, new EffectMetadata
                 {
-                    ImplementationType = typeof(EmbossEffect),
+                    ImplementationType = typeof(VignetteEffect),
 
                     Parameters =
                     {
-                        new EffectParameter { Name = "Amount", Min = 0, Max = 10,                 Default = 1 },
-                        new EffectParameter { Name = "Angle",  Min = 0, Max = (float)Math.PI * 2, Default = 0 },
+                        new EffectParameter { Name = "Amount", Min = 0, Max = 1, Default = 0.1f },
+                        new EffectParameter { Name = "Curve",  Min = 0, Max = 1, Default = 0.5f },
                     }
-                }
-            },
-
-            // Invert metadata.
-            {
-                EffectType.Invert, new EffectMetadata
-                {
-                    ImplementationType = typeof(InvertEffect)
                 }
             },
 
@@ -240,6 +190,56 @@ namespace Stuart
                     {
                         { "BorderMode", EffectBorderMode.Hard }
                     }
+                }
+            },
+
+            // Sharpen metadata.
+            {
+                EffectType.Sharpen, new EffectMetadata
+                {
+                    ImplementationType = typeof(SharpenEffect),
+
+                    Parameters =
+                    {
+                        new EffectParameter { Name = "Amount",    Min = 0, Max = 10, Default = 0 },
+                        new EffectParameter { Name = "Threshold", Min = 0, Max = 1,  Default = 0 },
+                    }
+                }
+            },
+
+            // Edge detection metadata.
+            {
+                EffectType.Edges, new EffectMetadata
+                {
+                    ImplementationType = typeof(EdgeDetectionEffect),
+
+                    Parameters =
+                    {
+                        new EffectParameter { Name = "Amount",     Min = 0, Max = 1, Default = 0.5f },
+                        new EffectParameter { Name = "BlurAmount", Min = 0, Max = 2, Default = 0    },
+                    }
+                }
+            },
+
+            // Emboss metadata.
+            {
+                EffectType.Emboss, new EffectMetadata
+                {
+                    ImplementationType = typeof(EmbossEffect),
+
+                    Parameters =
+                    {
+                        new EffectParameter { Name = "Amount", Min = 0, Max = 10,                 Default = 1 },
+                        new EffectParameter { Name = "Angle",  Min = 0, Max = (float)Math.PI * 2, Default = 0 },
+                    }
+                }
+            },
+
+            // Invert metadata.
+            {
+                EffectType.Invert, new EffectMetadata
+                {
+                    ImplementationType = typeof(InvertEffect)
                 }
             },
 
