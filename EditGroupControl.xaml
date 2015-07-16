@@ -12,7 +12,9 @@
 
     <StackPanel Orientation="Vertical" MinWidth="180">
         <StackPanel Orientation="Horizontal">
-            <ToggleButton Content="on" IsChecked="{Binding IsEnabled, Mode=TwoWay}"/>
+            <ToggleButton Content="&#128064;"
+                          ToolTipService.ToolTip="Show/hide edit group"
+                          IsChecked="{Binding IsEnabled, Mode=TwoWay}"/>
         </StackPanel>
 
         <ListView x:Name="effectList"
@@ -27,12 +29,16 @@
                     <StackPanel Orientation="Horizontal">
                         <ComboBox ItemsSource="{Binding ElementName=control, Path=EffectTypes}"
                                   SelectedItem="{Binding Type, Mode=TwoWay}"/>
+
                         <TextBlock Text="     . . ."/>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
 
-        <Button Content="+" HorizontalAlignment="Right" Click="NewEffect_Click"/>
+        <Button Content="&#10133;"
+                HorizontalAlignment="Right"
+                ToolTipService.ToolTip="Add effect"
+                Click="NewEffect_Click"/>
     </StackPanel>
 </UserControl>
