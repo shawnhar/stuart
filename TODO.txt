@@ -4,7 +4,6 @@ Regions
     Magic wand selection
     Feather selection
     Undo selection edits
-    Crop the photo
 
 UI
     Better delete UI
@@ -14,6 +13,9 @@ UI
     Mouse wheel zoom without requiring ctrl
 
 Features
+    Crop the photo
+    Fill regions with solid color
+    Background shows checker behind alpha
     Overlay text
     Drop shadow
     Glow
