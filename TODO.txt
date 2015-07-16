@@ -7,7 +7,7 @@ Regions
 
 UI
     Better delete UI
-    Better icons / splashscreen / UI layout
+    Better UI layout
     Click + drag to pan on non-touch devices
     Zoom without touch or mouse wheel
     Mouse wheel zoom without requiring ctrl
