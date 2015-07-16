@@ -1,8 +1,3 @@
-Features
-    Overlay text
-    Drop shadow
-    Glow
-
 Regions
     Select edit regions
     Add/remove to selection
@@ -17,6 +12,11 @@ UI
     Click + drag to pan on non-touch devices
     Zoom without touch or mouse wheel
     Mouse wheel zoom without requiring ctrl
+
+Features
+    Overlay text
+    Drop shadow
+    Glow
 
 Quality
     Support app suspend/resume
