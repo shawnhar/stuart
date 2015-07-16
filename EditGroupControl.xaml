@@ -7,7 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="200"
+    d:DesignHeight="100"
     d:DesignWidth="200">
 
     <StackPanel Orientation="Vertical" MinWidth="180">
@@ -15,8 +15,10 @@
             <ToggleButton Content="&#128064;"
                           ToolTipService.ToolTip="Show/hide edit group"
                           IsChecked="{Binding IsEnabled, Mode=TwoWay}"/>
+            
+            <Line X1="0" Y1="1" X2="200" Y2="1" Stroke="Gray"/>
         </StackPanel>
-
+        
         <ListView x:Name="effectList"
                   ItemsSource="{Binding Effects}"
                   SelectedValue="{Binding Parent.SelectedEffect, Mode=TwoWay}"
@@ -40,5 +42,12 @@
                 HorizontalAlignment="Right"
                 ToolTipService.ToolTip="Add effect"
                 Click="NewEffect_Click"/>
+
+        <StackPanel.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#E0E0E0" Offset="0"/>
+                <GradientStop Color="#FFFFFF" Offset="1"/>
+            </LinearGradientBrush>
+        </StackPanel.Background>
     </StackPanel>
 </UserControl>
