@@ -11,12 +11,15 @@
     d:DesignWidth="200">
 
     <StackPanel Orientation="Vertical" MinWidth="180">
+        <Rectangle Height="1" Fill="Gray"/>
+        
         <StackPanel Orientation="Horizontal">
             <ToggleButton Content="&#128064;"
                           ToolTipService.ToolTip="Show/hide edit group"
                           IsChecked="{Binding IsEnabled, Mode=TwoWay}"/>
-            
-            <Line X1="0" Y1="1" X2="200" Y2="1" Stroke="Gray"/>
+
+            <ToggleButton Content="&#x25A2;"
+                          ToolTipService.ToolTip="Edit region"/>
         </StackPanel>
         
         <ListView x:Name="effectList"
