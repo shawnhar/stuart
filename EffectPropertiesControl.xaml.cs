@@ -1,5 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
+using System.Reflection;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -90,6 +93,9 @@ namespace Stuart
             if (parameter.Default is bool)
                 return CreateBoolWidget(effect, parameter);
 
+            if (parameter.Default is Color)
+                return CreateColorWidget(effect, parameter);
+
             throw new NotImplementedException();
         }
 
@@ -142,6 +148,27 @@ namespace Stuart
             checkbox.Unchecked += (sender, e) => { effect.SetParameter(parameter, false); };
 
             return checkbox;
+        }
+
+
+        static UIElement CreateColorWidget(Effect effect, EffectParameter parameter)
+        {
+            var colorProperties = typeof(Colors).GetRuntimeProperties();
+            var colorNames = colorProperties.Select(p => p.Name).ToList();
+            var colorValues = colorProperties.Select(p => p.GetValue(null)).ToList();
+
+            var combo = new ComboBox()
+            {
+                ItemsSource = colorNames,
+                SelectedIndex = colorValues.IndexOf(effect.GetParameter(parameter))
+            };
+
+            combo.SelectionChanged += (sender, e) =>
+            {
+                effect.SetParameter(parameter, colorValues[combo.SelectedIndex]);
+            };
+
+            return combo;
         }
 
 

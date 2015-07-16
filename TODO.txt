@@ -1,5 +1,4 @@
 Features
-    Edit vignette color
     Overlay text
     Drop shadow
     Glow

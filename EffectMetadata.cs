@@ -1,6 +1,7 @@
 ﻿using Microsoft.Graphics.Canvas.Effects;
 using System;
 using System.Collections.Generic;
+using Windows.UI;
 
 namespace Stuart
 {
@@ -152,6 +153,7 @@ namespace Stuart
                     {
                         new EffectParameter { Name = "Amount", Default = 0.1f, Min = 0, Max = 1 },
                         new EffectParameter { Name = "Curve",  Default = 0.5f, Min = 0, Max = 1 },
+                        new EffectParameter { Name = "Color",  Default = Colors.Black           },
                     }
                 }
             },
