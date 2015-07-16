@@ -3,9 +3,7 @@ using Microsoft.Graphics.Canvas.UI.Xaml;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Numerics;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI;
@@ -157,25 +155,18 @@ namespace Stuart
         }
 
 
-        void EditList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
+        void Delete_Click(object sender, RoutedEventArgs e)
         {
-            e.Data.Properties.Add("DragItems", e.Items.ToArray());
-        }
+            if (photo.SelectedEffect == null)
+                return;
 
+            var edit = photo.SelectedEffect.Parent;
 
-        void TrashCan_DragEnter(object sender, DragEventArgs e)
-        {
-            e.AcceptedOperation = DataPackageOperation.Move;
-        }
+            photo.SelectedEffect.Dispose();
 
-
-        void TrashCan_Drop(object sender, DragEventArgs e)
-        {
-            var items = (object[])e.Data.GetView().Properties["DragItems"];
-
-            foreach (IDisposable item in items)
+            if (edit.Effects.Count == 0)
             {
-                item.Dispose();
+                edit.Dispose();
             }
         }
 

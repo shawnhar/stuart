@@ -48,14 +48,16 @@ namespace Stuart
         }
 
 
-        protected void SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
+        protected bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
         {
             if (EqualityComparer<T>.Default.Equals(field, value))
-                return;
+                return false;
 
             field = value;
 
             NotifyPropertyChanged(propertyName);
+
+            return true;
         }
     }
 }

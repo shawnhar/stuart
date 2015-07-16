@@ -30,8 +30,7 @@
                           SelectionMode="None"
                           CanDragItems="true"
                           AllowDrop="true"
-                          CanReorderItems="true"
-                          DragItemsStarting="EditList_DragItemsStarting">
+                          CanReorderItems="true">
                     
                     <ListView.ItemTemplate>
                         <DataTemplate>
@@ -42,7 +41,7 @@
 
                 <StackPanel Orientation="Horizontal">
                     <Button Content="+" Click="NewEdit_Click"/>
-                    <Button Content="Trash" AllowDrop="True" DragEnter="TrashCan_DragEnter" Drop="TrashCan_Drop"/>
+                    <Button Content="x" Click="Delete_Click" IsEnabled="{Binding IsEffectSelected}"/>
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>

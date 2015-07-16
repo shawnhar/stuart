@@ -6,9 +6,8 @@ Regions
     Undo selection edits
 
 UI
-    Better delete UI
     Better UI layout
-    Click + drag to pan on non-touch devices
+    Better UI icons
     Zoom without touch or mouse wheel
     Mouse wheel zoom without requiring ctrl
 

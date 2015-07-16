@@ -29,11 +29,5 @@ namespace Stuart
             edit.Effects.Add(newEffect);
             edit.Parent.SelectedEffect = newEffect;
         }
-
-
-        void EffectList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
-        {
-            e.Data.Properties.Add("DragItems", e.Items.ToArray());
-        }
     }
 }

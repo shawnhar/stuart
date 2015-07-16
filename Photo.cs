@@ -14,16 +14,26 @@ namespace Stuart
 
         public ObservableCollection<EditGroup> Edits { get; } = new ObservableCollection<EditGroup>();
 
-        public Vector2 Size => sourceBitmap.Size.ToVector2();
-
 
         public Effect SelectedEffect
         {
             get { return selectedEffect; }
-            set { SetField(ref selectedEffect, value); }
+
+            set
+            {
+                if (SetField(ref selectedEffect, value))
+                {
+                    NotifyPropertyChanged("IsEffectSelected");
+                }
+            }
         }
 
         Effect selectedEffect;
+
+
+        public bool IsEffectSelected => selectedEffect != null;
+
+        public Vector2 Size => sourceBitmap.Size.ToVector2();
 
 
         public Photo()
