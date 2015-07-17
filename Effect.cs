@@ -64,15 +64,19 @@ namespace Stuart
         {
             var metadata = EffectMetadata.Get(type);
 
+            // Instantiate the effect.
             var effect = (ICanvasImage)Activator.CreateInstance(metadata.ImplementationType);
 
+            // Set its input.
             SetProperty(effect, "Source", image);
 
+            // Set configurable parameter values.
             foreach (var parameter in metadata.Parameters)
             {
                 SetProperty(effect, parameter.Name, GetParameter(parameter));
             }
 
+            // Set any constant values.
             foreach (var constant in metadata.Constants)
             {
                 SetProperty(effect, constant.Key, constant.Value);

@@ -4,6 +4,15 @@ using Microsoft.Graphics.Canvas;
 
 namespace Stuart
 {
+    enum RegionSelectionMode
+    {
+        Rectangle,
+        Ellipse,
+        Freehand,
+        MagicWand
+    }
+
+
     // DOM type representing a group of effects that are applied to a region of the photo.
     public class EditGroup : Observable, IDisposable
     {
@@ -19,6 +28,15 @@ namespace Stuart
         }
 
         bool isEnabled = true;
+
+
+        public bool IsEditingRegion
+        {
+            get { return isEditingRegion; }
+            set { SetField(ref isEditingRegion, value); }
+        }
+
+        bool isEditingRegion;
 
 
         public EditGroup(Photo parent)

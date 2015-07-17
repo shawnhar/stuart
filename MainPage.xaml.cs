@@ -140,6 +140,7 @@ namespace Stuart
             switch (e.PropertyName)
             {
                 case "SelectedEffect":
+                case "IsEditingRegion":
                     break;
 
                 default:
@@ -155,7 +156,7 @@ namespace Stuart
         }
 
 
-        void Delete_Click(object sender, RoutedEventArgs e)
+        void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (photo.SelectedEffect == null)
                 return;

@@ -9,9 +9,9 @@
     d:DesignHeight="200"
     d:DesignWidth="300">
 
-    <Grid x:Name="grid"
-          Background="#80FFFFFF">
-        
+    <Grid x:Name="grid" Background="#80FFFFFF">
+        <!-- Children are created programmatically by the RecreateWidgets method -->
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="4"/>

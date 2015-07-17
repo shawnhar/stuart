@@ -34,11 +34,13 @@ namespace Stuart
         {
             var self = (EffectPropertiesControl)d;
 
+            // Unsubscribe events from the previous effect.
             if (e.OldValue != null)
             {
                 ((Effect)e.OldValue).PropertyChanged -= self.Effect_PropertyChanged;
             }
 
+            // Listen for property changes on the newly selected effect.
             if (e.NewValue != null)
             {
                 ((Effect)e.NewValue).PropertyChanged += self.Effect_PropertyChanged;

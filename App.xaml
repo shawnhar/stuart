@@ -4,4 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Stuart"
     RequestedTheme="Light">
+    
+    <Application.Resources>
+        <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <local:NullToBooleanConverter x:Key="NullToBooleanConverter"/>
+    </Application.Resources>
 </Application>

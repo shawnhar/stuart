@@ -16,15 +16,15 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- The editing UI -->
         <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="auto">
-
             <StackPanel Orientation="Vertical">
+                <!-- Header UI (load and save buttons) -->
                 <StackPanel Orientation="Horizontal">
-                    <Button Content="&#128194;" FontSize="27" ToolTipService.ToolTip="Open photo" Click="LoadButton_Click"/>
-                    <Button Content="&#128190;" FontSize="27" ToolTipService.ToolTip="Save photo" Click="SaveButton_Click"/>
+                    <Button Content="&#128194;" FontSize="25" ToolTipService.ToolTip="Open photo" Click="LoadButton_Click"/>
+                    <Button Content="&#128190;" FontSize="25" ToolTipService.ToolTip="Save photo" Click="SaveButton_Click"/>
                 </StackPanel>
-                
+
+                <!-- List of EditGroup instances -->
                 <ListView x:Name="editList"
                           ItemsSource="{Binding Edits}"
                           SelectionMode="None"
@@ -51,6 +51,7 @@
                     </ListView.ItemContainerStyle>
                 </ListView>
 
+                <!-- Footer UI (add group and delete buttons) -->
                 <StackPanel Orientation="Horizontal">
                     <Button Content="&#10133;"
                             ToolTipService.ToolTip="Add edit group"
@@ -58,8 +59,8 @@
                     
                     <Button Content="&#10060;"
                             ToolTipService.ToolTip="Delete selected effect"
-                            Click="Delete_Click"
-                            IsEnabled="{Binding IsEffectSelected}"/>
+                            Click="DeleteButton_Click"
+                            IsEnabled="{Binding SelectedEffect, Converter={StaticResource NullToBooleanConverter}}"/>
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>

@@ -28,6 +28,7 @@ namespace Stuart
 
         protected void NotifyCollectionChanged(object sender, NotifyCollectionChangedEventArgs e, string propertyName)
         {
+            // Unsubscribe property change events of items that were removed from the collection.
             if (e.OldItems != null)
             {
                 foreach (INotifyPropertyChanged old in e.OldItems)
@@ -36,6 +37,7 @@ namespace Stuart
                 }
             }
 
+            // Subscribe to the property change events of newly added items.
             if (e.NewItems != null)
             {
                 foreach (INotifyPropertyChanged item in e.NewItems)
@@ -44,20 +46,19 @@ namespace Stuart
                 }
             }
 
+            // Also notify listeners that the collection itself has changed.
             NotifyPropertyChanged(propertyName);
         }
 
 
-        protected bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
+        protected void SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
         {
             if (EqualityComparer<T>.Default.Equals(field, value))
-                return false;
+                return;
 
             field = value;
 
             NotifyPropertyChanged(propertyName);
-
-            return true;
         }
     }
 }
