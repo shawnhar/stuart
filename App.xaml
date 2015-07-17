@@ -6,7 +6,8 @@
     RequestedTheme="Light">
     
     <Application.Resources>
-        <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <local:EnumToIntConverter x:Key="EnumToIntConverter"/>
         <local:NullToBooleanConverter x:Key="NullToBooleanConverter"/>
+        <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Application.Resources>
 </Application>

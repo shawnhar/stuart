@@ -4,16 +4,16 @@ using Windows.UI.Xaml.Data;
 
 namespace Stuart
 {
-    class BooleanToVisibilityConverter : IValueConverter
+    class EnumToIntConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return System.Convert.ToBoolean(value) ? Visibility.Visible : Visibility.Collapsed;
+            return (int)value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            throw new NotImplementedException();
+            return value;
         }
     }
 
@@ -23,6 +23,20 @@ namespace Stuart
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             return value != null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
+    class BooleanToVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            return System.Convert.ToBoolean(value) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

@@ -28,15 +28,20 @@
         <!-- UI for configuring the edit region -->
         <StackPanel Visibility="{Binding IsEditingRegion, Converter={StaticResource BooleanToVisibilityConverter}}">
             <StackPanel Orientation="Horizontal">
-                <ComboBox>
+                <ComboBox SelectedIndex="{Binding RegionSelectionMode, Mode=TwoWay, Converter={StaticResource EnumToIntConverter}}">
                     <ComboBoxItem Content="&#9645;"   ToolTipService.ToolTip="Rectangle region selection"/>
                     <ComboBoxItem Content="&#11055;"  ToolTipService.ToolTip="Ellipse region selection"/>
                     <ComboBoxItem Content="&#8967;"   ToolTipService.ToolTip="Freehand region selection"/>
                     <ComboBoxItem Content="&#128137;" ToolTipService.ToolTip="Magic wand region selection"/>
                 </ComboBox>
 
-                <ToggleButton Content="&#x25A2;+" ToolTipService.ToolTip="Add to region"/>
-                <ToggleButton Content="&#x25A2;-" ToolTipService.ToolTip="Subtract from region"/>
+                <ToggleButton Content="&#x25A2;+"
+                              ToolTipService.ToolTip="Add to region"
+                              IsChecked="{Binding RegionAdd, Mode=TwoWay}"/>
+                
+                <ToggleButton Content="&#x25A2;-"
+                              ToolTipService.ToolTip="Subtract from region"
+                              IsChecked="{Binding RegionSubtract, Mode=TwoWay}"/>
             </StackPanel>
 
             <Grid>
@@ -56,9 +61,9 @@
                 <TextBlock Grid.Row="1" Text="Expand"/>
                 <TextBlock Grid.Row="2" Text="Simplify"/>
 
-                <Slider Grid.Row="0" Grid.Column="2" Minimum="0"   Maximum="100"/>
-                <Slider Grid.Row="1" Grid.Column="2" Minimum="-50" Maximum="50"/>
-                <Slider Grid.Row="2" Grid.Column="2" Minimum="0"   Maximum="100"/>
+                <Slider Grid.Row="0" Grid.Column="2" Minimum="0"   Maximum="100" Value="{Binding RegionFeather,  Mode=TwoWay}"/>
+                <Slider Grid.Row="1" Grid.Column="2" Minimum="-50" Maximum="50"  Value="{Binding RegionExpand,   Mode=TwoWay}"/>
+                <Slider Grid.Row="2" Grid.Column="2" Minimum="0"   Maximum="100" Value="{Binding RegionSimplify, Mode=TwoWay}"/>
 
                 <Grid.Resources>
                     <Style TargetType="TextBlock">

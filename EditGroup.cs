@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Microsoft.Graphics.Canvas;
+using System;
 using System.Collections.ObjectModel;
-using Microsoft.Graphics.Canvas;
+using System.Linq;
 
 namespace Stuart
 {
-    enum RegionSelectionMode
+    public enum RegionSelectionMode
     {
         Rectangle,
         Ellipse,
@@ -33,10 +34,56 @@ namespace Stuart
         public bool IsEditingRegion
         {
             get { return isEditingRegion; }
-            set { SetField(ref isEditingRegion, value); }
+
+            set
+            {
+                SetField(ref isEditingRegion, value);
+
+                // There can be only one!
+                if (value)
+                {
+                    foreach (var edit in Parent.Edits.Where(e => e != this))
+                    {
+                        edit.IsEditingRegion = false;
+                    }
+                }
+            }
         }
 
         bool isEditingRegion;
+
+
+        public RegionSelectionMode RegionSelectionMode { get; set; }
+
+        public bool RegionAdd { get; set; }
+        public bool RegionSubtract { get; set; }
+
+
+        public float RegionFeather
+        {
+            get { return regionFeather; }
+            set { SetField(ref regionFeather, value); }
+        }
+
+        float regionFeather;
+
+
+        public float RegionExpand
+        {
+            get { return regionExpand; }
+            set { SetField(ref regionExpand, value); }
+        }
+
+        float regionExpand;
+
+
+        public float RegionSimplify
+        {
+            get { return regionSimplify; }
+            set { SetField(ref regionSimplify, value); }
+        }
+
+        float regionSimplify;
 
 
         public EditGroup(Photo parent)
