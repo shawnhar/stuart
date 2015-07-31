@@ -5,10 +5,6 @@ Regions
     Feather selection
     Undo selection edits
 
-UI
-    Zoom without touch or mouse wheel
-    Mouse wheel zoom without requiring ctrl
-
 Features
     Crop the photo
     Fill regions with solid color
@@ -23,4 +19,7 @@ Quality
     Handle DPI change
     Test on Phone
     Optimize (cache effect graphs?)
-    Support arbitrarily large images (WARP?)
+
+Non-touch UI
+    Zoom without touch or mouse wheel
+    Mouse wheel zoom without requiring ctrl
