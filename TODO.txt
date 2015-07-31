@@ -1,7 +1,5 @@
 Regions
-    Select edit regions
     Add/remove to selection
-    Magic wand selection
     Feather selection
     Undo selection edits
     Display selection region

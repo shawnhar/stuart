@@ -1,4 +1,5 @@
 ﻿using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.Effects;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -110,9 +111,28 @@ namespace Stuart
         {
             if (IsEnabled)
             {
+                var originalImage = image;
+
+                // Apply all our effects in turn.
                 foreach (var effect in Effects)
                 {
                     image = effect.Apply(image);
+                }
+
+                if (Region.Mask != null)
+                {
+                    // Select only a specific region where we want this effect to be applied.
+                    var selectedRegion = new CompositeEffect
+                    {
+                        Sources = { image, Region.Mask },
+                        Mode = CanvasComposite.DestinationIn
+                    };
+
+                    // Blend the selected region over the original unprocessed image.
+                    image = new CompositeEffect
+                    {
+                        Sources = { originalImage, selectedRegion }
+                    };
                 }
             }
 

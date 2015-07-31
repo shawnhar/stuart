@@ -178,6 +178,8 @@ namespace Stuart
             if (editingRegion == null)
                 return;
 
+            editingRegion.Region.EditRegion(regionPoints, scrollView.ZoomFactor);
+
             editingRegion = null;
             regionPoints.Clear();
 
