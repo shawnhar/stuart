@@ -3,6 +3,7 @@ using Microsoft.Graphics.Canvas.UI.Xaml;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Numerics;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -18,6 +19,9 @@ namespace Stuart
     public sealed partial class MainPage : Page
     {
         Photo photo = new Photo();
+
+        EditGroup currentRegion;
+        readonly List<Vector2> regionPoints = new List<Vector2>();
 
         StorageFile currentFile;
 
@@ -132,6 +136,55 @@ namespace Stuart
 #if DEBUG
             args.DrawingSession.DrawText((++drawCount).ToString(), 0, 0, Colors.Cyan);
 #endif
+        }
+
+
+        void Canvas_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            if (currentRegion != null)
+                return;
+
+            // If any of the edit groups is in edit region mode, set that as our current region.
+            currentRegion = photo.Edits.SingleOrDefault(edit => edit.IsEditingRegion);
+
+            if (currentRegion == null)
+                return;
+
+            // Add the start point.
+            regionPoints.Add(e.GetCurrentPoint(canvas).Position.ToVector2());
+
+            // Set manipulation mode so we grab all input, bypassing our parent ScrollViewer.
+            canvas.ManipulationMode = ManipulationModes.All;
+            canvas.Invalidate();
+            e.Handled = true;
+        }
+
+
+        void Canvas_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            if (currentRegion == null)
+                return;
+
+            currentRegion = null;
+            regionPoints.Clear();
+
+            // Restore the manipulation mode so input goes to the parent ScrollViewer again.
+            canvas.ManipulationMode = ManipulationModes.System;
+            canvas.Invalidate();
+            e.Handled = true;
+        }
+
+
+        void Canvas_PointerMoved(object sender, PointerRoutedEventArgs e)
+        {
+            if (currentRegion == null)
+                return;
+
+            // Add points to the edit region.
+            regionPoints.AddRange(e.GetIntermediatePoints(canvas).Select(point => point.Position.ToVector2()));
+
+            canvas.Invalidate();
+            e.Handled = true;
         }
 
 

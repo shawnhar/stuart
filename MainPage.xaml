@@ -71,9 +71,12 @@
                       VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Auto"
                       ZoomMode="Enabled">
-            
+
             <canvas:CanvasControl x:Name="canvas"
-                                  Draw="Canvas_Draw"/>
+                                  Draw="Canvas_Draw"
+                                  PointerPressed="Canvas_PointerPressed"
+                                  PointerReleased="Canvas_PointerReleased"
+                                  PointerMoved="Canvas_PointerMoved"/>
         </ScrollViewer>
         
         <!-- Overlay properties of the currently selected effect -->
