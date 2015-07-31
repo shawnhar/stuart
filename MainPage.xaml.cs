@@ -131,10 +131,21 @@ namespace Stuart
 
         void Canvas_Draw(CanvasControl sender, CanvasDrawEventArgs args)
         {
+            var drawingSession = args.DrawingSession;
+
+            drawingSession.Units = CanvasUnits.Pixels;
+            drawingSession.Blend = CanvasBlend.Copy;
+
             photo.Draw(args.DrawingSession);
 
+            if (currentRegion != null)
+            {
+                Region.DrawSelection(drawingSession, regionPoints, currentRegion.RegionSelectionMode, scrollView.ZoomFactor);
+            }
+
 #if DEBUG
-            args.DrawingSession.DrawText((++drawCount).ToString(), 0, 0, Colors.Cyan);
+            drawingSession.Blend = CanvasBlend.SourceOver;
+            drawingSession.DrawText((++drawCount).ToString(), 0, 0, Colors.Cyan);
 #endif
         }
 
@@ -153,8 +164,10 @@ namespace Stuart
             // Add the start point.
             regionPoints.Add(e.GetCurrentPoint(canvas).Position.ToVector2());
 
-            // Set manipulation mode so we grab all input, bypassing our parent ScrollViewer.
+            // Set the manipulation mode so we grab all input, bypassing our parent ScrollViewer.
             canvas.ManipulationMode = ManipulationModes.All;
+            canvas.CapturePointer(e.Pointer);
+
             canvas.Invalidate();
             e.Handled = true;
         }
@@ -170,6 +183,8 @@ namespace Stuart
 
             // Restore the manipulation mode so input goes to the parent ScrollViewer again.
             canvas.ManipulationMode = ManipulationModes.System;
+            canvas.ReleasePointerCapture(e.Pointer);
+
             canvas.Invalidate();
             e.Handled = true;
         }

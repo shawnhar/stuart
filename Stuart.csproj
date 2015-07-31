@@ -114,6 +114,7 @@
     </Compile>
     <Compile Include="Effect.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Region.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Stuart.appxmanifest">

@@ -69,9 +69,6 @@ namespace Stuart
                 image = edit.Apply(image);
             }
 
-            drawingSession.Units = CanvasUnits.Pixels;
-            drawingSession.Blend = CanvasBlend.Copy;
-
             drawingSession.DrawImage(image);
         }
     }

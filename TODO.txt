@@ -4,6 +4,7 @@ Regions
     Magic wand selection
     Feather selection
     Undo selection edits
+    Display selection region
 
 Features
     Crop the photo

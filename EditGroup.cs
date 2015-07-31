@@ -21,6 +21,8 @@ namespace Stuart
 
         public ObservableCollection<Effect> Effects { get; } = new ObservableCollection<Effect>();
 
+        public Region Region { get; } = new Region();
+
 
         public bool IsEnabled
         {
