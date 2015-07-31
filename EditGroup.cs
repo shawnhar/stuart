@@ -121,10 +121,23 @@ namespace Stuart
 
                 if (Region.Mask != null)
                 {
-                    // Select only a specific region where we want this effect to be applied.
+                    ICanvasImage mask = Region.Mask;
+
+                    // Feather the selection?
+                    if (RegionFeather > 0)
+                    {
+                        mask = new GaussianBlurEffect
+                        {
+                            Source = mask,
+                            BlurAmount = RegionFeather,
+                            BorderMode = EffectBorderMode.Hard
+                        };
+                    }
+
+                    // Mask out only the selected region of our processed image.
                     var selectedRegion = new CompositeEffect
                     {
-                        Sources = { image, Region.Mask },
+                        Sources = { image, mask },
                         Mode = CanvasComposite.DestinationIn
                     };
 
