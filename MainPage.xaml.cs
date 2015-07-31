@@ -140,7 +140,7 @@ namespace Stuart
 
             if (editingRegion != null)
             {
-                editingRegion.Region.DrawSelection(drawingSession, regionPoints, scrollView.ZoomFactor);
+                editingRegion.DisplayRegionSelection(drawingSession, regionPoints, scrollView.ZoomFactor);
             }
 
 #if DEBUG
@@ -178,7 +178,7 @@ namespace Stuart
             if (editingRegion == null)
                 return;
 
-            editingRegion.Region.EditRegion(regionPoints, scrollView.ZoomFactor);
+            editingRegion.EditRegionMask(regionPoints, scrollView.ZoomFactor);
 
             editingRegion = null;
             regionPoints.Clear();
