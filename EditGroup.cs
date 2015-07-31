@@ -167,7 +167,7 @@ namespace Stuart
 
         public void EditRegionMask(List<Vector2> points, float zoomFactor)
         {
-            // Demand create our region mask image.
+            // Demand-create our region mask image.
             if (regionMask == null)
             {
                 var bitmapSize = SourceBitmap.Size.ToVector2();
@@ -175,36 +175,47 @@ namespace Stuart
                 regionMask = new CanvasRenderTarget(SourceBitmap.Device, bitmapSize.X, bitmapSize.Y, 96);
             }
 
-            // Apply the edit.
-            using (var drawingSession = regionMask.CreateDrawingSession())
+            // Prepare an image holding the edit to be applied.
+            ICanvasImage editMask;
+
+            if (RegionSelectionMode == RegionSelectionMode.MagicWand)
             {
-                if (RegionAdd)
-                {
-                    // TODO
-                }
-                else if (RegionSubtract)
-                {
-                    // TODO
-                }
-                else
-                {
-                    drawingSession.Clear(Colors.Transparent);
-                }
+                // Magic wand selection is already an image.
+                editMask = GetMagicWandMask(points, zoomFactor);
+            }
+            else
+            {
+                // Draw selection geometry into a command list.
+                var commandList = new CanvasCommandList(regionMask.Device);
 
-                if (RegionSelectionMode == RegionSelectionMode.MagicWand)
+                using (var drawingSession = commandList.CreateDrawingSession())
                 {
-                    // Apply a magic wand selection.
-                    var mask = GetMagicWandMask(points, zoomFactor);
-
-                    drawingSession.DrawImage(mask);
-                }
-                else
-                {
-                    // Apply a geometric shape selection.
                     var geometry = GetSelectionGeometry(drawingSession, points);
 
                     drawingSession.FillGeometry(geometry, Colors.White);
                 }
+
+                editMask = commandList;
+            }
+
+            // Apply the edit.
+            using (var drawingSession = regionMask.CreateDrawingSession())
+            {
+                if (!RegionAdd && !RegionSubtract)
+                {
+                    drawingSession.Clear(Colors.Transparent);
+                }
+
+                // Add modes use standard SourceOver blending.
+                CanvasComposite compositeMode = CanvasComposite.SourceOver;
+
+                // Subtract modes use Xor (if add+subtract are both set) or DestinationOut (regular subtract).
+                if (RegionSubtract)
+                {
+                    compositeMode = RegionAdd ? CanvasComposite.Xor : CanvasComposite.DestinationOut;
+                }
+
+                drawingSession.DrawImage(editMask, Vector2.Zero, regionMask.Bounds, 1, CanvasImageInterpolation.Linear, compositeMode);
             }
         }
 

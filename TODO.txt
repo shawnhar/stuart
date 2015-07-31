@@ -1,6 +1,4 @@
 Regions
-    Add/remove to selection
-    Feather selection
     Undo selection edits
     Display selection region
 
