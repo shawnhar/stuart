@@ -20,7 +20,7 @@ namespace Stuart
     {
         Photo photo = new Photo();
 
-        EditGroup currentRegion;
+        EditGroup editingRegion;
         readonly List<Vector2> regionPoints = new List<Vector2>();
 
         StorageFile currentFile;
@@ -138,9 +138,9 @@ namespace Stuart
 
             photo.Draw(args.DrawingSession);
 
-            if (currentRegion != null)
+            if (editingRegion != null)
             {
-                Region.DrawSelection(drawingSession, regionPoints, currentRegion.RegionSelectionMode, scrollView.ZoomFactor);
+                editingRegion.Region.DrawSelection(drawingSession, regionPoints, scrollView.ZoomFactor);
             }
 
 #if DEBUG
@@ -152,13 +152,13 @@ namespace Stuart
 
         void Canvas_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            if (currentRegion != null)
+            if (editingRegion != null)
                 return;
 
             // If any of the edit groups is in edit region mode, set that as our current region.
-            currentRegion = photo.Edits.SingleOrDefault(edit => edit.IsEditingRegion);
+            editingRegion = photo.Edits.SingleOrDefault(edit => edit.IsEditingRegion);
 
-            if (currentRegion == null)
+            if (editingRegion == null)
                 return;
 
             // Add the start point.
@@ -175,10 +175,10 @@ namespace Stuart
 
         void Canvas_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            if (currentRegion == null)
+            if (editingRegion == null)
                 return;
 
-            currentRegion = null;
+            editingRegion = null;
             regionPoints.Clear();
 
             // Restore the manipulation mode so input goes to the parent ScrollViewer again.
@@ -192,7 +192,7 @@ namespace Stuart
 
         void Canvas_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            if (currentRegion == null)
+            if (editingRegion == null)
                 return;
 
             // Add points to the edit region.

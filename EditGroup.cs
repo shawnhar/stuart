@@ -19,9 +19,9 @@ namespace Stuart
     {
         public Photo Parent { get; private set; }
 
-        public ObservableCollection<Effect> Effects { get; } = new ObservableCollection<Effect>();
+        public Region Region { get; private set; }
 
-        public Region Region { get; } = new Region();
+        public ObservableCollection<Effect> Effects { get; } = new ObservableCollection<Effect>();
 
 
         public bool IsEnabled
@@ -91,6 +91,8 @@ namespace Stuart
         public EditGroup(Photo parent)
         {
             Parent = parent;
+
+            Region = new Region(this);
 
             Effects.CollectionChanged += (sender, e) => NotifyCollectionChanged(sender, e, "Effects");
 

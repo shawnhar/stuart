@@ -10,9 +10,9 @@ namespace Stuart
     // Top level DOM type stores the photo plus a list of edits.
     public class Photo : Observable
     {
-        CanvasBitmap sourceBitmap;
+        public CanvasBitmap SourceBitmap { get; private set; }
 
-        public Vector2 Size => sourceBitmap.Size.ToVector2();
+        public Vector2 Size => SourceBitmap.Size.ToVector2();
 
         public ObservableCollection<EditGroup> Edits { get; } = new ObservableCollection<EditGroup>();
 
@@ -34,7 +34,7 @@ namespace Stuart
 
         public async Task Load(CanvasDevice device, IRandomAccessStream stream)
         {
-            sourceBitmap = await CanvasBitmap.LoadAsync(device, stream);
+            SourceBitmap = await CanvasBitmap.LoadAsync(device, stream);
 
             Edits.Clear();
             Edits.Add(new EditGroup(this));
@@ -45,7 +45,7 @@ namespace Stuart
 
         public async Task Save(IRandomAccessStream stream, CanvasBitmapFileFormat format)
         {
-            using (var renderTarget = new CanvasRenderTarget(sourceBitmap.Device, Size.X, Size.Y, 96))
+            using (var renderTarget = new CanvasRenderTarget(SourceBitmap.Device, Size.X, Size.Y, 96))
             {
                 using (var drawingSession = renderTarget.CreateDrawingSession())
                 {
@@ -59,10 +59,10 @@ namespace Stuart
 
         public void Draw(CanvasDrawingSession drawingSession)
         {
-            if (sourceBitmap == null)
+            if (SourceBitmap == null)
                 return;
 
-            ICanvasImage image = sourceBitmap;
+            ICanvasImage image = SourceBitmap;
 
             foreach (var edit in Edits)
             {
