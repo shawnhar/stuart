@@ -4,3 +4,4 @@ packages/
 .vs/
 *.user
 Visual Studio 2015/
+project.lock.json
