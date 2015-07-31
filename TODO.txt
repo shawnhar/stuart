@@ -1,6 +1,7 @@
 Regions
-    Undo selection edits
+    Crashes if you edit selection with no doc loaded
     Display selection region
+    Undo selection edits
 
 Features
     Crop the photo
