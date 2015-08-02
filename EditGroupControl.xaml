@@ -55,11 +55,11 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0" Text="Dilate"/>
-                <TextBlock Grid.Row="1" Text="Feather"/>
+                <TextBlock Grid.Row="0" Text="Feather"/>
+                <TextBlock Grid.Row="1" Text="Dilate"/>
 
-                <Slider Grid.Row="0" Grid.Column="2" Minimum="-40" Maximum="40"  Value="{Binding RegionDilate,   Mode=TwoWay}"/>
-                <Slider Grid.Row="1" Grid.Column="2" Minimum="0"   Maximum="100" Value="{Binding RegionFeather,  Mode=TwoWay}"/>
+                <Slider Grid.Row="0" Grid.Column="2" Minimum="0"   Maximum="100" Value="{Binding RegionFeather,  Mode=TwoWay}"/>
+                <Slider Grid.Row="1" Grid.Column="2" Minimum="-40" Maximum="40"  Value="{Binding RegionDilate,   Mode=TwoWay}"/>
 
                 <Grid.Resources>
                     <Style TargetType="TextBlock">

@@ -75,15 +75,6 @@ namespace Stuart
         public SelectionOperation RegionSelectionOperation { get; set; }
 
 
-        public int RegionDilate
-        {
-            get { return regionDilate; }
-            set { SetField(ref regionDilate, value); }
-        }
-
-        int regionDilate;
-
-
         public float RegionFeather
         {
             get { return regionFeather; }
@@ -91,6 +82,15 @@ namespace Stuart
         }
 
         float regionFeather;
+
+
+        public int RegionDilate
+        {
+            get { return regionDilate; }
+            set { SetField(ref regionDilate, value); }
+        }
+
+        int regionDilate;
 
 
         public EditGroup(Photo parent)
