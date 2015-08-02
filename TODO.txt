@@ -1,23 +1,25 @@
-Regions
+Bugs
     Crashes if you edit selection with no doc loaded
-    Display selection region
-    Undo selection edits
 
 Features
+    Display selection region
+    Undo selection edits
+    Show/hide individual effects
     Crop the photo
-    Fill regions with solid color
-    Background shows checker behind alpha
-    Overlay text
-    Drop shadow
-    Glow
 
-Quality
+Perf
+    Cache selection masks
+    Cache processed photo during selection edits
+
+UI
+    Selection add/remove mode -> combo
+    Move delete effect button to effect group
+    Zoom without touch or mouse wheel
+    Mouse wheel zoom without requiring ctrl
+    Help page
+
+Robustness
     Support app suspend/resume
     Handle lost devices
     Handle DPI change
     Test on Phone
-    Optimize (cache effect graphs?)
-
-Non-touch UI
-    Zoom without touch or mouse wheel
-    Mouse wheel zoom without requiring ctrl
