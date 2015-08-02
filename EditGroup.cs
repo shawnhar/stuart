@@ -10,7 +10,7 @@ using Windows.UI;
 
 namespace Stuart
 {
-    public enum RegionSelectionMode
+    public enum SelectionMode
     {
         Rectangle,
         Ellipse,
@@ -62,7 +62,7 @@ namespace Stuart
         bool isEditingRegion;
 
 
-        public RegionSelectionMode RegionSelectionMode { get; set; }
+        public SelectionMode RegionSelectionMode { get; set; }
 
         public bool RegionAdd { get; set; }
         public bool RegionSubtract { get; set; }
@@ -178,7 +178,7 @@ namespace Stuart
             // Prepare an image holding the edit to be applied.
             ICanvasImage editMask;
 
-            if (RegionSelectionMode == RegionSelectionMode.MagicWand)
+            if (RegionSelectionMode == SelectionMode.MagicWand)
             {
                 // Magic wand selection is already an image.
                 editMask = GetMagicWandMask(points, zoomFactor);
@@ -222,7 +222,7 @@ namespace Stuart
 
         public void DisplayRegionSelection(CanvasDrawingSession drawingSession, List<Vector2> points, float zoomFactor)
         {
-            if (RegionSelectionMode == RegionSelectionMode.MagicWand)
+            if (RegionSelectionMode == SelectionMode.MagicWand)
             {
                 // Display a magic wand selection.
                 var mask = GetMagicWandMask(points, zoomFactor);
@@ -329,7 +329,7 @@ namespace Stuart
 
             switch (RegionSelectionMode)
             {
-                case RegionSelectionMode.Rectangle:
+                case SelectionMode.Rectangle:
                     {
                         Vector2 min = Vector2.Min(start, end);
                         Vector2 size = Vector2.Abs(start - end);
@@ -337,7 +337,7 @@ namespace Stuart
                         return CanvasGeometry.CreateRectangle(resourceCreator, min.X, min.Y, size.X, size.Y);
                     }
 
-                case RegionSelectionMode.Ellipse:
+                case SelectionMode.Ellipse:
                     {
                         Vector2 center = (start + end) / 2;
                         Vector2 radius = Vector2.Abs(start - end) / 2;
@@ -345,7 +345,7 @@ namespace Stuart
                         return CanvasGeometry.CreateEllipse(resourceCreator, center, radius.X, radius.Y);
                     }
 
-                case RegionSelectionMode.Freehand:
+                case SelectionMode.Freehand:
                     {
                         return CanvasGeometry.CreatePolygon(resourceCreator, points.ToArray());
                     }
