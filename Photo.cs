@@ -59,9 +59,6 @@ namespace Stuart
 
         public void Draw(CanvasDrawingSession drawingSession)
         {
-            if (SourceBitmap == null)
-                return;
-
             ICanvasImage image = SourceBitmap;
 
             foreach (var edit in Edits)

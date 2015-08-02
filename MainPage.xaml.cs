@@ -52,7 +52,14 @@ namespace Stuart
             var file = await picker.PickSingleFileAsync();
 
             if (file == null)
+            {
+                if (currentFile == null)
+                {
+                    Application.Current.Exit();
+                }
+
                 return;
+            }
 
             try
             {
@@ -74,9 +81,6 @@ namespace Stuart
 
         async void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            if (currentFile == null)
-                return;
-
             var picker = new FileSavePicker
             {
                 SuggestedSaveFile = currentFile,
@@ -131,6 +135,9 @@ namespace Stuart
 
         void Canvas_Draw(CanvasControl sender, CanvasDrawEventArgs args)
         {
+            if (currentFile == null)
+                return;
+
             var drawingSession = args.DrawingSession;
 
             drawingSession.Units = CanvasUnits.Pixels;

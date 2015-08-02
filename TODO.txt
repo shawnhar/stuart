@@ -1,6 +1,3 @@
-Bugs
-    Crashes if you edit selection with no doc loaded
-
 Features
     Display selection region
     Undo selection edits
