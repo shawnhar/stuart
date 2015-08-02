@@ -35,13 +35,12 @@
                     <ComboBoxItem Content="&#128137;" ToolTipService.ToolTip="Magic wand region selection"/>
                 </ComboBox>
 
-                <ToggleButton Content="&#x25A2;+"
-                              ToolTipService.ToolTip="Add to region"
-                              IsChecked="{Binding RegionAdd, Mode=TwoWay}"/>
-                
-                <ToggleButton Content="&#x25A2;-"
-                              ToolTipService.ToolTip="Subtract from region"
-                              IsChecked="{Binding RegionSubtract, Mode=TwoWay}"/>
+                <ComboBox SelectedIndex="{Binding RegionSelectionOperation, Mode=TwoWay, Converter={StaticResource EnumToIntConverter}}">
+                    <ComboBoxItem Content="="      ToolTipService.ToolTip="Replace region"/>
+                    <ComboBoxItem Content="+"      ToolTipService.ToolTip="Add to region"/>
+                    <ComboBoxItem Content="-"      ToolTipService.ToolTip="Subtract from region"/>
+                    <ComboBoxItem Content="&#177;" ToolTipService.ToolTip="Invert region"/>
+                </ComboBox>
             </StackPanel>
 
             <Grid>

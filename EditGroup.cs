@@ -19,6 +19,15 @@ namespace Stuart
     }
 
 
+    public enum SelectionOperation
+    {
+        Replace,
+        Add,
+        Subtract,
+        Invert
+    }
+
+
     // DOM type representing a group of effects that are applied to a region of the photo.
     public class EditGroup : Observable, IDisposable
     {
@@ -63,9 +72,7 @@ namespace Stuart
 
 
         public SelectionMode RegionSelectionMode { get; set; }
-
-        public bool RegionAdd { get; set; }
-        public bool RegionSubtract { get; set; }
+        public SelectionOperation RegionSelectionOperation { get; set; }
 
 
         public int RegionDilate
@@ -201,18 +208,29 @@ namespace Stuart
             // Apply the edit.
             using (var drawingSession = regionMask.CreateDrawingSession())
             {
-                if (!RegionAdd && !RegionSubtract)
-                {
-                    drawingSession.Clear(Colors.Transparent);
-                }
+                CanvasComposite compositeMode;
 
-                // Add modes use standard SourceOver blending.
-                CanvasComposite compositeMode = CanvasComposite.SourceOver;
-
-                // Subtract modes use Xor (if add+subtract are both set) or DestinationOut (regular subtract).
-                if (RegionSubtract)
+                switch (RegionSelectionOperation)
                 {
-                    compositeMode = RegionAdd ? CanvasComposite.Xor : CanvasComposite.DestinationOut;
+                    case SelectionOperation.Replace:
+                        drawingSession.Clear(Colors.Transparent);
+                        compositeMode = CanvasComposite.SourceOver;
+                        break;
+
+                    case SelectionOperation.Add:
+                        compositeMode = CanvasComposite.SourceOver;
+                        break;
+
+                    case SelectionOperation.Subtract:
+                        compositeMode = CanvasComposite.DestinationOut;
+                        break;
+
+                    case SelectionOperation.Invert:
+                        compositeMode = CanvasComposite.Xor;
+                        break;
+
+                    default:
+                        throw new NotSupportedException();
                 }
 
                 drawingSession.DrawImage(editMask, Vector2.Zero, regionMask.Bounds, 1, CanvasImageInterpolation.Linear, compositeMode);

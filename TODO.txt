@@ -9,7 +9,6 @@ Perf
     Cache processed photo during selection edits
 
 UI
-    Selection add/remove mode -> combo
     Move delete effect button to effect group
     Zoom without touch or mouse wheel
     Mouse wheel zoom without requiring ctrl
