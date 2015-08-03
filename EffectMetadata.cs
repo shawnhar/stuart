@@ -11,7 +11,7 @@ namespace Stuart
         Highlights,
         Temp,
         Contrast,
-        Saturation,
+        Saturate,
         Gray,
         Sepia,
         Vignette,
@@ -109,9 +109,9 @@ namespace Stuart
                 }
             },
 
-            // Saturation metadata.
+            // Saturate metadata.
             {
-                EffectType.Saturation, new EffectMetadata
+                EffectType.Saturate, new EffectMetadata
                 {
                     ImplementationType = typeof(SaturationEffect),
 

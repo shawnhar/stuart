@@ -22,6 +22,15 @@ namespace Stuart
         EffectType type;
 
 
+        public bool IsEnabled
+        {
+            get { return isEnabled; }
+            set { SetField(ref isEnabled, value); }
+        }
+
+        bool isEnabled = true;
+
+
         public Effect(EditGroup parent)
         {
             Parent = parent;
@@ -62,6 +71,9 @@ namespace Stuart
 
         public ICanvasImage Apply(ICanvasImage image)
         {
+            if (!IsEnabled)
+                return image;
+
             var metadata = EffectMetadata.Get(type);
 
             // Instantiate the effect.

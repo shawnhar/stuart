@@ -1,6 +1,5 @@
 Features
     Undo selection edits
-    Show/hide individual effects
     Crop the photo
 
 Perf
@@ -11,6 +10,8 @@ UI
     Move delete effect button to effect group
     Zoom without touch or mouse wheel
     Mouse wheel zoom without requiring ctrl
+    Drag + drop to open files
+    Open-with from Explorer
     Help page
 
 Robustness

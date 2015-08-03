@@ -10,7 +10,7 @@
     d:DesignHeight="250"
     d:DesignWidth="250">
 
-    <StackPanel Orientation="Vertical" Width="180">
+    <StackPanel Orientation="Vertical" Width="204">
         <!-- Horizontal line for visual separation between each EditGroup -->
         <Rectangle Height="1" Fill="Gray"/>
 
@@ -43,7 +43,7 @@
                 </ComboBox>
 
                 <ToggleButton Content="&#128064;"
-                              ToolTipService.ToolTip="Show region border"
+                              ToolTipService.ToolTip="Show region"
                               IsChecked="{Binding ShowRegion, Mode=TwoWay}"/>
             </StackPanel>
 
@@ -85,10 +85,14 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
+                        <ToggleButton Content="&#128064;"
+                                      ToolTipService.ToolTip="Enable effect"
+                                      IsChecked="{Binding IsEnabled, Mode=TwoWay}"/>
+
                         <ComboBox ItemsSource="{Binding ElementName=control, Path=EffectTypes}"
                                   SelectedItem="{Binding Type, Mode=TwoWay}"/>
 
-                        <TextBlock Text="     . . ."/>
+                        <TextBlock Text="   . . ."/>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
