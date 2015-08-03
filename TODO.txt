@@ -1,5 +1,4 @@
 Features
-    Display selection region
     Undo selection edits
     Show/hide individual effects
     Crop the photo

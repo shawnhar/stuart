@@ -145,9 +145,14 @@ namespace Stuart
 
             photo.Draw(args.DrawingSession);
 
+            foreach (var edit in photo.Edits)
+            {
+                edit.DisplayRegionMask(drawingSession, scrollView.ZoomFactor, editingRegion != null);
+            }
+
             if (editingRegion != null)
             {
-                editingRegion.DisplayRegionSelection(drawingSession, regionPoints, scrollView.ZoomFactor);
+                editingRegion.DisplayRegionEditInProgress(drawingSession, regionPoints, scrollView.ZoomFactor);
             }
 
 #if DEBUG
@@ -217,7 +222,6 @@ namespace Stuart
             switch (e.PropertyName)
             {
                 case "SelectedEffect":
-                case "IsEditingRegion":
                     break;
 
                 default:

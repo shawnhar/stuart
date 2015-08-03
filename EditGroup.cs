@@ -150,7 +150,7 @@ namespace Stuart
             {
                 mask = new MorphologyEffect
                 {
-                    Source = mask,
+                    Source = new BorderEffect { Source = mask },
                     Mode = (regionDilate > 0) ? MorphologyEffectMode.Dilate : MorphologyEffectMode.Erode,
                     Height = Math.Abs(regionDilate),
                     Width = Math.Abs(regionDilate)
@@ -238,7 +238,47 @@ namespace Stuart
         }
 
 
-        public void DisplayRegionSelection(CanvasDrawingSession drawingSession, List<Vector2> points, float zoomFactor)
+        public void DisplayRegionMask(CanvasDrawingSession drawingSession, float zoomFactor, bool editInProgress)
+        {
+            if (regionMask == null || !IsEditingRegion)
+                return;
+
+            if (editInProgress && RegionSelectionOperation == SelectionOperation.Replace)
+                return;
+
+            drawingSession.Blend = CanvasBlend.SourceOver;
+
+            if (!editInProgress)
+            {
+                // Gray out everything outside the region.
+                var mask = new ColorMatrixEffect
+                {
+                    Source = GetRegionMask(),
+
+                    ColorMatrix = new Matrix5x4
+                    {
+                        // Set RGB = gray.
+                        M51 = 0.5f,
+                        M52 = 0.5f,
+                        M53 = 0.5f,
+
+                        // Invert and scale the mask alpha.
+                        M44 = -0.75f,
+                        M54 = 0.75f,
+                    }
+                };
+
+                drawingSession.DrawImage(mask);
+            }
+
+            // Magenta region border.
+            var border = GetSelectionBorder(regionMask, zoomFactor);
+
+            drawingSession.DrawImage(border);
+        }
+
+
+        public void DisplayRegionEditInProgress(CanvasDrawingSession drawingSession, List<Vector2> points, float zoomFactor)
         {
             if (RegionSelectionMode == SelectionMode.MagicWand)
             {
