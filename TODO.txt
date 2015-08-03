@@ -5,6 +5,7 @@ Features
 Perf
     Cache selection masks
     Cache processed photo during selection edits
+    Cache entire effect graphs?
 
 UI
     Drag + drop to open files
