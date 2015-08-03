@@ -8,7 +8,6 @@ using System.Numerics;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
-using Windows.UI;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -26,9 +25,7 @@ namespace Stuart
 
         StorageFile currentFile;
 
-#if DEBUG
-        int drawCount;
-#endif
+        float? lastDrawnZoomFactor;
 
 
         public MainPage()
@@ -141,25 +138,28 @@ namespace Stuart
 
             var drawingSession = args.DrawingSession;
 
+            // Draw the main photo image.
             drawingSession.Units = CanvasUnits.Pixels;
             drawingSession.Blend = CanvasBlend.Copy;
 
             photo.Draw(args.DrawingSession);
 
+            // Highlight the current region (if any).
+            lastDrawnZoomFactor = null;
+
             foreach (var edit in photo.Edits)
             {
-                edit.DisplayRegionMask(drawingSession, scrollView.ZoomFactor, editingRegion != null);
+                if (edit.DisplayRegionMask(drawingSession, scrollView.ZoomFactor, editingRegion != null))
+                {
+                    lastDrawnZoomFactor = scrollView.ZoomFactor;
+                }
             }
 
+            // Display any in-progress region edits.
             if (editingRegion != null)
             {
                 editingRegion.DisplayRegionEditInProgress(drawingSession, regionPoints, scrollView.ZoomFactor);
             }
-
-#if DEBUG
-            drawingSession.Blend = CanvasBlend.SourceOver;
-            drawingSession.DrawText((++drawCount).ToString(), 0, 0, Colors.Cyan);
-#endif
         }
 
 
@@ -256,6 +256,17 @@ namespace Stuart
                 default:
                     canvas.Invalidate();
                     break;
+            }
+        }
+
+
+        void ScrollView_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        {
+            if (!e.IsIntermediate && 
+                lastDrawnZoomFactor.HasValue && 
+                lastDrawnZoomFactor != scrollView.ZoomFactor)
+            {
+                canvas.Invalidate();
             }
         }
 

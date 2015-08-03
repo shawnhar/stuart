@@ -66,7 +66,8 @@
                       Grid.Column="1"
                       VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Auto"
-                      ZoomMode="Enabled">
+                      ZoomMode="Enabled"
+                      ViewChanged="ScrollView_ViewChanged">
 
             <canvas:CanvasControl x:Name="canvas"
                                   Draw="Canvas_Draw"

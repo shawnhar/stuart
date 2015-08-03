@@ -247,13 +247,13 @@ namespace Stuart
         }
 
 
-        public void DisplayRegionMask(CanvasDrawingSession drawingSession, float zoomFactor, bool editInProgress)
+        public bool DisplayRegionMask(CanvasDrawingSession drawingSession, float zoomFactor, bool editInProgress)
         {
             if (!IsEnabled || !IsEditingRegion || !ShowRegion || regionMask == null)
-                return;
+                return false;
 
             if (editInProgress && RegionSelectionOperation == SelectionOperation.Replace)
-                return;
+                return false;
 
             drawingSession.Blend = CanvasBlend.SourceOver;
 
@@ -284,6 +284,8 @@ namespace Stuart
             var border = GetSelectionBorder(regionMask, zoomFactor);
 
             drawingSession.DrawImage(border);
+
+            return true;
         }
 
 
