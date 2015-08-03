@@ -8,6 +8,7 @@ using System.Numerics;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
+using Windows.UI.Input;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -124,7 +125,7 @@ namespace Stuart
 
             // Zoom so the whole image is visible.
             var viewSize = new Vector2((float)scrollView.ActualWidth, (float)scrollView.ActualHeight);
-            var sizeRatio =  viewSize / photoSize;
+            var sizeRatio = viewSize / photoSize;
             var zoomFactor = Math.Min(sizeRatio.X, sizeRatio.Y) * 0.95f;
 
             scrollView.ChangeView(0, 0, zoomFactor);
@@ -147,9 +148,11 @@ namespace Stuart
             // Highlight the current region (if any).
             lastDrawnZoomFactor = null;
 
+            var zoomFactor = ConvertDipsToPixels(scrollView.ZoomFactor);
+
             foreach (var edit in photo.Edits)
             {
-                if (edit.DisplayRegionMask(drawingSession, scrollView.ZoomFactor, editingRegion != null))
+                if (edit.DisplayRegionMask(drawingSession, zoomFactor, editingRegion != null))
                 {
                     lastDrawnZoomFactor = scrollView.ZoomFactor;
                 }
@@ -158,7 +161,7 @@ namespace Stuart
             // Display any in-progress region edits.
             if (editingRegion != null)
             {
-                editingRegion.DisplayRegionEditInProgress(drawingSession, regionPoints, scrollView.ZoomFactor);
+                editingRegion.DisplayRegionEditInProgress(drawingSession, regionPoints, zoomFactor);
             }
         }
 
@@ -175,7 +178,7 @@ namespace Stuart
                 return;
 
             // Add the start point.
-            regionPoints.Add(e.GetCurrentPoint(canvas).Position.ToVector2());
+            regionPoints.Add(ConvertDipsToPixels(e.GetCurrentPoint(canvas)));
 
             // Set the manipulation mode so we grab all input, bypassing our parent ScrollViewer.
             canvas.ManipulationMode = ManipulationModes.All;
@@ -191,7 +194,7 @@ namespace Stuart
             if (editingRegion == null)
                 return;
 
-            editingRegion.EditRegionMask(regionPoints, scrollView.ZoomFactor);
+            editingRegion.EditRegionMask(regionPoints, ConvertDipsToPixels(scrollView.ZoomFactor));
 
             editingRegion = null;
             regionPoints.Clear();
@@ -211,7 +214,8 @@ namespace Stuart
                 return;
 
             // Add points to the edit region.
-            regionPoints.AddRange(e.GetIntermediatePoints(canvas).Select(point => point.Position.ToVector2()));
+            regionPoints.AddRange(from point in e.GetIntermediatePoints(canvas)
+                                  select ConvertDipsToPixels(point));
 
             canvas.Invalidate();
             e.Handled = true;
@@ -262,8 +266,8 @@ namespace Stuart
 
         void ScrollView_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
         {
-            if (!e.IsIntermediate && 
-                lastDrawnZoomFactor.HasValue && 
+            if (!e.IsIntermediate &&
+                lastDrawnZoomFactor.HasValue &&
                 lastDrawnZoomFactor != scrollView.ZoomFactor)
             {
                 canvas.Invalidate();
@@ -280,6 +284,21 @@ namespace Stuart
         void Background_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             photo.SelectedEffect = null;
+        }
+
+
+        float ConvertDipsToPixels(float value)
+        {
+            return value * canvas.Dpi / 96;
+        }
+
+
+        Vector2 ConvertDipsToPixels(PointerPoint point)
+        {
+            var value = point.Position.ToVector2();
+
+            return new Vector2(ConvertDipsToPixels(value.X),
+                               ConvertDipsToPixels(value.Y));
         }
     }
 }
