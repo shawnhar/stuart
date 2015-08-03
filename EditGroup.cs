@@ -186,9 +186,7 @@ namespace Stuart
             // Demand-create our region mask image.
             if (regionMask == null)
             {
-                var bitmapSize = SourceBitmap.Size.ToVector2();
-
-                regionMask = new CanvasRenderTarget(SourceBitmap.Device, bitmapSize.X, bitmapSize.Y, 96);
+                regionMask = new CanvasRenderTarget(SourceBitmap.Device, Parent.Size.X, Parent.Size.Y, 96);
             }
 
             // Prepare an image holding the edit to be applied.

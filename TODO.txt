@@ -8,6 +8,7 @@ Perf
     Cache entire effect graphs?
 
 UI
+    Spaces in property labels
     Drag + drop to open files
     Open-with from Explorer
     Help page
