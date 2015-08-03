@@ -7,6 +7,7 @@ using System.Linq;
 using System.Numerics;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.System;
 using Windows.UI;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -256,6 +257,34 @@ namespace Stuart
         void Background_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             photo.SelectedEffect = null;
+        }
+
+
+        void Page_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.A || e.Key== VirtualKey.Z)
+            {
+                var currentZoom = scrollView.ZoomFactor;
+                var newZoom = currentZoom;
+
+                if (e.Key == VirtualKey.A)
+                    newZoom /= 0.9f;
+                else
+                    newZoom *= 0.9f;
+
+                newZoom = Math.Max(newZoom, scrollView.MinZoomFactor);
+                newZoom = Math.Min(newZoom, scrollView.MaxZoomFactor);
+
+                var currentPan = new Vector2((float)scrollView.HorizontalOffset,
+                                             (float)scrollView.VerticalOffset);
+
+                var centerOffset = new Vector2((float)scrollView.ViewportWidth,
+                                               (float)scrollView.ViewportHeight) / 2;
+
+                var newPan = ((currentPan + centerOffset) * newZoom / currentZoom) - centerOffset;
+
+                scrollView.ChangeView(newPan.X, newPan.Y, newZoom);
+            }
         }
     }
 }

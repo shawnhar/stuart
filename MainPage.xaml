@@ -8,7 +8,8 @@
     xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml"
     mc:Ignorable="d"
     Loaded="LoadButton_Click"
-    PointerPressed="Background_PointerPressed">
+    PointerPressed="Background_PointerPressed"
+    KeyDown="Page_KeyDown">
 
     <Grid>
         <Grid.ColumnDefinitions>
