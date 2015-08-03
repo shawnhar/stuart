@@ -17,7 +17,7 @@
         <!-- Header UI (enable and region buttons) -->
         <StackPanel Orientation="Horizontal">
             <ToggleButton Content="&#128064;"
-                          ToolTipService.ToolTip="Show/hide edit results"
+                          ToolTipService.ToolTip="Enable edit group"
                           IsChecked="{Binding IsEnabled, Mode=TwoWay}"/>
 
             <ToggleButton Content="&#x25A2;"
@@ -41,6 +41,10 @@
                     <ComboBoxItem Content="-"      ToolTipService.ToolTip="Subtract from region"/>
                     <ComboBoxItem Content="&#177;" ToolTipService.ToolTip="Invert region"/>
                 </ComboBox>
+
+                <ToggleButton Content="&#128064;"
+                              ToolTipService.ToolTip="Show region border"
+                              IsChecked="{Binding ShowRegion, Mode=TwoWay}"/>
             </StackPanel>
 
             <Grid>

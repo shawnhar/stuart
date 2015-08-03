@@ -71,6 +71,15 @@ namespace Stuart
         bool isEditingRegion;
 
 
+        public bool ShowRegion
+        {
+            get { return showRegion; }
+            set { SetField(ref showRegion, value); }
+        }
+
+        bool showRegion = true;
+
+
         public SelectionMode RegionSelectionMode { get; set; }
         public SelectionOperation RegionSelectionOperation { get; set; }
 
@@ -240,7 +249,7 @@ namespace Stuart
 
         public void DisplayRegionMask(CanvasDrawingSession drawingSession, float zoomFactor, bool editInProgress)
         {
-            if (regionMask == null || !IsEditingRegion)
+            if (!IsEnabled || !IsEditingRegion || !ShowRegion || regionMask == null)
                 return;
 
             if (editInProgress && RegionSelectionOperation == SelectionOperation.Replace)
