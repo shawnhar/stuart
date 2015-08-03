@@ -8,7 +8,6 @@ Perf
 
 UI
     Move delete effect button to effect group
-    Zoom without touch or mouse wheel
     Drag + drop to open files
     Open-with from Explorer
     Help page

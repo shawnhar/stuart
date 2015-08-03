@@ -8,8 +8,8 @@
     xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml"
     mc:Ignorable="d"
     Loaded="LoadButton_Click"
-    PointerPressed="Background_PointerPressed"
-    KeyDown="Page_KeyDown">
+    KeyDown="Page_KeyDown"
+    PointerPressed="Background_PointerPressed">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -77,7 +77,8 @@
                                   Draw="Canvas_Draw"
                                   PointerPressed="Canvas_PointerPressed"
                                   PointerReleased="Canvas_PointerReleased"
-                                  PointerMoved="Canvas_PointerMoved"/>
+                                  PointerMoved="Canvas_PointerMoved"
+                                  IsTabStop="true"/>
         </ScrollViewer>
         
         <!-- Overlay properties of the currently selected effect -->
