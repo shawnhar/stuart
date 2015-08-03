@@ -13,6 +13,7 @@ UI
     Help page
 
 Robustness
+    High DPI doesn't work properly
     Support app suspend/resume
     Handle lost devices
     Handle DPI change
