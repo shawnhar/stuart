@@ -98,11 +98,19 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <!-- Footer UI (add effect button) -->
-        <Button Content="&#10133;"
-                HorizontalAlignment="Right"
-                ToolTipService.ToolTip="Add effect"
-                Click="NewEffect_Click"/>
+        <!-- Footer UI (delete and add effect buttons) -->
+        <StackPanel Orientation="Horizontal" 
+                    HorizontalAlignment="Right">
+            
+            <Button Content="&#10060;"
+                    ToolTipService.ToolTip="Delete selected effect"
+                    Click="DeleteButton_Click"
+                    IsEnabled="{Binding SelectedItem, ElementName=effectList, Converter={StaticResource NullToBooleanConverter}}"/>
+
+            <Button Content="&#10133;"
+                    ToolTipService.ToolTip="Add effect"
+                    Click="NewEffect_Click"/>
+        </StackPanel>
 
         <StackPanel.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">

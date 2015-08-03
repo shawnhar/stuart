@@ -29,5 +29,20 @@ namespace Stuart
             edit.Effects.Add(newEffect);
             edit.Parent.SelectedEffect = newEffect;
         }
+
+
+        void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            var effect = (Effect)effectList.SelectedValue;
+
+            var edit = effect.Parent;
+
+            effect.Dispose();
+
+            if (edit.Effects.Count == 0)
+            {
+                edit.Dispose();
+            }
+        }
     }
 }

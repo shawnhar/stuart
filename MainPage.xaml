@@ -19,6 +19,7 @@
 
         <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="auto">
             <StackPanel Orientation="Vertical">
+                
                 <!-- Header UI (load and save buttons) -->
                 <StackPanel Orientation="Horizontal">
                     <Button Content="&#128194;" FontSize="25" ToolTipService.ToolTip="Open photo" Click="LoadButton_Click"/>
@@ -52,17 +53,11 @@
                     </ListView.ItemContainerStyle>
                 </ListView>
 
-                <!-- Footer UI (add group and delete buttons) -->
-                <StackPanel Orientation="Horizontal">
-                    <Button Content="&#10133;"
-                            ToolTipService.ToolTip="Add edit group"
-                            Click="NewEdit_Click"/>
-                    
-                    <Button Content="&#10060;"
-                            ToolTipService.ToolTip="Delete selected effect"
-                            Click="DeleteButton_Click"
-                            IsEnabled="{Binding SelectedEffect, Converter={StaticResource NullToBooleanConverter}}"/>
-                </StackPanel>
+                <!-- Footer UI (add group button) -->
+                <Button Content="&#10133;"
+                        ToolTipService.ToolTip="Add edit group"
+                        Click="NewEdit_Click"/>
+                
             </StackPanel>
         </ScrollViewer>
 

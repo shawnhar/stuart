@@ -266,22 +266,6 @@ namespace Stuart
         }
 
 
-        void DeleteButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (photo.SelectedEffect == null)
-                return;
-
-            var edit = photo.SelectedEffect.Parent;
-
-            photo.SelectedEffect.Dispose();
-
-            if (edit.Effects.Count == 0)
-            {
-                edit.Dispose();
-            }
-        }
-
-
         void Background_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             photo.SelectedEffect = null;

@@ -7,7 +7,6 @@ Perf
     Cache processed photo during selection edits
 
 UI
-    Move delete effect button to effect group
     Drag + drop to open files
     Open-with from Explorer
     Help page
