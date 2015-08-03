@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -73,7 +74,7 @@ namespace Stuart
                 {
                     var parameter = metadata.Parameters[row];
 
-                    var label = new TextBlock { Text = parameter.Name };
+                    var label = new TextBlock { Text = FormatParameterName(parameter.Name) };
 
                     var widget = CreateParameterWidget(effect, parameter);
 
@@ -180,6 +181,12 @@ namespace Stuart
             element.SetValue(Grid.ColumnProperty, column);
 
             grid.Children.Add(element);
+        }
+
+
+        static string FormatParameterName(string name)
+        {
+            return new Regex("(?<!^)([A-Z])").Replace(name, " $1");
         }
     }
 }

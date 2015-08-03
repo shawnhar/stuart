@@ -8,7 +8,6 @@ Perf
     Cache entire effect graphs?
 
 UI
-    Spaces in property labels
     Drag + drop to open files
     Open-with from Explorer
     Help page
@@ -17,4 +16,4 @@ Robustness
     Support app suspend/resume
     Handle lost devices
     Handle DPI change
-    Test on Phone
+    Support Phone
