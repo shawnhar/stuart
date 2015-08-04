@@ -7,7 +7,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml"
     mc:Ignorable="d"
-    Loaded="LoadButton_Click"
     KeyDown="Page_KeyDown"
     AllowDrop="True"
     DragEnter="Page_DragEnter"
@@ -93,6 +92,7 @@
                       ViewChanged="ScrollView_ViewChanged">
 
             <canvas:CanvasControl x:Name="canvas"
+                                  CreateResources="canvas_CreateResources"
                                   Draw="Canvas_Draw"
                                   PointerPressed="Canvas_PointerPressed"
                                   PointerReleased="Canvas_PointerReleased"

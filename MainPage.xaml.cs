@@ -1,4 +1,5 @@
 ﻿using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.UI;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Navigation;
 
 namespace Stuart
 {
@@ -26,6 +28,7 @@ namespace Stuart
         Photo photo = new Photo();
 
         StorageFile currentFile;
+        IReadOnlyList<IStorageItem> filesToOpen;
 
         EditGroup editingRegion;
         readonly List<Vector2> regionPoints = new List<Vector2>();
@@ -54,6 +57,39 @@ namespace Stuart
             {
                 var action = StatusBar.GetForCurrentView().HideAsync();
             }
+        }
+
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            filesToOpen = e.Parameter as IReadOnlyList<IStorageItem>;
+
+            base.OnNavigatedTo(e);
+        }
+
+
+        void canvas_CreateResources(CanvasControl sender, CanvasCreateResourcesEventArgs args)
+        {
+            if (!TryLoadPhoto(filesToOpen))
+            {
+                LoadButton_Click(null, null);
+            }
+        }
+
+
+        public bool TryLoadPhoto(IReadOnlyList<IStorageItem> storageItems)
+        {
+            if (storageItems == null)
+                return false;
+
+            var file = GetSingleImageFile(storageItems);
+
+            if (file == null)
+                return false;
+
+            LoadPhoto(file);
+
+            return true;
         }
 
 
@@ -162,6 +198,68 @@ namespace Stuart
             {
                 await new MessageDialog("Error saving photo").ShowAsync();
             }
+        }
+
+
+        void Page_DragEnter(object sender, DragEventArgs e)
+        {
+            HandleDrop(e, file =>
+            {
+                e.AcceptedOperation = DataPackageOperation.Copy;
+                e.DragUIOverride.IsCaptionVisible = false;
+            });
+        }
+
+
+        void Page_Drop(object sender, DragEventArgs e)
+        {
+            HandleDrop(e, file =>
+            {
+                LoadPhoto(file);
+            });
+        }
+
+
+        static async void HandleDrop(DragEventArgs e, Action<StorageFile> handleDroppedFile)
+        {
+            if (!e.DataView.Contains(StandardDataFormats.StorageItems))
+                return;
+
+            var deferral = e.GetDeferral();
+
+            try
+            {
+                var storageItems = await e.DataView.GetStorageItemsAsync();
+
+                var file = GetSingleImageFile(storageItems);
+
+                if (file != null)
+                {
+                    handleDroppedFile(file);
+
+                    e.Handled = true;
+                }
+            }
+            finally
+            {
+                deferral.Complete();
+            }
+        }
+
+
+        static StorageFile GetSingleImageFile(IReadOnlyList<IStorageItem> storageItems)
+        {
+            var imageFiles = storageItems.Where(item => item is StorageFile)
+                                         .Cast<StorageFile>()
+                                         .ToList();
+
+            if (imageFiles.Any(file => !imageFileExtensions.Contains(file.FileType, StringComparer.OrdinalIgnoreCase)))
+                return null;
+
+            if (imageFiles.Count() != 1)
+                return null;
+
+            return imageFiles.Single();
         }
 
 
@@ -340,55 +438,6 @@ namespace Stuart
         void Background_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             photo.SelectedEffect = null;
-        }
-
-
-        void Page_DragEnter(object sender, DragEventArgs e)
-        {
-            HandleDrop(e, file =>
-            {
-                e.AcceptedOperation = DataPackageOperation.Copy;
-                e.DragUIOverride.IsCaptionVisible = false;
-            });
-        }
-
-
-        void Page_Drop(object sender, DragEventArgs e)
-        {
-            HandleDrop(e, file =>
-            {
-                LoadPhoto(file);
-            });
-        }
-
-
-        static async void HandleDrop(DragEventArgs e, Action<StorageFile> handleDroppedFile)
-        {
-            if (!e.DataView.Contains(StandardDataFormats.StorageItems))
-                return;
-
-            var deferral = e.GetDeferral();
-
-            try
-            {
-                var storageItems = await e.DataView.GetStorageItemsAsync();
-
-                var imageFiles = storageItems.Where(item => item is StorageFile)
-                                             .Cast<StorageFile>()
-                                             .Where(file => imageFileExtensions.Contains(file.FileType, StringComparer.OrdinalIgnoreCase))
-                                             .ToList();
-
-                if (imageFiles.Count() == 1)
-                {
-                    handleDroppedFile(imageFiles.Single());
-
-                    e.Handled = true;
-                }
-            }
-            finally
-            {
-                deferral.Complete();
-            }
         }
 
 

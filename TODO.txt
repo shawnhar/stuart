@@ -6,7 +6,6 @@ Perf
     Cache processed photo during selection edits
 
 UI
-    Open-with from Explorer
     Magic wand drag should be DPI aware
     Help page
 
@@ -14,3 +13,4 @@ Robustness
     Support app suspend/resume
     Handle lost devices
     Handle DPI change
+    Test on Phone
