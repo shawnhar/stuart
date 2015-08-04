@@ -3,6 +3,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Numerics;
 using System.Threading.Tasks;
+using Windows.Foundation;
 using Windows.Storage.Streams;
 
 namespace Stuart
@@ -53,23 +54,35 @@ namespace Stuart
 
         public async Task Save(IRandomAccessStream stream, CanvasBitmapFileFormat format)
         {
-            using (var renderTarget = new CanvasRenderTarget(sourceBitmap.Device, Size.X, Size.Y, 96))
+            var image = GetImage();
+
+            // Measure the extent of the image (which may be cropped).
+            Rect imageBounds;
+
+            using (var commandList = new CanvasCommandList(sourceBitmap.Device))
+            using (var drawingSession = commandList.CreateDrawingSession())
+            {
+                imageBounds = image.GetBounds(drawingSession);
+            }
+
+            // Rasterize the image into a rendertarget.
+            using (var renderTarget = new CanvasRenderTarget(sourceBitmap.Device, (float)imageBounds.Width, (float)imageBounds.Height, 96))
             {
                 using (var drawingSession = renderTarget.CreateDrawingSession())
                 {
-                    Draw(drawingSession);
+                    drawingSession.Blend = CanvasBlend.Copy;
+
+                    drawingSession.DrawImage(image, -(float)imageBounds.X, -(float)imageBounds.Y);
                 }
 
+                // Save it out.
                 await renderTarget.SaveAsync(stream, format);
             }
         }
 
 
-        public void Draw(CanvasDrawingSession drawingSession)
+        public ICanvasImage GetImage()
         {
-            if (sourceBitmap == null)
-                return;
-
             ICanvasImage image = sourceBitmap;
 
             foreach (var edit in Edits)
@@ -77,7 +90,7 @@ namespace Stuart
                 image = edit.Apply(image);
             }
 
-            drawingSession.DrawImage(image);
+            return image;
         }
     }
 }

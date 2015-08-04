@@ -136,13 +136,18 @@ namespace Stuart
 
         void Canvas_Draw(CanvasControl sender, CanvasDrawEventArgs args)
         {
+            if (photo.SourceBitmap == null)
+                return;
+
             var drawingSession = args.DrawingSession;
 
-            // Draw the main photo image.
             drawingSession.Units = CanvasUnits.Pixels;
             drawingSession.Blend = CanvasBlend.Copy;
 
-            photo.Draw(args.DrawingSession);
+            // Draw the main photo image.
+            var image = photo.GetImage();
+
+            drawingSession.DrawImage(image);
 
             // Highlight the current region (if any).
             lastDrawnZoomFactor = null;

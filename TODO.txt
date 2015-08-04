@@ -1,6 +1,5 @@
 Features
     Undo selection edits
-    Crop the photo
 
 Perf
     Cache selection masks
