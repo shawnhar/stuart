@@ -1,12 +1,15 @@
 ﻿using Microsoft.Graphics.Canvas.Effects;
 using System;
 using System.Collections.Generic;
+using Windows.Foundation;
 using Windows.UI;
 
 namespace Stuart
 {
     public enum EffectType
     {
+        Crop,
+        Straighten,
         Exposure,
         Highlights,
         Temp,
@@ -22,7 +25,6 @@ namespace Stuart
         Emboss,
         Invert,
         Posterize,
-        Straighten,
     }
 
 
@@ -53,6 +55,40 @@ namespace Stuart
 
         readonly static Dictionary<EffectType, EffectMetadata> metadata = new Dictionary<EffectType, EffectMetadata>
         {
+            // Crop metadata.
+            {
+                EffectType.Crop, new EffectMetadata
+                {
+                    ImplementationType = typeof(CropEffect),
+
+                    Parameters =
+                    {
+                        new EffectParameter { Name = "SourceRectangle", Default = new Rect(float.NegativeInfinity,
+                                                                                           float.NegativeInfinity,
+                                                                                           float.PositiveInfinity,
+                                                                                           float.PositiveInfinity) }
+                    }
+                }
+            },
+
+            // Straighten metadata.
+            {
+                EffectType.Straighten, new EffectMetadata
+                {
+                    ImplementationType = typeof(StraightenEffect),
+
+                    Parameters =
+                    {
+                        new EffectParameter { Name = "Angle", Default = 0f, Min = -(float)Math.PI / 16, Max = (float)Math.PI / 16 }
+                    },
+
+                    Constants =
+                    {
+                        { "MaintainSize", true }
+                    }
+                }
+            },
+
             // Exposure metadata.
             {
                 EffectType.Exposure, new EffectMetadata
@@ -181,7 +217,7 @@ namespace Stuart
                 EffectType.Motion, new EffectMetadata
                 {
                     ImplementationType = typeof(DirectionalBlurEffect),
-                    
+
                     Parameters =
                     {
                         new EffectParameter { Name = "BlurAmount", Default = 8f, Min = 0, Max = 100            },
@@ -257,24 +293,6 @@ namespace Stuart
                         new EffectParameter { Name = "RedValueCount",   Default = 4, Min = 2, Max = 16 },
                         new EffectParameter { Name = "GreenValueCount", Default = 4, Min = 2, Max = 16 },
                         new EffectParameter { Name = "BlueValueCount",  Default = 4, Min = 2, Max = 16 },
-                    }
-                }
-            },
-
-            // Straighten metadata.
-            {
-                EffectType.Straighten, new EffectMetadata
-                {
-                    ImplementationType = typeof(StraightenEffect),
-
-                    Parameters =
-                    {
-                        new EffectParameter { Name = "Angle", Default = 0f, Min = -(float)Math.PI / 16, Max = (float)Math.PI / 16 }
-                    },
-
-                    Constants =
-                    {
-                        { "MaintainSize", true }
                     }
                 }
             },

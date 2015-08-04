@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Numerics;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -47,7 +50,7 @@ namespace Stuart
                 ((Effect)e.NewValue).PropertyChanged += self.Effect_PropertyChanged;
             }
 
-            self.RecreateWidgets();
+            self.CreateWidgets();
         }
 
 
@@ -55,51 +58,73 @@ namespace Stuart
         {
             if (e.PropertyName == "Type")
             {
-                RecreateWidgets();
+                CreateWidgets();
             }
         }
 
 
-        void RecreateWidgets()
+        void CreateWidgets()
         {
             grid.Children.Clear();
 
             var effect = CurrentEffect;
 
-            if (effect != null)
+            if (effect == null)
+                return;
+
+            var metadata = EffectMetadata.Get(effect.Type);
+
+            // Create XAML elements and choose their label strings.
+            var widgets = new List<UIElement>();
+            var widgetNames = new List<string>();
+
+            foreach (var parameter in metadata.Parameters)
             {
-                var metadata = EffectMetadata.Get(effect.Type);
+                CreateParameterWidgets(effect, parameter, widgets, widgetNames);
 
-                for (int row = 0; row < metadata.Parameters.Count; row++)
+                if (widgetNames.Count < widgets.Count)
                 {
-                    var parameter = metadata.Parameters[row];
-
-                    var label = new TextBlock { Text = FormatParameterName(parameter.Name) };
-
-                    var widget = CreateParameterWidget(effect, parameter);
-
-                    AddToGrid(label, row, 0);
-                    AddToGrid(widget, row, 2);
+                    widgetNames.Add(FormatParameterName(parameter.Name));
                 }
+            }
+
+            // Populate the grid.
+            for (int row = 0; row < widgets.Count; row++)
+            {
+                var label = new TextBlock { Text = widgetNames[row] };
+
+                AddToGrid(label, row, 0);
+                AddToGrid(widgets[row], row, 2);
             }
         }
 
 
-        static UIElement CreateParameterWidget(Effect effect, EffectParameter parameter)
+        static void CreateParameterWidgets(Effect effect, EffectParameter parameter, List<UIElement> widgets, List<string> widgetNames)
         {
             if (parameter.Default is float)
-                return CreateFloatWidget(effect, parameter);
-
-            if (parameter.Default is int)
-                return CreateIntWidget(effect, parameter);
-
-            if (parameter.Default is bool)
-                return CreateBoolWidget(effect, parameter);
-
-            if (parameter.Default is Color)
-                return CreateColorWidget(effect, parameter);
-
-            throw new NotImplementedException();
+            {
+                widgets.Add(CreateFloatWidget(effect, parameter));
+            }
+            else if (parameter.Default is int)
+            {
+                widgets.Add(CreateIntWidget(effect, parameter));
+            }
+            else if (parameter.Default is bool)
+            {
+                widgets.Add(CreateBoolWidget(effect, parameter));
+            }
+            else if (parameter.Default is Color)
+            {
+                widgets.Add(CreateColorWidget(effect, parameter));
+            }
+            else if (parameter.Default is Rect)
+            {
+                CreateRectWidgets(effect, parameter, widgets, widgetNames);
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
         }
 
 
@@ -172,6 +197,90 @@ namespace Stuart
             };
 
             return combo;
+        }
+
+
+        static void CreateRectWidgets(Effect effect, EffectParameter parameter, List<UIElement> widgets, List<string> widgetNames)
+        {
+            Vector2 imageSize = effect.Parent.Parent.Size;
+
+            Vector2 topLeft;
+            Vector2 bottomRight;
+
+            // Read the current rectangle (infinity means not initialized).
+            var initialValue = (Rect)effect.GetParameter(parameter);
+
+            if (double.IsInfinity(initialValue.Width))
+            {
+                topLeft = Vector2.Zero;
+                bottomRight = imageSize;
+            }
+            else
+            {
+                topLeft = new Vector2((float)initialValue.Left, (float)initialValue.Top);
+                bottomRight = new Vector2((float)initialValue.Right, (float)initialValue.Bottom);
+            }
+
+            // Create four sliders.
+            for (int i = 0; i < 4; i++)
+            {
+                int whichSlider = i;
+
+                var slider = new Slider();
+
+                // Initialize the slider position.
+                switch (whichSlider)
+                {
+                    case 0:
+                        slider.Value = topLeft.X * 100 / imageSize.X;
+                        break;
+
+                    case 1:
+                        slider.Value = bottomRight.X * 100 / imageSize.X;
+                        break;
+
+                    case 2:
+                        slider.Value = topLeft.Y * 100 / imageSize.Y;
+                        break;
+
+                    case 3:
+                        slider.Value = bottomRight.Y * 100 / imageSize.Y;
+                        break;
+                }
+
+                // Respond to slider changes.
+                slider.ValueChanged += (sender, e) =>
+                {
+                    switch (whichSlider)
+                    {
+                        case 0:
+                            topLeft.X = (float)e.NewValue * imageSize.X / 100;
+                            break;
+
+                        case 1:
+                            bottomRight.X = (float)e.NewValue * imageSize.X / 100;
+                            break;
+
+                        case 2:
+                            topLeft.Y = (float)e.NewValue * imageSize.Y / 100;
+                            break;
+
+                        case 3:
+                            bottomRight.Y = (float)e.NewValue * imageSize.Y / 100;
+                            break;
+                    }
+
+                    // Make sure the rectangle never goes zero or negative.
+                    var tl = Vector2.Min(topLeft, imageSize - Vector2.One);
+                    var br = Vector2.Max(bottomRight, tl + Vector2.One);
+
+                    effect.SetParameter(parameter, new Rect(tl.ToPoint(), br.ToPoint()));
+                };
+
+                widgets.Add(slider);
+            }
+
+            widgetNames.AddRange(new string[] { "Left", "Right", "Top", "Bottom" });
         }
 
 
