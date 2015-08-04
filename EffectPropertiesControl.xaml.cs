@@ -202,24 +202,18 @@ namespace Stuart
 
         static void CreateRectWidgets(Effect effect, EffectParameter parameter, List<UIElement> widgets, List<string> widgetNames)
         {
-            Vector2 imageSize = effect.Parent.Parent.Size;
-
-            Vector2 topLeft;
-            Vector2 bottomRight;
+            Photo photo = effect.Parent.Parent;
 
             // Read the current rectangle (infinity means not initialized).
             var initialValue = (Rect)effect.GetParameter(parameter);
 
             if (double.IsInfinity(initialValue.Width))
             {
-                topLeft = Vector2.Zero;
-                bottomRight = imageSize;
+                initialValue = photo.SourceBitmap.Bounds;
             }
-            else
-            {
-                topLeft = new Vector2((float)initialValue.Left, (float)initialValue.Top);
-                bottomRight = new Vector2((float)initialValue.Right, (float)initialValue.Bottom);
-            }
+
+            var topLeft = new Vector2((float)initialValue.Left, (float)initialValue.Top);
+            var bottomRight = new Vector2((float)initialValue.Right, (float)initialValue.Bottom);
 
             // Create four sliders.
             for (int i = 0; i < 4; i++)
@@ -232,19 +226,19 @@ namespace Stuart
                 switch (whichSlider)
                 {
                     case 0:
-                        slider.Value = topLeft.X * 100 / imageSize.X;
+                        slider.Value = topLeft.X * 100 / photo.Size.X;
                         break;
 
                     case 1:
-                        slider.Value = bottomRight.X * 100 / imageSize.X;
+                        slider.Value = bottomRight.X * 100 / photo.Size.X;
                         break;
 
                     case 2:
-                        slider.Value = topLeft.Y * 100 / imageSize.Y;
+                        slider.Value = topLeft.Y * 100 / photo.Size.Y;
                         break;
 
                     case 3:
-                        slider.Value = bottomRight.Y * 100 / imageSize.Y;
+                        slider.Value = bottomRight.Y * 100 / photo.Size.Y;
                         break;
                 }
 
@@ -254,24 +248,24 @@ namespace Stuart
                     switch (whichSlider)
                     {
                         case 0:
-                            topLeft.X = (float)e.NewValue * imageSize.X / 100;
+                            topLeft.X = (float)e.NewValue * photo.Size.X / 100;
                             break;
 
                         case 1:
-                            bottomRight.X = (float)e.NewValue * imageSize.X / 100;
+                            bottomRight.X = (float)e.NewValue * photo.Size.X / 100;
                             break;
 
                         case 2:
-                            topLeft.Y = (float)e.NewValue * imageSize.Y / 100;
+                            topLeft.Y = (float)e.NewValue * photo.Size.Y / 100;
                             break;
 
                         case 3:
-                            bottomRight.Y = (float)e.NewValue * imageSize.Y / 100;
+                            bottomRight.Y = (float)e.NewValue * photo.Size.Y / 100;
                             break;
                     }
 
                     // Make sure the rectangle never goes zero or negative.
-                    var tl = Vector2.Min(topLeft, imageSize - Vector2.One);
+                    var tl = Vector2.Min(topLeft, photo.Size - Vector2.One);
                     var br = Vector2.Max(bottomRight, tl + Vector2.One);
 
                     effect.SetParameter(parameter, new Rect(tl.ToPoint(), br.ToPoint()));

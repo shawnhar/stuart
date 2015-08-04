@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Windows.Foundation;
+using Windows.UI.Xaml;
 
 namespace Stuart
 {
@@ -69,7 +71,7 @@ namespace Stuart
         }
 
 
-        public ICanvasImage Apply(ICanvasImage image)
+        public ICanvasImage Apply(ICanvasImage image, ref Rect? bounds)
         {
             if (!IsEnabled)
                 return image;
@@ -85,7 +87,15 @@ namespace Stuart
             // Set configurable parameter values.
             foreach (var parameter in metadata.Parameters)
             {
-                SetProperty(effect, parameter.Name, GetParameter(parameter));
+                var value = GetParameter(parameter);
+
+                SetProperty(effect, parameter.Name, value);
+
+                // Track crop bounds.
+                if (this.Type == EffectType.Crop && parameter.Name == "SourceRectangle")
+                {
+                    bounds = bounds.HasValue ? RectHelper.Intersect(bounds.Value, (Rect)value) : (Rect)value;
+                }
             }
 
             // Set any constant values.

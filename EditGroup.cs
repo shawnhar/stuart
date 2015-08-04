@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Numerics;
+using Windows.Foundation;
 using Windows.UI;
 
 namespace Stuart
@@ -123,11 +124,12 @@ namespace Stuart
             if (IsEnabled)
             {
                 var originalImage = image;
+                Rect? bounds = null;
 
                 // Apply all our effects in turn.
                 foreach (var effect in Effects)
                 {
-                    image = effect.Apply(image);
+                    image = effect.Apply(image, ref bounds);
                 }
 
                 // Mask so these effects only alter a specific region of the image?
@@ -143,6 +145,15 @@ namespace Stuart
                     {
                         Sources = { originalImage, selectedRegion }
                     };
+
+                    if (bounds.HasValue)
+                    {
+                        image = new CropEffect
+                        {
+                            Source = image,
+                            SourceRectangle = bounds.Value
+                        };
+                    }
                 }
             }
 
