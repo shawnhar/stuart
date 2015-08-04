@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Numerics;
+using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
@@ -48,7 +49,22 @@ namespace Stuart
                 FileTypeFilter = { ".jpg", ".jpeg", ".png" }
             };
 
-            var file = await picker.PickSingleFileAsync();
+            StorageFile file;
+
+            // On Phone, PickSingleFileAsync throws if we call it immediately on page load.
+            // Let's just catch that, wait a bit, then try again.
+            retryAfterBogusFailure:
+
+            try
+            {
+                file = await picker.PickSingleFileAsync();
+            }
+            catch (UnauthorizedAccessException)
+            {
+                await Task.Delay(100);
+
+                goto retryAfterBogusFailure;
+            }
 
             if (file == null)
                 return;
