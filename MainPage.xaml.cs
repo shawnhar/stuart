@@ -71,9 +71,18 @@ namespace Stuart
 
                 ZoomToFitPhoto();
             }
-            catch
+            catch (Exception exception)
             {
-                await new MessageDialog("Error loading photo").ShowAsync();
+                string message = "Error loading photo.";
+
+                if (exception is ArgumentException)
+                {
+                    message += "\n\nThis image is too high a resolution for your GPU to load into a single texture. " +
+                               "And this app is not sophisticated enough to split it into multiple smaller textures. " +
+                               "Sorry!";
+                }
+
+                await new MessageDialog(message).ShowAsync();
             }
         }
 
