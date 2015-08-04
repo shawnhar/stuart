@@ -106,6 +106,12 @@ namespace Stuart
 
         async void SaveButton_Click(object sender, RoutedEventArgs e)
         {
+            await Save(currentFile);
+        }
+
+
+        async void SaveAsButton_Click(object sender, RoutedEventArgs e)
+        {
             var picker = new FileSavePicker
             {
                 SuggestedSaveFile = currentFile,
@@ -119,6 +125,12 @@ namespace Stuart
             if (file == null)
                 return;
 
+            await Save(file);
+        }
+
+
+        async Task Save(StorageFile file)
+        {
             try
             {
                 var format = file.FileType.Equals(".png", StringComparison.OrdinalIgnoreCase) ? CanvasBitmapFileFormat.Png : CanvasBitmapFileFormat.Jpeg;

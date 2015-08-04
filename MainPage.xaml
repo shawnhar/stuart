@@ -33,6 +33,12 @@
                             Click="SaveButton_Click" 
                             IsEnabled="{Binding SourceBitmap, Converter={StaticResource NullToBooleanConverter}}"/>
 
+                    <Button Content="&#128190;&#8681;" 
+                            FontSize="25" 
+                            ToolTipService.ToolTip="Save as" 
+                            Click="SaveAsButton_Click" 
+                            IsEnabled="{Binding SourceBitmap, Converter={StaticResource NullToBooleanConverter}}"/>
+
                     <Button Content="&#10068;" 
                             FontSize="25" 
                             ToolTipService.ToolTip="Help"

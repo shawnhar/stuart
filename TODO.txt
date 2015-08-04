@@ -5,7 +5,6 @@ Perf
 UI
     Drag + drop to open files
     Open-with from Explorer
-    Save-as
     Help page
 
 Robustness
