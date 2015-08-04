@@ -20,6 +20,14 @@ namespace Stuart
         }
 
 
+        void UndoRegionEdit_Click(object sender, RoutedEventArgs e)
+        {
+            var edit = (EditGroup)DataContext;
+
+            edit.UndoRegionEdit();
+        }
+
+
         void NewEffect_Click(object sender, RoutedEventArgs e)
         {
             var edit = (EditGroup)DataContext;

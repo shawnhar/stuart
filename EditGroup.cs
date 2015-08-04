@@ -38,6 +38,8 @@ namespace Stuart
 
         CanvasRenderTarget regionMask;
 
+        byte[] previousRegionMask;
+
         CanvasBitmap SourceBitmap => Parent.SourceBitmap;
 
 
@@ -101,6 +103,15 @@ namespace Stuart
         }
 
         int regionDilate;
+
+
+        public bool CanUndo
+        {
+            get { return canUndo; }
+            set { SetField(ref canUndo, value); }
+        }
+
+        bool canUndo;
 
 
         public EditGroup(Photo parent)
@@ -194,10 +205,15 @@ namespace Stuart
 
         public void EditRegionMask(List<Vector2> points, float zoomFactor)
         {
-            // Demand-create our region mask image.
             if (regionMask == null)
             {
+                // Demand-create our region mask image.
                 regionMask = new CanvasRenderTarget(SourceBitmap.Device, Parent.Size.X, Parent.Size.Y, 96);
+            }
+            else
+            {
+                // Back up the previous mask, to support undo.
+                previousRegionMask = regionMask.GetPixelBytes();
             }
 
             // Prepare an image holding the edit to be applied.
@@ -253,6 +269,25 @@ namespace Stuart
 
                 drawingSession.DrawImage(editMask, Vector2.Zero, regionMask.Bounds, 1, CanvasImageInterpolation.Linear, compositeMode);
             }
+
+            CanUndo = true;
+        }
+
+
+        public void UndoRegionEdit()
+        {
+            if (previousRegionMask != null)
+            {
+                regionMask.SetPixelBytes(previousRegionMask);
+                previousRegionMask = null;
+            }
+            else
+            {
+                regionMask.Dispose();
+                regionMask = null;
+            }
+
+            CanUndo = false;
         }
 
 
