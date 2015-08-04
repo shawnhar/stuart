@@ -304,5 +304,13 @@ namespace Stuart
             return new Vector2(ConvertDipsToPixels(value.X),
                                ConvertDipsToPixels(value.Y));
         }
+
+
+        void HelpButton_Click(object sender, RoutedEventArgs e)
+        {
+            const string url = "http://www.github.com/shawnhar/stuart";
+
+            var operation = Launcher.LaunchUriAsync(new Uri(url));
+        }
     }
 }

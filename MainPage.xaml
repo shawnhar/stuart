@@ -35,7 +35,8 @@
 
                     <Button Content="&#10068;" 
                             FontSize="25" 
-                            ToolTipService.ToolTip="Help" />
+                            ToolTipService.ToolTip="Help"
+                            Click="HelpButton_Click"/>
                 </StackPanel>
 
                 <!-- List of EditGroup instances -->
