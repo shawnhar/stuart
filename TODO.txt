@@ -1,10 +1,13 @@
+Set Handled on events
+Cleanup comments
+
 Perf
     Cache selection masks
     Cache processed photo during selection edits
 
 UI
-    Drag + drop to open files
     Open-with from Explorer
+    Magic wand drag should be DPI aware
     Help page
 
 Robustness

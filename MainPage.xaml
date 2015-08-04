@@ -9,6 +9,9 @@
     mc:Ignorable="d"
     Loaded="LoadButton_Click"
     KeyDown="Page_KeyDown"
+    AllowDrop="True"
+    DragEnter="Page_DragEnter"
+    Drop="Page_Drop"
     PointerPressed="Background_PointerPressed">
 
     <Grid>

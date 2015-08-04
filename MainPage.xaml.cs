@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -24,12 +25,20 @@ namespace Stuart
     {
         Photo photo = new Photo();
 
+        StorageFile currentFile;
+
         EditGroup editingRegion;
         readonly List<Vector2> regionPoints = new List<Vector2>();
 
-        StorageFile currentFile;
-
         float? lastDrawnZoomFactor;
+
+
+        static readonly List<string> imageFileExtensions = new List<string>
+        {
+            ".jpg",
+            ".jpeg",
+            ".png"
+        };
 
 
         public MainPage()
@@ -53,9 +62,10 @@ namespace Stuart
             var picker = new FileOpenPicker
             {
                 ViewMode = PickerViewMode.Thumbnail,
-                SuggestedStartLocation = PickerLocationId.PicturesLibrary,
-                FileTypeFilter = { ".jpg", ".jpeg", ".png" }
+                SuggestedStartLocation = PickerLocationId.PicturesLibrary
             };
+
+            imageFileExtensions.ForEach(picker.FileTypeFilter.Add);
 
             StorageFile file;
 
@@ -74,9 +84,40 @@ namespace Stuart
                 goto retryAfterBogusFailure;
             }
 
-            if (file == null)
-                return;
+            if (file != null)
+            {
+                LoadPhoto(file);
+            }
+        }
 
+
+        void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            SavePhoto(currentFile);
+        }
+
+
+        async void SaveAsButton_Click(object sender, RoutedEventArgs e)
+        {
+            var picker = new FileSavePicker
+            {
+                SuggestedSaveFile = currentFile,
+                SuggestedStartLocation = PickerLocationId.PicturesLibrary,
+                DefaultFileExtension = imageFileExtensions[0],
+                FileTypeChoices = { { "Image files", imageFileExtensions } }
+            };
+
+            var file = await picker.PickSaveFileAsync();
+
+            if (file != null)
+            {
+                SavePhoto(file);
+            }
+        }
+
+
+        async void LoadPhoto(StorageFile file)
+        {
             try
             {
                 using (var stream = await file.OpenReadAsync())
@@ -104,32 +145,7 @@ namespace Stuart
         }
 
 
-        async void SaveButton_Click(object sender, RoutedEventArgs e)
-        {
-            await Save(currentFile);
-        }
-
-
-        async void SaveAsButton_Click(object sender, RoutedEventArgs e)
-        {
-            var picker = new FileSavePicker
-            {
-                SuggestedSaveFile = currentFile,
-                SuggestedStartLocation = PickerLocationId.PicturesLibrary,
-                DefaultFileExtension = ".jpg",
-                FileTypeChoices = { { "Image files", new List<string> { ".jpg", ".jpeg", ".png" } } }
-            };
-
-            var file = await picker.PickSaveFileAsync();
-
-            if (file == null)
-                return;
-
-            await Save(file);
-        }
-
-
-        async Task Save(StorageFile file)
+        async void SavePhoto(StorageFile file)
         {
             try
             {
@@ -327,6 +343,63 @@ namespace Stuart
         }
 
 
+        void Page_DragEnter(object sender, DragEventArgs e)
+        {
+            HandleDrop(e, file =>
+            {
+                e.AcceptedOperation = DataPackageOperation.Copy;
+                e.DragUIOverride.IsCaptionVisible = false;
+            });
+        }
+
+
+        void Page_Drop(object sender, DragEventArgs e)
+        {
+            HandleDrop(e, file =>
+            {
+                LoadPhoto(file);
+            });
+        }
+
+
+        static async void HandleDrop(DragEventArgs e, Action<StorageFile> handleDroppedFile)
+        {
+            if (!e.DataView.Contains(StandardDataFormats.StorageItems))
+                return;
+
+            var deferral = e.GetDeferral();
+
+            try
+            {
+                var storageItems = await e.DataView.GetStorageItemsAsync();
+
+                var imageFiles = storageItems.Where(item => item is StorageFile)
+                                             .Cast<StorageFile>()
+                                             .Where(file => imageFileExtensions.Contains(file.FileType, StringComparer.OrdinalIgnoreCase))
+                                             .ToList();
+
+                if (imageFiles.Count() == 1)
+                {
+                    handleDroppedFile(imageFiles.Single());
+
+                    e.Handled = true;
+                }
+            }
+            finally
+            {
+                deferral.Complete();
+            }
+        }
+
+
+        void HelpButton_Click(object sender, RoutedEventArgs e)
+        {
+            const string url = "http://www.github.com/shawnhar/stuart";
+
+            var operation = Launcher.LaunchUriAsync(new Uri(url));
+        }
+
+
         float ConvertDipsToPixels(float value)
         {
             return value * canvas.Dpi / 96;
@@ -339,14 +412,6 @@ namespace Stuart
 
             return new Vector2(ConvertDipsToPixels(value.X),
                                ConvertDipsToPixels(value.Y));
-        }
-
-
-        void HelpButton_Click(object sender, RoutedEventArgs e)
-        {
-            const string url = "http://www.github.com/shawnhar/stuart";
-
-            var operation = Launcher.LaunchUriAsync(new Uri(url));
         }
     }
 }
