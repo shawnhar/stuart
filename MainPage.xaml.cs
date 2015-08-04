@@ -51,14 +51,7 @@ namespace Stuart
             var file = await picker.PickSingleFileAsync();
 
             if (file == null)
-            {
-                if (currentFile == null)
-                {
-                    Application.Current.Exit();
-                }
-
                 return;
-            }
 
             try
             {
@@ -143,9 +136,6 @@ namespace Stuart
 
         void Canvas_Draw(CanvasControl sender, CanvasDrawEventArgs args)
         {
-            if (currentFile == null)
-                return;
-
             var drawingSession = args.DrawingSession;
 
             // Draw the main photo image.

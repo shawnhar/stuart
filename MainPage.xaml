@@ -22,8 +22,16 @@
                 
                 <!-- Header UI (load and save buttons) -->
                 <StackPanel Orientation="Horizontal">
-                    <Button Content="&#128194;" FontSize="25" ToolTipService.ToolTip="Open photo" Click="LoadButton_Click"/>
-                    <Button Content="&#128190;" FontSize="25" ToolTipService.ToolTip="Save photo" Click="SaveButton_Click"/>
+                    <Button Content="&#128194;" 
+                            FontSize="25" 
+                            ToolTipService.ToolTip="Open photo" 
+                            Click="LoadButton_Click"/>
+
+                    <Button Content="&#128190;" 
+                            FontSize="25" 
+                            ToolTipService.ToolTip="Save photo" 
+                            Click="SaveButton_Click" 
+                            IsEnabled="{Binding SourceBitmap, Converter={StaticResource NullToBooleanConverter}}"/>
                 </StackPanel>
 
                 <!-- List of EditGroup instances -->
@@ -56,7 +64,8 @@
                 <!-- Footer UI (add group button) -->
                 <Button Content="&#10133;"
                         ToolTipService.ToolTip="Add edit group"
-                        Click="NewEdit_Click"/>
+                        Click="NewEdit_Click"
+                        IsEnabled="{Binding SourceBitmap, Converter={StaticResource NullToBooleanConverter}}"/>
                 
             </StackPanel>
         </ScrollViewer>
