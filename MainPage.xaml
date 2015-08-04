@@ -32,6 +32,10 @@
                             ToolTipService.ToolTip="Save photo" 
                             Click="SaveButton_Click" 
                             IsEnabled="{Binding SourceBitmap, Converter={StaticResource NullToBooleanConverter}}"/>
+
+                    <Button Content="&#10068;" 
+                            FontSize="25" 
+                            ToolTipService.ToolTip="Help" />
                 </StackPanel>
 
                 <!-- List of EditGroup instances -->
