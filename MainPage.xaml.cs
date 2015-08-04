@@ -6,11 +6,13 @@ using System.ComponentModel;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
+using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
 using Windows.UI.Input;
 using Windows.UI.Popups;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -37,6 +39,12 @@ namespace Stuart
             DataContext = photo;
 
             photo.PropertyChanged += Photo_PropertyChanged;
+
+            // Hide the status bar.
+            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            {
+                var action = StatusBar.GetForCurrentView().HideAsync();
+            }
         }
 
 
