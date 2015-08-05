@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Numerics;
 using System.Threading.Tasks;
 using Windows.Foundation;
-using Windows.Storage.Streams;
+using Windows.Storage;
 
 namespace Stuart
 {
@@ -41,9 +41,12 @@ namespace Stuart
         }
 
 
-        public async Task Load(CanvasDevice device, IRandomAccessStream stream)
+        public async Task Load(CanvasDevice device, StorageFile file)
         {
-            SourceBitmap = await CanvasBitmap.LoadAsync(device, stream);
+            using (var stream = await file.OpenReadAsync())
+            {
+                SourceBitmap = await CanvasBitmap.LoadAsync(device, stream);
+            }
 
             Edits.Clear();
             Edits.Add(new EditGroup(this));
@@ -52,7 +55,7 @@ namespace Stuart
         }
 
 
-        public async Task Save(IRandomAccessStream stream, CanvasBitmapFileFormat format)
+        public async Task Save(StorageFile file)
         {
             var image = GetImage();
 
@@ -76,7 +79,12 @@ namespace Stuart
                 }
 
                 // Save it out.
-                await renderTarget.SaveAsync(stream, format);
+                var format = file.FileType.Equals(".png", StringComparison.OrdinalIgnoreCase) ? CanvasBitmapFileFormat.Png : CanvasBitmapFileFormat.Jpeg;
+
+                using (var stream = await file.OpenAsync(FileAccessMode.ReadWrite))
+                {
+                    await renderTarget.SaveAsync(stream, format);
+                }
             }
         }
 

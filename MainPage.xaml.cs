@@ -28,7 +28,7 @@ namespace Stuart
         Photo photo = new Photo();
 
         StorageFile currentFile;
-        IReadOnlyList<IStorageItem> filesToOpen;
+        IReadOnlyList<IStorageItem> navigatedToFiles;
 
         EditGroup editingRegion;
         readonly List<Vector2> regionPoints = new List<Vector2>();
@@ -62,7 +62,7 @@ namespace Stuart
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            filesToOpen = e.Parameter as IReadOnlyList<IStorageItem>;
+            navigatedToFiles = e.Parameter as IReadOnlyList<IStorageItem>;
 
             base.OnNavigatedTo(e);
         }
@@ -73,7 +73,7 @@ namespace Stuart
             switch (args.Reason)
             {
                 case CanvasCreateResourcesReason.FirstTime:
-                    if (!TryLoadPhoto(filesToOpen))
+                    if (!TryLoadPhoto(navigatedToFiles))
                     {
                         LoadButton_Click(null, null);
                     }
@@ -171,10 +171,7 @@ namespace Stuart
         {
             try
             {
-                using (var stream = await file.OpenReadAsync())
-                {
-                    await photo.Load(canvas.Device, stream);
-                }
+                await photo.Load(canvas.Device, file);
 
                 currentFile = file;
 
@@ -205,12 +202,7 @@ namespace Stuart
         {
             try
             {
-                var format = file.FileType.Equals(".png", StringComparison.OrdinalIgnoreCase) ? CanvasBitmapFileFormat.Png : CanvasBitmapFileFormat.Jpeg;
-
-                using (var stream = await file.OpenAsync(FileAccessMode.ReadWrite))
-                {
-                    await photo.Save(stream, format);
-                }
+                await photo.Save(file);
 
                 currentFile = file;
             }
