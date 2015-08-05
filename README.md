@@ -7,10 +7,7 @@ app as I can get in one week of coding :-)
 
 #### TODO
 
-- UI
-    - Write proper help page
-    - Magic wand drag should be DPI aware
-
-- Robustness
-    - Support app suspend/resume
-    - Test on Phone
+- Write proper help page
+- Magic wand drag should be DPI aware
+- Support app suspend/resume
+- Test on Phone
