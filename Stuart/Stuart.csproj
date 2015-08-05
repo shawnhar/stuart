@@ -122,8 +122,6 @@
     <AppxManifest Include="Stuart.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="LICENSE.txt" />
-    <None Include="README.md" />
     <None Include="Stuart.pfx" />
   </ItemGroup>
   <ItemGroup>
