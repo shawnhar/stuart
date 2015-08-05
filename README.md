@@ -12,7 +12,6 @@ app as I can get in one week of coding :-)
     - Magic wand drag should be DPI aware
 
 - Perf
-    - Cache selection masks
     - Cache processed photo during selection edits
 
 - Robustness

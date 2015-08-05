@@ -38,6 +38,8 @@ namespace Stuart
 
         CanvasRenderTarget regionMask;
 
+        readonly CachedImage cachedRegionMask = new CachedImage();
+
         byte[] currentRegionMask;
         byte[] previousRegionMask;
 
@@ -175,29 +177,41 @@ namespace Stuart
 
         public ICanvasImage GetRegionMask()
         {
-            ICanvasImage mask = regionMask;
+            // Do we already have a cached version of this mask?
+            ICanvasImage mask = cachedRegionMask.Get(regionFeather, regionDilate);
 
-            // Expand or contract the selection?
-            if (regionDilate != 0)
+            if (mask == null)
             {
-                mask = new MorphologyEffect
-                {
-                    Source = new BorderEffect { Source = mask },
-                    Mode = (regionDilate > 0) ? MorphologyEffectMode.Dilate : MorphologyEffectMode.Erode,
-                    Height = Math.Abs(regionDilate),
-                    Width = Math.Abs(regionDilate)
-                };
-            }
+                mask = regionMask;
 
-            // Feather the selection?
-            if (regionFeather > 0)
-            {
-                mask = new GaussianBlurEffect
+                // Expand or contract the selection?
+                if (regionDilate != 0)
                 {
-                    Source = mask,
-                    BlurAmount = regionFeather,
-                    BorderMode = EffectBorderMode.Hard
-                };
+                    mask = new MorphologyEffect
+                    {
+                        Source = new BorderEffect { Source = mask },
+                        Mode = (regionDilate > 0) ? MorphologyEffectMode.Dilate : MorphologyEffectMode.Erode,
+                        Height = Math.Abs(regionDilate),
+                        Width = Math.Abs(regionDilate)
+                    };
+                }
+
+                // Feather the selection?
+                if (regionFeather > 0)
+                {
+                    mask = new GaussianBlurEffect
+                    {
+                        Source = mask,
+                        BlurAmount = regionFeather,
+                        BorderMode = EffectBorderMode.Hard
+                    };
+                }
+
+                // If this mask was expensive to compute, cache it now.
+                if (mask != regionMask)
+                {
+                    mask = cachedRegionMask.Cache(Parent, mask, regionFeather, regionDilate);
+                }
             }
 
             return mask;
@@ -274,6 +288,8 @@ namespace Stuart
             // Back up the mask, so we can recover from lost devices.
             currentRegionMask = regionMask.GetPixelBytes();
 
+            cachedRegionMask.Reset();
+
             CanUndo = true;
         }
 
@@ -292,6 +308,8 @@ namespace Stuart
                 regionMask = null;
                 currentRegionMask = null;
             }
+
+            cachedRegionMask.Reset();
 
             CanUndo = false;
         }
