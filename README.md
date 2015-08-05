@@ -1,6 +1,6 @@
 ## Shawn's Terrific Universal App for photogRaph Tweaking
 
-This is a simple, powerful, and shamelessly contrivedly acronymed Windows 10 photo editing app,
+This is a simple, powerful, and contrivedly acronymed Windows 10 photo editing app,
 created during an app building exercise to test the [Win2D](http:/github.com/microsoft/win2d) graphics API.
 
 
@@ -15,25 +15,25 @@ created during an app building exercise to test the [Win2D](http:/github.com/mic
 - Use a rich set of image effects to tweak your photos
 - Apply effects to the whole image or just selected parts of it
 - Feather selected regions for smooth transitions
-- Universal Windows Platform app - runs on Windows 10 PCs and phones
+- Runs on Windows 10 PCs and phones
 
 
 #### Supported effects
 
-- Framing
+- Framing:
     - Crop
     - Straighten
-- Color adjustment
+- Color adjustment:
     - Exposure
     - Highlights & Shadows
     - Temperature & Tint
     - Contrast
     - Saturate
-- Stylize
+- Stylize:
     - Grayscale
     - Sepia
     - Vignette
-- Special effects
+- Special effects:
     - Blur
     - Motion blur
     - Sharpen
@@ -88,7 +88,7 @@ and how far you drag controls the color matching tolerance.
 
 While in region editing mode, clicking on the photo will change the selected region
 rather than panning or zooming the view. If you want to pan or zoom again, click the
-square "edit region" button a second time to turn off region edit mode.
+square 'edit region' button a second time to turn off region edit mode.
 
 Here is our photo using a region to apply Exposure and Saturation effects only to
 the foreground trees and rocks, brightening them up without changing the sky. It uses
@@ -96,7 +96,7 @@ a second edit group to blur the distant hills only in the bottom left of the pho
 
 ![regionEdit.jpg](Screenshots/regionEdit.jpg)
 
-And finally, something rather more extreme: this screenshot uses two regions to apply
+And finally, something rather more extreme: this screenshot uses two edit groups to apply
 different effects to the sky vs. ground:
 
 ![stylize.jpg](Screenshots/stylize.jpg)
