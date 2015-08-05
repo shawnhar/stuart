@@ -43,15 +43,27 @@ namespace Stuart
 
         public async Task Load(CanvasDevice device, StorageFile file)
         {
-            using (var stream = await file.OpenReadAsync())
-            {
-                SourceBitmap = await CanvasBitmap.LoadAsync(device, stream);
-            }
+            await LoadSourceBitmap(device, file);
 
             Edits.Clear();
             Edits.Add(new EditGroup(this));
 
             SelectedEffect = null;
+        }
+
+
+        public async Task ReloadAfterDeviceLost(CanvasDevice device, StorageFile file)
+        {
+            await LoadSourceBitmap(device, file);
+        }
+
+
+        async Task LoadSourceBitmap(CanvasDevice device, StorageFile file)
+        {
+            using (var stream = await file.OpenReadAsync())
+            {
+                SourceBitmap = await CanvasBitmap.LoadAsync(device, stream);
+            }
         }
 
 

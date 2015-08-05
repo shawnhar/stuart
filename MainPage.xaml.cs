@@ -73,6 +73,8 @@ namespace Stuart
             switch (args.Reason)
             {
                 case CanvasCreateResourcesReason.FirstTime:
+                    // First time initialization: if we were launched via OnFileActivated,
+                    // load the target file now, otherwise bring up the file selector.
                     if (!TryLoadPhoto(navigatedToFiles))
                     {
                         LoadButton_Click(null, null);
@@ -80,9 +82,18 @@ namespace Stuart
                     break;
 
                 case CanvasCreateResourcesReason.NewDevice:
+                    // Recovering after a lost device (GPU reset).
+                    if (photo.SourceBitmap != null)
+                    {
+                        var loadTask = photo.ReloadAfterDeviceLost(sender.Device, currentFile);
+
+                        args.TrackAsyncAction(loadTask.AsAsyncAction());
+                    }
                     break;
 
                 case CanvasCreateResourcesReason.DpiChanged:
+                    // We mostly work in pixels rather than DIPs, so only need
+                    // minimal layout updates in response to DPI changes.
                     if (photo.SourceBitmap != null)
                     {
                         ZoomToFitPhoto();
