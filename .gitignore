@@ -1,6 +1,7 @@
 obj/
 bin/
 packages/
+AppPackages/
 .vs/
 *.user
 Visual Studio 2015/
