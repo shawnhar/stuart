@@ -105,5 +105,4 @@ different effects to the sky vs. ground:
 #### TODO
 
 - Magic wand drag should be DPI aware
-- Test on Phone
 - Support app suspend/resume
