@@ -95,8 +95,8 @@
                                   CreateResources="canvas_CreateResources"
                                   Draw="Canvas_Draw"
                                   PointerPressed="Canvas_PointerPressed"
-                                  PointerReleased="Canvas_PointerReleased"
                                   PointerMoved="Canvas_PointerMoved"
+                                  PointerReleased="Canvas_PointerReleased"
                                   IsTabStop="true"/>
         </ScrollViewer>
         

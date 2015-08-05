@@ -192,6 +192,11 @@ namespace Stuart
                 }
 
                 await new MessageDialog(message).ShowAsync();
+
+                if (canvas.Device.IsDeviceLost(exception.HResult))
+                {
+                    canvas.Device.RaiseDeviceLost();
+                }
             }
         }
 
@@ -209,9 +214,14 @@ namespace Stuart
 
                 currentFile = file;
             }
-            catch
+            catch (Exception exception)
             {
                 await new MessageDialog("Error saving photo").ShowAsync();
+
+                if (canvas.Device.IsDeviceLost(exception.HResult))
+                {
+                    canvas.Device.RaiseDeviceLost();
+                }
             }
         }
 
@@ -356,25 +366,6 @@ namespace Stuart
         }
 
 
-        void Canvas_PointerReleased(object sender, PointerRoutedEventArgs e)
-        {
-            if (editingRegion == null)
-                return;
-
-            editingRegion.EditRegionMask(regionPoints, ConvertDipsToPixels(scrollView.ZoomFactor));
-
-            editingRegion = null;
-            regionPoints.Clear();
-
-            // Restore the manipulation mode so input goes to the parent ScrollViewer again.
-            canvas.ManipulationMode = ManipulationModes.System;
-            canvas.ReleasePointerCapture(e.Pointer);
-
-            canvas.Invalidate();
-            e.Handled = true;
-        }
-
-
         void Canvas_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
             if (editingRegion == null)
@@ -383,6 +374,32 @@ namespace Stuart
             // Add points to the edit region.
             regionPoints.AddRange(from point in e.GetIntermediatePoints(canvas)
                                   select ConvertDipsToPixels(point));
+
+            canvas.Invalidate();
+            e.Handled = true;
+        }
+
+
+        void Canvas_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            if (editingRegion == null)
+                return;
+
+            try
+            {
+                editingRegion.EditRegionMask(regionPoints, ConvertDipsToPixels(scrollView.ZoomFactor));
+            }
+            catch (Exception exception) when (canvas.Device.IsDeviceLost(exception.HResult))
+            {
+                canvas.Device.RaiseDeviceLost();
+            }
+
+            editingRegion = null;
+            regionPoints.Clear();
+
+            // Restore the manipulation mode so input goes to the parent ScrollViewer again.
+            canvas.ManipulationMode = ManipulationModes.System;
+            canvas.ReleasePointerCapture(e.Pointer);
 
             canvas.Invalidate();
             e.Handled = true;
