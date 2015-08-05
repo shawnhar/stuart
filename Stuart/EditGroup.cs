@@ -241,14 +241,25 @@ namespace Stuart
             }
             else
             {
-                // Draw selection geometry into a command list.
+                // Capture selection geometry into a command list.
                 var commandList = new CanvasCommandList(regionMask.Device);
 
                 using (var drawingSession = commandList.CreateDrawingSession())
                 {
-                    var geometry = GetSelectionGeometry(drawingSession, points);
+                    // If this was just a touch without move, treat it as selecting the entire image.
+                    var dragRange = points.Select(point => Vector2.Distance(point, points[0])).Max() * zoomFactor;
 
-                    drawingSession.FillGeometry(geometry, Colors.White);
+                    if (dragRange < 10)
+                    {
+                        drawingSession.Clear(Colors.White);
+                    }
+                    else
+                    {
+                        // Draw selection geometry.
+                        var geometry = GetSelectionGeometry(drawingSession, points);
+
+                        drawingSession.FillGeometry(geometry, Colors.White);
+                    }
                 }
 
                 editMask = commandList;
