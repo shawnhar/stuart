@@ -503,6 +503,8 @@ namespace Stuart
                 regionMask = new CanvasRenderTarget(SourceBitmap.Device, size.X, size.Y, 96);
                 regionMask.SetPixelBytes(currentRegionMask);
             }
+
+            cachedRegionMask.RecoverAfterDeviceLost();
         }
     }
 }

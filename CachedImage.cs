@@ -14,7 +14,13 @@ namespace Stuart
 
         public ICanvasImage Get(params object[] keys)
         {
-            return (isCacheValid && keys.SequenceEqual(cacheKeys)) ? cachedImage : null;
+            if (!isCacheValid)
+                return null;
+
+            if (keys != null && (cacheKeys == null || !keys.SequenceEqual(cacheKeys)))
+                return null;
+
+            return cachedImage;
         }
 
 
@@ -40,6 +46,18 @@ namespace Stuart
 
         public void Reset()
         {
+            isCacheValid = false;
+        }
+
+
+        public void RecoverAfterDeviceLost()
+        {
+            if (cachedImage != null)
+            {
+                cachedImage.Dispose();
+                cachedImage = null;
+            }
+
             isCacheValid = false;
         }
     }
