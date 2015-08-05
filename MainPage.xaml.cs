@@ -398,6 +398,8 @@ namespace Stuart
                 var newPan = ((currentPan + centerOffset) * newZoom / currentZoom) - centerOffset;
 
                 scrollView.ChangeView(newPan.X, newPan.Y, newZoom);
+
+                e.Handled = true;
             }
         }
 
