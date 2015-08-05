@@ -10,7 +10,7 @@
     d:DesignWidth="300">
 
     <Grid x:Name="grid" Background="#80FFFFFF">
-        <!-- Children are created programmatically by the RecreateWidgets method -->
+        <!-- Children are created programmatically by the CreateWidgets method -->
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>

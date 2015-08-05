@@ -81,7 +81,7 @@ namespace Stuart
             // Instantiate the effect.
             var effect = (ICanvasImage)Activator.CreateInstance(metadata.ImplementationType);
 
-            // Set its input.
+            // Set the effect input.
             SetProperty(effect, "Source", image);
 
             // Set configurable parameter values.
@@ -91,7 +91,7 @@ namespace Stuart
 
                 SetProperty(effect, parameter.Name, value);
 
-                // Track crop bounds.
+                // Track the image bounds if cropping changes them.
                 if (this.Type == EffectType.Crop && parameter.Name == "SourceRectangle")
                 {
                     bounds = bounds.HasValue ? RectHelper.Intersect(bounds.Value, (Rect)value) : (Rect)value;

@@ -249,17 +249,15 @@ namespace Stuart
 
         static StorageFile GetSingleImageFile(IReadOnlyList<IStorageItem> storageItems)
         {
-            var imageFiles = storageItems.Where(item => item is StorageFile)
-                                         .Cast<StorageFile>()
-                                         .ToList();
+            var files = storageItems.OfType<StorageFile>().ToList();
 
-            if (imageFiles.Any(file => !imageFileExtensions.Contains(file.FileType, StringComparer.OrdinalIgnoreCase)))
+            if (files.Any(file => !imageFileExtensions.Contains(file.FileType, StringComparer.OrdinalIgnoreCase)))
                 return null;
 
-            if (imageFiles.Count() != 1)
+            if (files.Count() != 1)
                 return null;
 
-            return imageFiles.Single();
+            return files.Single();
         }
 
 

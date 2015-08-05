@@ -216,7 +216,7 @@ namespace Stuart
                 previousRegionMask = regionMask.GetPixelBytes();
             }
 
-            // Prepare an image holding the edit to be applied.
+            // Prepare an ICanvasImage holding the edit to be applied.
             ICanvasImage editMask;
 
             if (RegionSelectionMode == SelectionMode.MagicWand)
