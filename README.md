@@ -6,7 +6,7 @@ created during an app building exercise to test the [Win2D](http:/github.com/mic
 
 #### Where to get it
 
-- [Download from the Store](https://www.microsoft.com/store/apps/9NBLGGH1XSQK)
+- [Download from the Store](https://www.microsoft.com/store/apps/9NBLGGH1XSQK) (_coming soon - just waiting for the publish to go through)_
 - Or clone the source from github and load Stuart.sln into Visual Studio 2015
 
 
