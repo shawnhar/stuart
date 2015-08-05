@@ -55,6 +55,11 @@ namespace Stuart
         public async Task ReloadAfterDeviceLost(CanvasDevice device, StorageFile file)
         {
             await LoadSourceBitmap(device, file);
+
+            foreach (var edit in Edits)
+            {
+                edit.RecoverAfterDeviceLost();
+            }
         }
 
 

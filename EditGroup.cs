@@ -38,6 +38,7 @@ namespace Stuart
 
         CanvasRenderTarget regionMask;
 
+        byte[] currentRegionMask;
         byte[] previousRegionMask;
 
         CanvasBitmap SourceBitmap => Parent.SourceBitmap;
@@ -213,7 +214,7 @@ namespace Stuart
             else
             {
                 // Back up the previous mask, to support undo.
-                previousRegionMask = regionMask.GetPixelBytes();
+                previousRegionMask = currentRegionMask;
             }
 
             // Prepare an ICanvasImage holding the edit to be applied.
@@ -270,6 +271,9 @@ namespace Stuart
                 drawingSession.DrawImage(editMask, Vector2.Zero, regionMask.Bounds, 1, CanvasImageInterpolation.Linear, compositeMode);
             }
 
+            // Back up the mask, so we can recover from lost devices.
+            currentRegionMask = regionMask.GetPixelBytes();
+
             CanUndo = true;
         }
 
@@ -279,12 +283,14 @@ namespace Stuart
             if (previousRegionMask != null)
             {
                 regionMask.SetPixelBytes(previousRegionMask);
+                currentRegionMask = previousRegionMask;
                 previousRegionMask = null;
             }
             else
             {
                 regionMask.Dispose();
                 regionMask = null;
+                currentRegionMask = null;
             }
 
             CanUndo = false;
@@ -465,6 +471,19 @@ namespace Stuart
 
                 default:
                     throw new NotSupportedException();
+            }
+        }
+
+
+        public void RecoverAfterDeviceLost()
+        {
+            if (regionMask != null)
+            {
+                var size = regionMask.Size.ToVector2();
+
+                regionMask.Dispose();
+                regionMask = new CanvasRenderTarget(SourceBitmap.Device, size.X, size.Y, 96);
+                regionMask.SetPixelBytes(currentRegionMask);
             }
         }
     }

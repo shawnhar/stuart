@@ -8,5 +8,4 @@ UI
 
 Robustness
     Support app suspend/resume
-    Handle lost devices
     Test on Phone
