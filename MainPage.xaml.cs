@@ -70,9 +70,24 @@ namespace Stuart
 
         void canvas_CreateResources(CanvasControl sender, CanvasCreateResourcesEventArgs args)
         {
-            if (!TryLoadPhoto(filesToOpen))
+            switch (args.Reason)
             {
-                LoadButton_Click(null, null);
+                case CanvasCreateResourcesReason.FirstTime:
+                    if (!TryLoadPhoto(filesToOpen))
+                    {
+                        LoadButton_Click(null, null);
+                    }
+                    break;
+
+                case CanvasCreateResourcesReason.NewDevice:
+                    break;
+
+                case CanvasCreateResourcesReason.DpiChanged:
+                    if (photo.SourceBitmap != null)
+                    {
+                        ZoomToFitPhoto();
+                    }
+                    break;
             }
         }
 

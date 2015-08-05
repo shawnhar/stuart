@@ -9,5 +9,4 @@ UI
 Robustness
     Support app suspend/resume
     Handle lost devices
-    Handle DPI change
     Test on Phone
