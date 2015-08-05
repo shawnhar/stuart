@@ -33,6 +33,8 @@ namespace Stuart
         EditGroup editingRegion;
         readonly List<Vector2> regionPoints = new List<Vector2>();
 
+        readonly CachedImage cachedImage = new CachedImage();
+
         float? lastDrawnZoomFactor;
 
 
@@ -83,6 +85,8 @@ namespace Stuart
 
                 case CanvasCreateResourcesReason.NewDevice:
                     // Recovering after a lost device (GPU reset).
+                    cachedImage.RecoverAfterDeviceLost();
+
                     if (photo.SourceBitmap != null)
                     {
                         var loadTask = photo.ReloadAfterDeviceLost(sender.Device, currentFile);
@@ -321,7 +325,16 @@ namespace Stuart
             drawingSession.Blend = CanvasBlend.Copy;
 
             // Draw the main photo image.
-            var image = photo.GetImage();
+            ICanvasImage image;
+
+            if (editingRegion != null)
+            {
+                image = cachedImage.Get() ?? cachedImage.Cache(photo, photo.GetImage());
+            }
+            else
+            {
+                image = photo.GetImage();
+            }
 
             drawingSession.DrawImage(image);
 
@@ -363,6 +376,8 @@ namespace Stuart
             // Set the manipulation mode so we grab all input, bypassing our parent ScrollViewer.
             canvas.ManipulationMode = ManipulationModes.All;
             canvas.CapturePointer(e.Pointer);
+
+            cachedImage.Reset();
 
             canvas.Invalidate();
             e.Handled = true;
