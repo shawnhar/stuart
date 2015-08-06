@@ -341,11 +341,9 @@ namespace Stuart
             // Highlight the current region (if any).
             lastDrawnZoomFactor = null;
 
-            var zoomFactor = ConvertDipsToPixels(scrollView.ZoomFactor);
-
             foreach (var edit in photo.Edits)
             {
-                if (edit.DisplayRegionMask(drawingSession, zoomFactor, editingRegion != null))
+                if (edit.DisplayRegionMask(drawingSession, scrollView.ZoomFactor, editingRegion != null))
                 {
                     lastDrawnZoomFactor = scrollView.ZoomFactor;
                 }
@@ -354,7 +352,7 @@ namespace Stuart
             // Display any in-progress region edits.
             if (editingRegion != null)
             {
-                editingRegion.DisplayRegionEditInProgress(drawingSession, regionPoints, zoomFactor);
+                editingRegion.DisplayRegionEditInProgress(drawingSession, regionPoints, scrollView.ZoomFactor);
             }
         }
 
@@ -405,7 +403,7 @@ namespace Stuart
 
             try
             {
-                editingRegion.EditRegionMask(regionPoints, ConvertDipsToPixels(scrollView.ZoomFactor));
+                editingRegion.EditRegionMask(regionPoints, scrollView.ZoomFactor);
             }
             catch (Exception exception) when (canvas.Device.IsDeviceLost(exception.HResult))
             {
