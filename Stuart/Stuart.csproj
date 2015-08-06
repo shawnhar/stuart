@@ -106,6 +106,7 @@
     <Compile Include="EffectPropertiesControl.xaml.cs">
       <DependentUpon>EffectPropertiesControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Observable.cs" />
     <Compile Include="EditGroup.cs" />
     <Compile Include="MainPage.xaml.cs">

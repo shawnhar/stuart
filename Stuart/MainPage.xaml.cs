@@ -4,12 +4,16 @@ using Microsoft.Graphics.Canvas.UI.Xaml;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
+using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
+using Windows.Storage.AccessCache;
 using Windows.Storage.Pickers;
 using Windows.System;
 using Windows.UI.Input;
@@ -28,7 +32,6 @@ namespace Stuart
         Photo photo = new Photo();
 
         StorageFile currentFile;
-        IReadOnlyList<IStorageItem> navigatedToFiles;
 
         EditGroup editingRegion;
         readonly List<Vector2> regionPoints = new List<Vector2>();
@@ -36,6 +39,10 @@ namespace Stuart
         readonly CachedImage cachedImage = new CachedImage();
 
         float? lastDrawnZoomFactor;
+
+        object launchArg;
+
+        const string suspensionSerializationFile = "stuart.appstate";
 
 
         static readonly List<string> imageFileExtensions = new List<string>
@@ -54,6 +61,8 @@ namespace Stuart
 
             photo.PropertyChanged += Photo_PropertyChanged;
 
+            Application.Current.Suspending += OnSuspending;
+
             // Hide the status bar.
             if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
             {
@@ -64,7 +73,7 @@ namespace Stuart
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            navigatedToFiles = e.Parameter as IReadOnlyList<IStorageItem>;
+            launchArg = e.Parameter;
 
             base.OnNavigatedTo(e);
         }
@@ -75,11 +84,18 @@ namespace Stuart
             switch (args.Reason)
             {
                 case CanvasCreateResourcesReason.FirstTime:
-                    // First time initialization: if we were launched via OnFileActivated,
-                    // load the target file now, otherwise bring up the file selector.
-                    if (!TryLoadPhoto(navigatedToFiles))
+                    // First time initialization: either restore suspended app state, load a
+                    // photo that was passed in from the shell, or bring up the file selector.
+                    if (launchArg is ApplicationExecutionState && (ApplicationExecutionState)launchArg == ApplicationExecutionState.Terminated)
                     {
-                        LoadButton_Click(null, null);
+                        args.TrackAsyncAction(RestoreSuspendedState().AsAsyncAction());
+                    }
+                    else
+                    {
+                        if (!TryLoadPhoto(launchArg as IReadOnlyList<IStorageItem>))
+                        {
+                            LoadButton_Click(null, null);
+                        }
                     }
                     break;
 
@@ -186,7 +202,7 @@ namespace Stuart
         {
             try
             {
-                await photo.Load(canvas.Device, file);
+                await photo.LoadNewBitmap(canvas.Device, file);
 
                 currentFile = file;
 
@@ -290,6 +306,63 @@ namespace Stuart
                 return null;
 
             return files.Single();
+        }
+
+
+        async void OnSuspending(object sender, SuspendingEventArgs e)
+        {
+            var deferral = e.SuspendingOperation.GetDeferral();
+
+            try
+            {
+                var file = await ApplicationData.Current.LocalFolder.CreateFileAsync(suspensionSerializationFile, CreationCollisionOption.ReplaceExisting);
+
+                if (currentFile != null)
+                {
+                    // Persist our state.
+                    using (var stream = await file.OpenAsync(FileAccessMode.ReadWrite))
+                    using (var writer = new BinaryWriter(stream.AsStreamForWrite()))
+                    {
+                        writer.Write(currentFile.Path);
+
+                        photo.SaveSuspendedState(writer);
+                    }
+
+                    // Persist permissions to later go back to this same file.
+                    var futureAccessList = StorageApplicationPermissions.FutureAccessList;
+
+                    futureAccessList.Clear();
+                    futureAccessList.Add(currentFile);
+                }
+            }
+            finally
+            {
+                deferral.Complete();
+            }
+        }
+
+
+        async Task RestoreSuspendedState()
+        {
+            try
+            {
+                var file = await ApplicationData.Current.LocalFolder.CreateFileAsync(suspensionSerializationFile, CreationCollisionOption.OpenIfExists);
+
+                using (var stream = await file.OpenAsync(FileAccessMode.Read))
+                using (var reader = new BinaryReader(stream.AsStreamForRead()))
+                {
+                    var photoFilename = reader.ReadString();
+
+                    currentFile = await StorageFile.GetFileFromPathAsync(photoFilename);
+
+                    await photo.LoadSourceBitmap(canvas.Device, currentFile);
+
+                    photo.RestoreSuspendedState(reader);
+
+                    ZoomToFitPhoto();
+                }
+            }
+            catch { }
         }
 
 

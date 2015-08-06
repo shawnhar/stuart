@@ -1,6 +1,7 @@
 ﻿using Microsoft.Graphics.Canvas;
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Numerics;
 using System.Threading.Tasks;
 using Windows.Foundation;
@@ -41,7 +42,7 @@ namespace Stuart
         }
 
 
-        public async Task Load(CanvasDevice device, StorageFile file)
+        public async Task LoadNewBitmap(CanvasDevice device, StorageFile file)
         {
             await LoadSourceBitmap(device, file);
 
@@ -63,11 +64,28 @@ namespace Stuart
         }
 
 
-        async Task LoadSourceBitmap(CanvasDevice device, StorageFile file)
+        public async Task LoadSourceBitmap(CanvasDevice device, StorageFile file)
         {
             using (var stream = await file.OpenReadAsync())
             {
                 SourceBitmap = await CanvasBitmap.LoadAsync(device, stream);
+            }
+        }
+
+
+        public void SaveSuspendedState(BinaryWriter writer)
+        {
+            writer.WriteCollection(Edits, edit => edit.SaveSuspendedState(writer));
+        }
+
+
+        public void RestoreSuspendedState(BinaryReader reader)
+        {
+            reader.ReadCollection(Edits, () => EditGroup.RestoreSuspendedState(this, reader));
+
+            foreach (var edit in Edits)
+            {
+                edit.RecoverAfterDeviceLost();
             }
         }
 

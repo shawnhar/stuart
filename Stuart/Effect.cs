@@ -1,8 +1,10 @@
 ﻿using Microsoft.Graphics.Canvas;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using Windows.Foundation;
+using Windows.UI;
 using Windows.UI.Xaml;
 
 namespace Stuart
@@ -113,6 +115,77 @@ namespace Stuart
             instance.GetType()
                     .GetRuntimeProperty(propertyName)
                     .SetValue(instance, value);
+        }
+
+
+        public void SaveSuspendedState(BinaryWriter writer)
+        {
+            writer.Write(IsEnabled);
+            writer.Write((int)Type);
+
+            writer.WriteCollection(parameters, parameter =>
+            {
+                writer.Write(parameter.Key);
+                writer.Write(parameter.Value.GetType().Name);
+
+                if (parameter.Value is Color)
+                {
+                    writer.WriteColor((Color)parameter.Value);
+                }
+                else if (parameter.Value is Rect)
+                {
+                    writer.WriteRect((Rect)parameter.Value);
+                }
+                else
+                {
+                    writer.Write(parameter.Value as dynamic);
+                }
+            });
+        }
+
+
+        public static Effect RestoreSuspendedState(EditGroup parent, BinaryReader reader)
+        {
+            var effect = new Effect(parent);
+
+            effect.IsEnabled = reader.ReadBoolean();
+            effect.Type = (EffectType)reader.ReadInt32();
+
+            reader.ReadCollection(effect.parameters, () =>
+            {
+                string key = reader.ReadString();
+                object value;
+
+                switch (reader.ReadString())
+                {
+                    case "Single":
+                        value = reader.ReadSingle();
+                        break;
+
+                    case "Int32":
+                        value = reader.ReadInt32();
+                        break;
+
+                    case "Boolean":
+                        value = reader.ReadBoolean();
+                        break;
+
+                    case "Color":
+                        value = reader.ReadColor();
+                        break;
+
+                    case "Rect":
+                        value = reader.ReadRect();
+                        break;
+
+                    default:
+                        throw new NotImplementedException();
+                }
+
+                return new KeyValuePair<string, object>(key, value);
+            });
+
+            return effect;
         }
     }
 }

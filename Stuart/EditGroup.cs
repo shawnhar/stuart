@@ -4,6 +4,7 @@ using Microsoft.Graphics.Canvas.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Numerics;
 using Windows.Foundation;
@@ -508,14 +509,56 @@ namespace Stuart
         {
             if (regionMask != null)
             {
-                var size = regionMask.Size.ToVector2();
-
                 regionMask.Dispose();
-                regionMask = new CanvasRenderTarget(SourceBitmap.Device, size.X, size.Y, 96);
+            }
+
+            if (currentRegionMask != null)
+            {
+                regionMask = new CanvasRenderTarget(SourceBitmap.Device, Parent.Size.X, Parent.Size.Y, 96);
                 regionMask.SetPixelBytes(currentRegionMask);
             }
 
             cachedRegionMask.RecoverAfterDeviceLost();
+        }
+
+
+        public void SaveSuspendedState(BinaryWriter writer)
+        {
+            writer.Write(IsEnabled);
+            writer.Write(IsEditingRegion);
+            writer.Write(ShowRegion);
+            writer.Write((int)RegionSelectionMode);
+            writer.Write((int)RegionSelectionOperation);
+            writer.Write(RegionFeather);
+            writer.Write(RegionDilate);
+            writer.Write(CanUndo);
+
+            writer.WriteByteArray(currentRegionMask);
+            writer.WriteByteArray(previousRegionMask);
+
+            writer.WriteCollection(Effects, effect => effect.SaveSuspendedState(writer));
+        }
+
+
+        public static EditGroup RestoreSuspendedState(Photo parent, BinaryReader reader)
+        {
+            var group = new EditGroup(parent);
+
+            group.IsEnabled = reader.ReadBoolean();
+            group.IsEditingRegion = reader.ReadBoolean();
+            group.ShowRegion = reader.ReadBoolean();
+            group.RegionSelectionMode = (SelectionMode)reader.ReadInt32();
+            group.RegionSelectionOperation = (SelectionOperation)reader.ReadInt32();
+            group.RegionFeather = reader.ReadSingle();
+            group.RegionDilate = reader.ReadInt32();
+            group.CanUndo = reader.ReadBoolean();
+
+            group.currentRegionMask = reader.ReadByteArray();
+            group.previousRegionMask = reader.ReadByteArray();
+
+            reader.ReadCollection(group.Effects, () => Effect.RestoreSuspendedState(group, reader));
+
+            return group;
         }
     }
 }

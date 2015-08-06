@@ -100,8 +100,3 @@ And finally, something rather more extreme: this screenshot uses two edit groups
 different effects to the sky vs. ground:
 
 ![stylize.jpg](Screenshots/stylize.jpg)
-
-
-#### TODO
-
-- Support app suspend/resume
