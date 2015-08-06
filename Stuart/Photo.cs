@@ -100,6 +100,8 @@ namespace Stuart
 
                 using (var stream = await file.OpenAsync(FileAccessMode.ReadWrite))
                 {
+                    stream.Size = 0;
+
                     await renderTarget.SaveAsync(stream, format);
                 }
             }
