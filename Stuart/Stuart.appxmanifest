@@ -3,7 +3,7 @@
   <Identity Name="35642ShawnHargreaves.Stuart" Publisher="CN=10FD0F0A-75DA-4756-83C0-3156C7AF495F" Version="1.1.1.0" />
   <mp:PhoneIdentity PhoneProductId="831d2913-72e3-4007-a991-a5278c3de9d2" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>Stuart</DisplayName>
+    <DisplayName>Stuart Photo Editor</DisplayName>
     <PublisherDisplayName>Shawn Hargreaves</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -15,7 +15,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="Stuart.App">
-      <uap:VisualElements DisplayName="Stuart" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="Shawn's Terrific Universal App for photogRaph Tweaking" BackgroundColor="#C0C0C0">
+      <uap:VisualElements DisplayName="Stuart Photo Editor" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="Shawn's Terrific Universal App for photogRaph Tweaking" BackgroundColor="#C0C0C0">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png">
         </uap:DefaultTile>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
