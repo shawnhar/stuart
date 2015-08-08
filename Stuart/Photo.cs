@@ -5,6 +5,7 @@ using System.IO;
 using System.Numerics;
 using System.Threading.Tasks;
 using Windows.Foundation;
+using Windows.Graphics.DirectX;
 using Windows.Storage;
 
 namespace Stuart
@@ -15,13 +16,16 @@ namespace Stuart
         public CanvasBitmap SourceBitmap
         {
             get { return sourceBitmap; }
-            set { SetField(ref sourceBitmap, value); }
+            private set { SetField(ref sourceBitmap, value); }
         }
 
         CanvasBitmap sourceBitmap;
 
+        DirectXPixelFormat bitmapFormat;
+        byte[] bitmapData;
 
-        public Vector2 Size => sourceBitmap.Size.ToVector2();
+
+        public Vector2 Size { get; private set; }
 
 
         public ObservableCollection<EditGroup> Edits { get; } = new ObservableCollection<EditGroup>();
@@ -42,51 +46,22 @@ namespace Stuart
         }
 
 
-        public async Task LoadNewBitmap(CanvasDevice device, StorageFile file)
-        {
-            await LoadSourceBitmap(device, file);
-
-            Edits.Clear();
-            Edits.Add(new EditGroup(this));
-
-            SelectedEffect = null;
-        }
-
-
-        public async Task ReloadAfterDeviceLost(CanvasDevice device, StorageFile file)
-        {
-            await LoadSourceBitmap(device, file);
-
-            foreach (var edit in Edits)
-            {
-                edit.RecoverAfterDeviceLost();
-            }
-        }
-
-
-        public async Task LoadSourceBitmap(CanvasDevice device, StorageFile file)
+        public async Task Load(CanvasDevice device, StorageFile file)
         {
             using (var stream = await file.OpenReadAsync())
             {
                 SourceBitmap = await CanvasBitmap.LoadAsync(device, stream);
             }
-        }
 
+            bitmapFormat = sourceBitmap.Format;
+            bitmapData = sourceBitmap.GetPixelBytes();
 
-        public void SaveSuspendedState(BinaryWriter writer)
-        {
-            writer.WriteCollection(Edits, edit => edit.SaveSuspendedState(writer));
-        }
+            Size = sourceBitmap.Size.ToVector2();
 
+            Edits.Clear();
+            Edits.Add(new EditGroup(this));
 
-        public void RestoreSuspendedState(BinaryReader reader)
-        {
-            reader.ReadCollection(Edits, () => EditGroup.RestoreSuspendedState(this, reader));
-
-            foreach (var edit in Edits)
-            {
-                edit.RecoverAfterDeviceLost();
-            }
+            SelectedEffect = null;
         }
 
 
@@ -123,6 +98,41 @@ namespace Stuart
                     await renderTarget.SaveAsync(stream, format);
                 }
             }
+        }
+
+
+        public void RecoverAfterDeviceLost(CanvasDevice device)
+        {
+            SourceBitmap = CanvasBitmap.CreateFromBytes(device, bitmapData, (int)Size.X, (int)Size.Y, bitmapFormat);
+
+            foreach (var edit in Edits)
+            {
+                edit.RecoverAfterDeviceLost();
+            }
+        }
+
+
+        public void SaveSuspendedState(BinaryWriter writer)
+        {
+            writer.Write((int)bitmapFormat);
+            writer.WriteByteArray(bitmapData);
+
+            writer.WriteVector2(Size);
+
+            writer.WriteCollection(Edits, edit => edit.SaveSuspendedState(writer));
+        }
+
+
+        public void RestoreSuspendedState(CanvasDevice device, BinaryReader reader)
+        {
+            bitmapFormat = (DirectXPixelFormat)reader.ReadInt32();
+            bitmapData = reader.ReadByteArray();
+
+            Size = reader.ReadVector2();
+
+            reader.ReadCollection(Edits, () => EditGroup.RestoreSuspendedState(this, reader));
+
+            RecoverAfterDeviceLost(device);
         }
 
 

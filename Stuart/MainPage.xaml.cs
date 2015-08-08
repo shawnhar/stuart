@@ -88,7 +88,9 @@ namespace Stuart
                     // photo that was passed in from the shell, or bring up the file selector.
                     if (launchArg is ApplicationExecutionState && (ApplicationExecutionState)launchArg == ApplicationExecutionState.Terminated)
                     {
-                        args.TrackAsyncAction(RestoreSuspendedState().AsAsyncAction());
+                        var restoreTask = RestoreSuspendedState(sender.Device);
+
+                        args.TrackAsyncAction(restoreTask.AsAsyncAction());
                     }
                     else
                     {
@@ -101,14 +103,12 @@ namespace Stuart
 
                 case CanvasCreateResourcesReason.NewDevice:
                     // Recovering after a lost device (GPU reset).
-                    cachedImage.RecoverAfterDeviceLost();
-
                     if (photo.SourceBitmap != null)
                     {
-                        var loadTask = photo.ReloadAfterDeviceLost(sender.Device, currentFile);
-
-                        args.TrackAsyncAction(loadTask.AsAsyncAction());
+                        photo.RecoverAfterDeviceLost(sender.Device);
                     }
+
+                    cachedImage.RecoverAfterDeviceLost();
                     break;
 
                 case CanvasCreateResourcesReason.DpiChanged:
@@ -202,7 +202,7 @@ namespace Stuart
         {
             try
             {
-                await photo.LoadNewBitmap(canvas.Device, file);
+                await photo.Load(canvas.Device, file);
 
                 currentFile = file;
 
@@ -253,7 +253,7 @@ namespace Stuart
         {
             HandleDrop(e, file =>
             {
-                e.AcceptedOperation = DataPackageOperation.Copy;
+                e.AcceptedOperation = DataPackageOperation.Move;
                 e.DragUIOverride.IsCaptionVisible = false;
             });
         }
@@ -342,7 +342,7 @@ namespace Stuart
         }
 
 
-        async Task RestoreSuspendedState()
+        async Task RestoreSuspendedState(CanvasDevice device)
         {
             try
             {
@@ -355,9 +355,7 @@ namespace Stuart
 
                     currentFile = await StorageFile.GetFileFromPathAsync(photoFilename);
 
-                    await photo.LoadSourceBitmap(canvas.Device, currentFile);
-
-                    photo.RestoreSuspendedState(reader);
+                    photo.RestoreSuspendedState(device, reader);
 
                     ZoomToFitPhoto();
                 }

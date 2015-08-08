@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Numerics;
 using Windows.Foundation;
 using Windows.UI;
 
@@ -48,6 +49,13 @@ namespace Stuart
             writer.Write(rect.Y);
             writer.Write(rect.Width);
             writer.Write(rect.Height);
+        }
+
+
+        public static void WriteVector2(this BinaryWriter writer, Vector2 vector)
+        {
+            writer.Write(vector.X);
+            writer.Write(vector.Y);
         }
     }
 
@@ -98,6 +106,17 @@ namespace Stuart
             rect.Height = reader.ReadDouble();
 
             return rect;
+        }
+
+
+        public static Vector2 ReadVector2(this BinaryReader reader)
+        {
+            Vector2 vector;
+
+            vector.X = reader.ReadSingle();
+            vector.Y = reader.ReadSingle();
+
+            return vector;
         }
     }
 }
