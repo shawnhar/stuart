@@ -562,7 +562,15 @@ namespace Stuart
 
         void HelpButton_Click(object sender, RoutedEventArgs e)
         {
-            const string url = "http://www.github.com/shawnhar/stuart";
+            const string url = "http://github.com/shawnhar/stuart/blob/master/README.md";
+
+            var operation = Launcher.LaunchUriAsync(new Uri(url));
+        }
+
+
+        void PrivacyButton_Click(object sender, RoutedEventArgs e)
+        {
+            const string url = "http://github.com/shawnhar/stuart/blob/master/PRIVACY.txt";
 
             var operation = Launcher.LaunchUriAsync(new Uri(url));
         }

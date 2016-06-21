@@ -1,0 +1,5 @@
+Stuart does not collect, store or transmit any personal information.
+
+It accesses images from the user photo collection only when a photograph is explicitly 
+selected via the "Open" command. Copies of the selected photo are only stored to other 
+locations if the user explicitly chooses to via the "Save As" command.

@@ -41,10 +41,17 @@
                             Click="SaveAsButton_Click" 
                             IsEnabled="{Binding SourceBitmap, Converter={StaticResource NullToBooleanConverter}}"/>
 
-                    <Button Content="&#10068;" 
-                            FontSize="25" 
-                            ToolTipService.ToolTip="Help"
-                            Click="HelpButton_Click"/>
+                    <StackPanel>
+                        <Button Content="Help" 
+                                FontSize="8"
+                                ToolTipService.ToolTip="View help on how to use this app" 
+                                Click="HelpButton_Click"/>
+
+                        <Button Content="Privacy" 
+                                FontSize="8"
+                                ToolTipService.ToolTip="View the application privacy policy" 
+                                Click="PrivacyButton_Click"/>
+                    </StackPanel>
                 </StackPanel>
 
                 <!-- List of EditGroup instances -->
